@@ -11,8 +11,8 @@ Make sure you have an Miniconda or Anaconda installation. You can download these
 
 During installation, tick the box "Add Anaconda to PATH", ignore the red remarks
 
-### Create a RESPIGHI environment
-Use the env/environment.yml in the repository to create the conda environment: `validatietool`
+### Create the `validatietool` environment
+Use the `env/environment.yml` in the repository to create the conda environment: `validatietool`
 
 ```
 conda env create -f environment.yml
@@ -32,7 +32,7 @@ pip install .
 ```
 
 ## Run an example
-A working example with data can be found in notebooks/test_wrij.ipynb. In the activated environment launch jupyter notebook by:
+A working example with data can be found in `notebooks/test_wrij.ipynb`. In the activated environment launch jupyter notebook by:
 
 ```
 jupyter notebook
