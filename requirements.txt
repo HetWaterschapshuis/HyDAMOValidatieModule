@@ -1,0 +1,6 @@
+rasterstats
+geopandas
+numpy
+rasterio
+jsonschema
+rtree

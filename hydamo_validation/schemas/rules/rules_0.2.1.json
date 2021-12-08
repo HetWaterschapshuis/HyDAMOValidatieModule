@@ -1,0 +1,326 @@
+{
+	"$schema": "http://json-schema.org/schema#",
+	"type": "object",
+	"properties": {
+		"objects": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/object_rules_set"
+			}
+		}
+	},
+	"definitions": {
+		"object_rules_set": {
+			"type": "object",
+			"properties": {
+				"object": {
+					"type": "string",
+					"enum": [
+						"admingrenswaterschap",
+						"afsluitmiddel",
+						"afvoergebiedaanvoergebied",
+						"aquaduct",
+						"beheergrenswaterschap",
+						"bijzonderhydraulischobject",
+						"bodemval",
+						"brug",
+						"doorstroomopening",
+						"duikersifonhevel",
+						"gemaal",
+						"grondwaterinfolijn",
+						"grondwaterinfopunt",
+						"grondwaterkoppellijn",
+						"grondwaterkoppelpunt",
+						"hydroobject",
+						"hydroobject_normgp",
+						"lateraleknoop",
+						"meetlocatielijn",
+						"meetlocatieprofiel",
+						"normgeparamprofiel",
+						"normgeparamprofielwaarde",
+						"peilafwijkinggebied",
+						"peilbesluitgebied",
+						"peilgebiedpraktijk",
+						"peilgebiedvigerend",
+						"pomp",
+						"streefpeil",
+						"stuw",
+						"vispassage",
+						"vispassagevlak",
+						"zandvang"
+					]
+				},
+				"general_rules": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/general_rule"
+					}
+				},
+				"validation_rules": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/validation_rule"
+					}
+				}
+			}
+		},
+		"general_rule": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "integer"
+				},
+				"order": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "integer"
+				},
+				"result_variable": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "string"
+				},
+				"function": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "object",
+					"anyOf": [
+						{
+							"$ref": "#/definitions/sum"
+						},
+						{
+							"$ref": "#/definitions/buffer"
+						}
+					]
+				}
+			}
+		},
+		"validation_rule": {
+			"type": "object",
+			"properties": {
+				"id": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "integer"
+				},
+				"name": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "string"
+				},
+				"type": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "string",
+					"enum": [
+						"logic",
+						"topologic"
+					]
+				},
+				"exceptions": {
+					"maxItems": 1,
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"uniqueItems": true
+				},
+				"filter": {
+					"maxItems": 1,
+					"type": "object",
+					"anyOf": [
+						{
+							"$ref": "#/definitions/LE"
+						}
+					]
+				},
+				"error_type": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "string",
+					"enum": [
+						"critical",
+						"non-critical"
+					]
+				},
+				"result_variable": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "string"
+				},
+				"active": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "boolean"
+				},
+				"function": {
+					"minItems": 1,
+					"maxItems": 1,
+					"type": "object",
+					"anyOf": [
+						{
+							"$ref": "#/definitions/LE"
+						}
+					]
+				},
+				"tags": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"uniqueItems": true
+				}
+			}
+		},
+		"LE": {
+			"type": "object",
+			"properties": {
+				"LE": {
+					"type": "object",
+					"properties": {
+						"left": {
+							"type": [
+								"string",
+								"number"
+							]
+						},
+						"right": {
+							"type": [
+								"string",
+								"number"
+							]
+						}
+					}
+				}
+			}
+		},
+		"LT": {
+			"type": "object",
+			"properties": {
+				"LT": {
+					"type": "object",
+					"properties": {
+						"left": {
+							"type": [
+								"string",
+								"number"
+							]
+						},
+						"right": {
+							"type": [
+								"string",
+								"number"
+							]
+						}
+					}
+				}
+			}
+		},
+		"GE": {
+			"type": "object",
+			"properties": {
+				"GE": {
+					"type": "object",
+					"properties": {
+						"left": {
+							"type": [
+								"string",
+								"number"
+							]
+						},
+						"right": {
+							"type": [
+								"string",
+								"number"
+							]
+						}
+					}
+				}
+			}
+		},
+		"GT": {
+			"type": "object",
+			"properties": {
+				"GT": {
+					"type": "object",
+					"properties": {
+						"left": {
+							"type": [
+								"string",
+								"number"
+							]
+						},
+						"right": {
+							"type": [
+								"string",
+								"number"
+							]
+						}
+					}
+				}
+			}
+		},
+		"EQ": {
+			"type": "object",
+			"properties": {
+				"EQ": {
+					"type": "object",
+					"properties": {
+						"left": {
+							"type": [
+								"string",
+								"number"
+							]
+						},
+						"right": {
+							"type": [
+								"string",
+								"number"
+							]
+						}
+					}
+				}
+			}
+		},
+		"sum": {
+			"type": "object",
+			"properties": {
+				"sum": {
+					"type": "object",
+					"properties": {
+						"array": {
+							"type": "array"
+						}
+					}
+				}
+			}
+		},
+		"buffer": {
+			"type": "object",
+			"properties": {
+				"buffer": {
+					"type": "object",
+					"properties": {
+						"radius": {
+							"type": [
+								"string",
+								"number"
+							]
+						},
+						"percentile": {
+							"type": "integer"
+						},
+						"coverage": {
+							"type": "string",
+							"enum": [
+								"AHN"
+							]
+						}
+					}
+				}
+			}
+		}
+	}
+}

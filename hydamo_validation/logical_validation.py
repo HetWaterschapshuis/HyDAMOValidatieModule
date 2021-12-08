@@ -1,0 +1,323 @@
+"""Logical validation."""
+
+import json
+from hydamo_validation import general_functions, logic_functions, topologic_functions
+from shapely.geometry import LineString, Point, Polygon, MultiPolygon
+from hydamo_validation import utils
+import logging
+import numpy as np
+import pandas as pd
+
+
+GEOTYPE_MAPPING = {LineString: "LineString", Point: "Point", Polygon: "Polygon"}
+SUMMARY_COLUMNS = [
+    "valid",
+    "invalid",
+    "invalid_critical",
+    "invalid_non_critical",
+    "ignored",
+    "summary",
+    "tags_assigned",
+    "tags_invalid",
+]
+LIST_SEPARATOR = ";"
+NOTNA_COL_IGNORE = ["related_parameter"]
+
+
+def _process_general_function(gdf, function, input_variables):
+    return getattr(general_functions, function)(gdf, **input_variables)
+
+
+def _process_logic_function(gdf, function, input_variables):
+    return getattr(logic_functions, function)(gdf, **input_variables)
+
+
+def _process_topologic_function(gdf, datamodel, function, input_variables):
+    return getattr(topologic_functions, function)(gdf, datamodel, **input_variables)
+
+
+def _notna_indices(gdf, input_variables):
+    cols = ["nen3610id"]
+    for k, v in input_variables.items():
+        if k not in NOTNA_COL_IGNORE:
+            if type(v) is not list:
+                v = [v]
+            cols += [val for val in v if val in gdf.columns]
+    cols = list(set(cols))
+    return [index for index, row in gdf[cols].iterrows() if not row.isnull().any()]
+
+
+def _nan_message(nbr_indices, object_layer, rule_id, rule_type):
+    return (
+        f"{nbr_indices} objecten niet meegenomen in {rule_type} "
+        f"object: '{object_layer}', id: '{rule_id}' wegens no_data in invoer."
+    )
+
+
+def _add_object_relation(input_variables, datamodel, object_layer):
+    input_variables["related_gdf"] = getattr(
+        datamodel, input_variables["related_object"]
+    ).copy()
+    input_variables["code_relation"] = f"{object_layer}id"
+    input_variables.pop("related_object")
+    return input_variables
+
+
+def gdf_add_summary(
+    gdf,
+    variable,
+    rule_id,
+    penalty,
+    error_message,
+    critical,
+    tags,
+    tags_indices,
+    separator=LIST_SEPARATOR,
+):
+    gdf.loc[gdf[variable] == False, "rating"] -= penalty
+    gdf.loc[gdf[variable] == False, "summary"] += f"{error_message}{separator}"
+    gdf.loc[gdf[variable] == False, "invalid"] += f"{rule_id}{separator}"
+    gdf.loc[gdf[variable] == True, "valid"] += f"{rule_id}{separator}"
+    gdf.loc[gdf[variable].isna(), "ignored"] += f"{rule_id}{separator}"
+    if critical:
+        gdf.loc[gdf[variable] == False, "invalid_critical"] += f"{rule_id}{separator}"
+    else:
+        gdf.loc[
+            gdf[variable] == False, "invalid_non_critical"
+        ] += f"{rule_id}{separator}"
+    if tags is not None:
+        gdf.loc[tags_indices, ("tags_assigned")] += f"{tags}{separator}"
+        gdf.loc[gdf[variable] == False, "tags_invalid"] += f"{tags}{separator}"
+    return gdf
+
+
+# %%
+def execute(
+    datamodel,
+    validation_rules_sets,
+    layers_summary,
+    result_summary,
+    log_level,
+    raise_error=False,
+):
+    """Execute the logical validation."""
+    logger = logging.getLogger(__name__)
+    logger.setLevel(getattr(logging, log_level))
+    for object_rules in validation_rules_sets["objects"]:
+        col_translation: dict = {}
+
+        object_layer = object_rules["object"]
+        logger.info(f"layer: {object_layer}")
+        object_gdf = getattr(datamodel, object_layer).copy()
+
+        # add summary columns
+        object_gdf["rating"] = 10
+        for col in SUMMARY_COLUMNS:
+            object_gdf[col] = ""
+
+        # general rule section
+        if "general_rules" in object_rules.keys():
+            general_rules = object_rules["general_rules"]
+            general_rules_sorted = sorted(general_rules, key=lambda k: k["id"])
+            for rule in general_rules_sorted:
+                try:
+                    result_variable = rule["result_variable"]
+                    result_variable_name = (
+                        f"general_{rule['id']:03d}_{rule['result_variable']}"
+                    )
+
+                    # get function
+                    function = next(iter(rule["function"]))
+                    input_variables = rule["function"][function]
+                    indices = _notna_indices(object_gdf, input_variables)
+                    dropped_indices = [i for i in object_gdf.index if i not in indices]
+
+                    # add object_relation
+                    if "related_object" in input_variables.keys():
+                        input_variables = _add_object_relation(
+                            input_variables, datamodel, object_layer
+                        )
+
+                    if dropped_indices:
+                        result_summary.append_warning(
+                            _nan_message(
+                                len(dropped_indices),
+                                object_layer,
+                                rule["id"],
+                                "general_rule",
+                            )
+                        )
+                    if object_gdf.loc[indices].empty:
+                        object_gdf[result_variable] = np.nan
+                    else:
+                        result = _process_general_function(
+                            object_gdf.loc[indices], function, input_variables
+                        )
+                        object_gdf.loc[indices, result_variable] = result
+
+                        getattr(datamodel, object_layer).loc[
+                            indices, result_variable
+                        ] = result
+
+                    col_translation = {
+                        **col_translation,
+                        result_variable: result_variable_name,
+                    }
+                except Exception as e:
+                    result_summary.append_error(
+                        (
+                            "general_rule niet uitgevoerd. Inspecteer de invoer voor deze regel: "
+                            f"(object: '{object_layer}', id: '{rule['id']}', function: '{function}', "
+                            f"input_variables: {input_variables}, Exception (Python): {e})"
+                        )
+                    )
+                    if raise_error:
+                        raise e
+                    else:
+                        pass
+
+        validation_rules = object_rules["validation_rules"]
+        validation_rules_sorted = sorted(validation_rules, key=lambda k: k["id"])
+        # validation rules section
+        for rule in validation_rules_sorted:
+            try:
+                rule_id = rule["id"]
+                result_variable = rule["result_variable"]
+                if "exceptions" in rule.keys():
+                    exceptions = rule["exceptions"]
+                    indices = object_gdf.loc[
+                        ~object_gdf.index.isin(exceptions)
+                        & ~object_gdf["nen3610id"].isna()
+                    ].index
+                else:
+                    indices = object_gdf.index
+                    exceptions = []
+                result_variable_name = (
+                    f"validate_{rule_id:03d}_{rule['result_variable']}"
+                )
+
+                # get function
+                function = next(iter(rule["function"]))
+                input_variables = rule["function"][function]
+
+                # remove all nan indices
+                notna_indices = _notna_indices(object_gdf, input_variables)
+                indices = [i for i in indices if i in notna_indices]
+
+                # apply filter on indices
+                if "filter" in rule.keys():
+                    function = next(iter(rule["function"]))
+                    input_variables = rule["function"][function]
+                    series = _process_logic_function(
+                        object_gdf, function, input_variables
+                    )
+                    filter_indices = series.loc[series].index.to_list()
+                    indices = [i for i in filter_indices if i in indices]
+                else:
+                    filter_indices = []
+
+                if object_gdf.loc[indices].empty:
+                    object_gdf[result_variable] = None
+                elif rule["type"] == "logic":
+                    object_gdf.loc[
+                        indices, (result_variable)
+                    ] = _process_logic_function(
+                        object_gdf.loc[indices], function, input_variables
+                    )
+                elif (rule["type"] == "topologic") and (
+                    hasattr(datamodel, "hydroobject")
+                ):
+                    result_series = _process_topologic_function(
+                        getattr(datamodel, object_layer),
+                        datamodel,
+                        function,
+                        input_variables,
+                    )
+                    object_gdf.loc[indices, (result_variable)] = result_series.loc[
+                        indices
+                    ]
+                col_translation = {
+                    **col_translation,
+                    result_variable: result_variable_name,
+                }
+
+                # summarize
+                if rule["error_type"] == "critical":
+                    penalty = 5
+                    critical = True
+                else:
+                    penalty = 1
+                    critical = False
+                if "penalty" in rule.keys():
+                    penalty = rule["penalty"]
+
+                error_message = rule["error_message"]
+
+                if "tags" in rule.keys():
+                    tags = LIST_SEPARATOR.join(rule["tags"])
+                else:
+                    tags = None
+
+                exceptions += filter_indices
+                tags_indices = [i for i in object_gdf.index if i not in exceptions]
+                object_gdf = gdf_add_summary(
+                    gdf=object_gdf,
+                    variable=result_variable,
+                    rule_id=rule_id,
+                    penalty=penalty,
+                    error_message=error_message,
+                    critical=critical,
+                    tags=tags,
+                    tags_indices=tags_indices,
+                )
+
+            except Exception as e:
+                result_summary.append_error(
+                    (
+                        "validation_rule niet uitgevoerd. Inspecteer de invoer voor deze regel: "
+                        f"(object '{object_layer}', rule_id '{rule['id']}', function: '{function}', "
+                        f"input_variables: {input_variables}, Exception (Python): {e})"
+                    )
+                )
+                if raise_error:
+                    raise e
+                else:
+                    pass
+
+        # drop columns
+        drop_columns = [
+            i
+            for i in object_gdf.columns
+            if i
+            not in list(col_translation.keys())
+            + ["nen3610id", "geometry", "rating"]
+            + SUMMARY_COLUMNS
+        ]
+        object_gdf.drop(columns=drop_columns, inplace=True)
+        # re_order columns
+        column_order = ["nen3610id"]
+        column_order += list(col_translation.keys())
+        column_order += ["rating"] + SUMMARY_COLUMNS
+        if "geometry" in object_gdf.columns:
+            column_order += ["geometry"]
+        object_gdf = object_gdf[column_order]
+
+        # finish result columns
+        for i in SUMMARY_COLUMNS:
+            if i in object_gdf.columns:
+                object_gdf.loc[:, i] = object_gdf[i].map(lambda x: str(x)[:-1])
+        if "rating" in object_gdf.columns:
+            object_gdf.loc[:, "rating"] = np.maximum(1, object_gdf["rating"])
+        for i in ["tags_assigned", "tags_invalid"]:
+            if i in object_gdf.columns:
+                object_gdf.loc[:, i] = object_gdf[i].map(
+                    lambda x: ";".join(list(set(str(x).split(LIST_SEPARATOR))))
+                )
+
+        # rename columns
+        object_gdf.rename(columns=col_translation, inplace=True)
+
+        # join gdf to layer_summary
+        layers_summary.join_gdf(object_gdf, object_layer)
+
+    return layers_summary, result_summary
