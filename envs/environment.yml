@@ -1,0 +1,13 @@
+name: validatietool
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - geopandas
+  - jupyter
+  - numpy
+  - rasterio
+  - rasterstats
+  - rtree
