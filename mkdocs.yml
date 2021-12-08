@@ -1,1 +1,17 @@
 site_name: HyDAMO Validation documentation
+theme:
+  name: "material"
+  language: en
+plugins:
+  - search
+  - mkdocstrings
+nav:
+    - Home: index.md
+    - Get Started: get_started.md
+    - Code Reference:
+        - DataSets: reference/datasets.md
+        - HyDAMO: reference/hydamo.md
+        - Functions:
+            - General Functions: reference/general_functions.md
+            - Logic Functions: reference/logic_functions.md
+            - Topologic Functions: reference/topologic_functions.md

@@ -9,6 +9,8 @@ dependencies:
   - geopandas
   - jupyter
   - mkdocs
+  - mkdocstrings
+  - mkdocs-material
   - numpy
   - pytest
   - pytest-cov
