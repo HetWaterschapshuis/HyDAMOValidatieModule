@@ -1,5 +1,5 @@
 __author__ = "Het Waterschapshuis"
-__copyright__ = "Copyright 2022, NHI Validatietool"
+__copyright__ = "Copyright 2021, Het Waterschapshuis"
 __credits__ = ["D2HYDRO", "HKV", "HydroConsult"]
 __version__ = "0.9.0"
 
