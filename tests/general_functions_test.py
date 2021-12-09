@@ -148,3 +148,11 @@ def test_object_relation_majority():
                                                related_parameter="vormopening",
                                                fill_value=0).to_list()
     assert result == expected_result
+
+def test_multiply():
+    _gdf = gpd.GeoDataFrame(data={"left": [1, 2, 3],
+                                  "right": [4, 5, 6],
+                                  "geometry": [None, None, None]})
+    expected_result = [4, 10, 18]
+    result = general_functions.multiply(_gdf, left="left", right="right").to_list()
+    assert result == expected_result
