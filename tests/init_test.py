@@ -12,7 +12,7 @@ from hydamo_validation.__init__ import (__author__,
                                         __status__)
 
 author = "Het Waterschapshuis"
-copyright = "Copyright 2022, NHI Validatietool"
+copyright = "Copyright 2021, Het Waterschapshuis"
 credits = ["D2HYDRO", "HKV", "HydroConsult"]
 version = "0.9.0"
 

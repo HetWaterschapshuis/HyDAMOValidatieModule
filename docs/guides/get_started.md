@@ -1,13 +1,13 @@
 # Installation
 
-## Conda installation
+## Install Anaconda or Miniconda
 Make sure you have an Miniconda or Anaconda installation. You can download these here:
  - https://www.anaconda.com/products/individual
  - https://docs.conda.io/en/latest/miniconda.html
 
 During installation, tick the box "Add Anaconda to PATH", ignore the red remarks
 
-## Create `validatietool` environment
+## Create the `validatietool` environment
 Use the `env/environment.yml` in the repository to create the conda environment: `validatietool`
 
 ```
