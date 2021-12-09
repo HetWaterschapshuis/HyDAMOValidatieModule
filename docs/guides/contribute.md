@@ -1,16 +1,16 @@
 # Contribute
 
-For contributions you'll need the following:
+For doing contributions you:
 
-* You have your own [GitHub account](https://github.com/join)
-* You work with [GitHub Desktop](https://desktop.github.com) or work-round with Git
-* You can work with [GeoPandas](https://geopandas.org) and [Pytest](https://www.pytest.org/)
+* have your own [GitHub account](https://github.com/join)
+* work with [GitHub Desktop](https://desktop.github.com) or work-round with Git
+* can work with [GeoPandas](https://geopandas.org) and [Pytest](https://www.pytest.org/)
 
-We are more than happy to accept code that is:
+We are very happy with code that is:
 
-1. Written similar to existing code (e.g. use of GeoPandas)
-2. Provided with docstrings so it can be documented
-3. Tested with Pytest
+1. written similar to existing code (e.g. use of GeoPandas)
+2. provided with docstrings so it can be documented
+3. tested with Pytest
 
 ## Installation
 
