@@ -5,9 +5,11 @@ channels:
   - defaults
 
 dependencies:
-  - geopandas
-  - jupyter
-  - numpy
-  - rasterio
-  - rasterstats
-  - rtree
+  - python=3.9.7
+  - geopandas=0.9.0
+  - jupyter=1.0.0
+  - numpy=1.21.4
+  - pip
+  - rasterio=1.2.8
+  - rasterstats=0.16.0
+  - rtree=0.9.7

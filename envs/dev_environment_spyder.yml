@@ -13,6 +13,7 @@ dependencies:
   - mkdocs-material
   - numpy
   - pdoc3
+  - pip
   - pytest
   - pytest-cov
   - rasterio
