@@ -7,8 +7,8 @@ plugins:
   - mkdocstrings
 nav:
     - Home: index.md
-    - Get Started: get_started.md
-    - Contribute: contribute.md
+    - Get Started: guides/get_started.md
+    - Contribute: guides/contribute.md
     - Code Reference:
         - DataSets: reference/datasets.md
         - HyDAMO: reference/hydamo.md
