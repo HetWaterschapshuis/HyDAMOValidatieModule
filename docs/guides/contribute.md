@@ -6,15 +6,24 @@ For doing contributions you:
 * work with [GitHub Desktop](https://desktop.github.com) or work-round with Git
 * can work with [GeoPandas](https://geopandas.org) and [Pytest](https://www.pytest.org/)
 
-We are very happy with code that is:
+We are very happy with contributions that are:
 
 1. written similar to existing code (e.g. use of GeoPandas)
 2. provided with docstrings so it can be documented
 3. tested with Pytest
 
-## Installation
+You can make a contribution in the following steps:
 
-### Create `validatietool` environment for development
+1. Development installation
+2. Fork and clone and install a copy
+3. Add and test new code
+4. Commit your copy and request a merge
+
+The remainder of this guide explains how to do it.
+
+## Dev installation
+
+### Setup environment
 Use the `env/dev_environment.yml` in the repository to create the conda environment `validatietool` with all required packages
 
 ```
@@ -23,7 +32,7 @@ conda env create -f dev_environment.yml
 
 After installation you can activate your environment in command prompt
 
-### Get a copy
+### Fork repo
 Fork the respository to your own GitHub account:
 
 1. Click `fork` in the upper-right of the rository.
@@ -33,6 +42,7 @@ The repository is now available on your own github account:
 
 ![](images/fork.gif "Fork repository")
 
+### Clone repo
 Now clone your fork to your local drive. We do this with [GitHub Desktop](https://desktop.github.com). After [installation and authentication](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/getting-started-with-github-desktop)
 you can get a local copy by:
 
@@ -44,7 +54,7 @@ you can get a local copy by:
 
 Verify if the repository is on your local drive. 
 
-### Install your copy of hydamo_validation in develop-mode
+### Install copy
 Install the module in the activated `validatietool` environment in develop-mode:
 
 ```
@@ -53,11 +63,11 @@ pip install -e .
 
 __Now you're good to go!__
 
-## Make an improvement
+## Improve your code
 Imagine we want to be able to multiply an HyDAMO attribute by a constant value or a value in an other attribute.
 Therefore we will add a function `multiply` to the general functions
 
-### Edit code
+### Add code
 In functions.general.py we add our new function:
 
 ```python
@@ -94,7 +104,7 @@ the input variable `gdf`. Please make your code fast and efficient by the use of
 In complex cases you can use `gdf.apply(lambda x: _a_function_for_every_row(row, *args, **kwargs), axis=1)` to apply a function on every `row` in your
 GeoDataFrame. Here `*args` and `**kwargs` refer to extra input arguments. In `functions.topologic.py` and `functions.logic.py` you can find numerous examples.
 
-### Test your code
+### Test code
 In the test-folder we add a test. In this case we can add it to `tests.general_functions_test.py`:
 
 ```python
@@ -119,14 +129,14 @@ pytest --cov-report term-missing --cov=hydamo_validation tests/
 As your function is correct, the test should not fail. You can confirm all lines of your new code are tested:
 ![](images/test.png "Test")
 
-## Do the contribution
+## Contribute
 
-### commit
+### Commit
 First commit your new function in your own repository:
 
 ![](images/commit.gif "Commit")
 
-### request a merge
+### Request a merge
 Now request a merge:
 
 ![](images/merge.gif "Merge request")
