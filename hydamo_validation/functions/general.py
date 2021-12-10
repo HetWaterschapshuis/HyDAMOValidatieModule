@@ -115,6 +115,29 @@ def divide(gdf, left, right):
     return gdf.eval(expression)
 
 
+def multiply(gdf, left, right):
+    """
+    Multiply 'left' with 'right'
+
+    Parameters
+    ----------
+    gdf : GeoDataFrame
+        Input GeoDataFrame
+    left : str, numeric
+        Left column or value in expression
+    right : str, numeric
+        Right column or value in expression
+
+    Returns
+    -------
+    result : Series
+        Float series
+
+    """
+    expression = " * ".join(map(str, [left, right]))
+    return gdf.eval(expression)
+
+
 def buffer(gdf, radius, percentile, coverage="ahn", fill_value: float = None):
     """
     Percentile of coverage-value of an area defined by a radius around the
