@@ -63,7 +63,7 @@ pip install -e .
 
 __Now you're good to go!__
 
-## Improve your code
+## Improve code
 Imagine we want to be able to multiply an HyDAMO attribute by a constant value or a value in an other attribute.
 Therefore we will add a function `multiply` to the general functions
 
