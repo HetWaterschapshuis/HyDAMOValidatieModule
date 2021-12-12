@@ -1,22 +1,23 @@
 {
 	"$schema": "http://json-schema.org/schema#",
 	"type": "object",
+	"required": [
+		"schema",
+		"hydamo_version",
+		"objects"
+	],
 	"properties": {
 		"schema": {
 			"type": "string",
 			"enum": [
-				"0.9.0"
-			]
+					"0.9.0"
+				]
 		},
 		"hydamo_version": {
-			"type": [
-				"string",
-				"number"
-			],
+			"type": "string",
 			"enum": [
-				2.2,
-				"2.2"
-			]
+					"2.2"
+				]
 		},
 		"status_object": {
 			"type": "array",
@@ -40,11 +41,6 @@
 			}
 		}
 	},
-	"required": [
-		"schema",
-		"hydamo_version",
-		"objects"
-	],
 	"$defs": {
 		"object_rules_set": {
 			"type": "object",

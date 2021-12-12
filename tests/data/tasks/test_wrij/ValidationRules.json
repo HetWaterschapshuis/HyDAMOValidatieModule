@@ -1,6 +1,5 @@
-{
-	"schema": "0.9.0",
-	"hydamo_version": 2.2,
+{	"schema": "0.9.0",
+	"hydamo_version": "2.2",
 	"status_object": [
 		"planvorming",
 		"gerealiseerd"
