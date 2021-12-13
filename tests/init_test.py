@@ -11,8 +11,8 @@ from hydamo_validation.__init__ import (__author__,
                                         __email__,
                                         __status__)
 
-author = "Het Waterschapshuis"
-copyright = "Copyright 2021, Het Waterschapshuis"
+author = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
+copyright = "Copyright 2021, HyDAMO ValidatieTool"
 credits = ["D2HYDRO", "HKV", "HydroConsult"]
 version = "0.9.0"
 
