@@ -264,6 +264,10 @@ def object_relation(
 
     gdf_out = gdf.copy()
 
+    # remove NaN values in from related_gdf[related_parameter]
+    if related_parameter:
+        related_gdf = related_gdf.loc[related_gdf[related_parameter].notna()]
+
     # compute statistic
     if statistic == "count":
         series = related_gdf.groupby(by=[code_relation])[code_relation].count()

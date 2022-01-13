@@ -111,10 +111,12 @@ def find_nearest_branch(branches, geometries, method="overall", maxdist=5):
             elif method == "ends":
                 # Since a culvert can cross a channel, it is
                 crds = geometry.geometry.coords[:]
-                dist = (
-                    selectie.distance(Point(*crds[0]))
-                    + selectie.distance(Point(*crds[-1]))
-                ) * 0.5
+                dist = selectie["geometry"].apply(lambda x: max(x.distance(Point(*crds[0])),
+                                                                x.distance(Point(*crds[-1]))))
+                # dist = (
+                #     selectie.distance(Point(*crds[0]))
+                #     + selectie.distance(Point(*crds[-1]))
+                # ) * 0.5
 
             # Determine nearest
             if dist.min() < maxdist:

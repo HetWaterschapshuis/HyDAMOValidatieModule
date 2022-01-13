@@ -20,13 +20,15 @@ duiker_gdf = gpd.read_file(dataset_gpkg, layer="Duikersifonhevel")
 gemaal_gdf = gpd.read_file(dataset_gpkg, layer="Gemaal")
 aagebied_gdf = gpd.read_file(dataset_gpkg, layer="Afvoergebiedaanvoergebied")
 
+hydroobject_gdf.rename(columns={"ruwheidswaardehoog": "ruwheidhoog",
+                                "ruwheidswaardelaag": "ruwheidlaag"},
+                       inplace=True)
+
 datamodel.set_data(stuw_gdf, "stuw")
 datamodel.set_data(gemaal_gdf, "gemaal")
 datamodel.set_data(hydroobject_gdf, "hydroobject")
 datamodel.set_data(duiker_gdf, "duikersifonhevel")
 datamodel.set_data(aagebied_gdf, "afvoergebiedaanvoergebied")
-
-
 
 def test_snaps_to_hydroobject():
     tolerance = 5

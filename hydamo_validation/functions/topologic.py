@@ -19,13 +19,15 @@ def _layers_from_datamodel(layers, datamodel):
         series = getattr(datamodel, layers[0])["geometry"]
     return series
 
+def _lines_snap_at_boundaries(line, other_line, tolerance):
+    snaps_start = any(line.boundary[0].distance(i) < tolerance for i in other_line.boundary)
+    snaps_end = any(line.boundary[-1].distance(i) < tolerance for i in other_line.boundary)
+    return sum([snaps_start, snaps_end])
 
 def _point_not_overlapping_line(point, line, tolerance):
-    snaps_boundary = line.boundary[0].distance(point) < tolerance
-    if not snaps_boundary:
-        snaps_boundary = line.boundary[1].distance(point) < tolerance
-
-    if not snaps_boundary:
+    snaps_start = line.boundary[0].distance(point) < tolerance
+    snaps_end = line.boundary[-1].distance(point) < tolerance
+    if not any([snaps_start, snaps_end]):
         not_overlapping = line.distance(point) > tolerance
     else:
         not_overlapping = True
@@ -33,12 +35,28 @@ def _point_not_overlapping_line(point, line, tolerance):
 
 
 def _line_not_overlapping_line(line, other_line, tolerance):
-    not_overlapping = all(
-        [
-            _point_not_overlapping_line(line.boundary[0], other_line, tolerance),
-            _point_not_overlapping_line(line.boundary[-1], other_line, tolerance),
-        ]
-    )
+    snapping_boundaries = _lines_snap_at_boundaries(line, other_line, tolerance)
+    
+    if snapping_boundaries == 2:
+        not_overlapping = False
+    elif snapping_boundaries == 1:
+        not_overlapping = True
+    else:
+        if line.length < other_line.length:
+            not_overlapping = all(
+                [
+                    _point_not_overlapping_line(line.boundary[0], other_line, tolerance),
+                    _point_not_overlapping_line(line.boundary[-1], other_line, tolerance),
+                ]
+            )
+        else:
+            not_overlapping = all(
+                [
+                    _point_not_overlapping_line(other_line.boundary[0], line, tolerance),
+                    _point_not_overlapping_line(other_line.boundary[-1], line, tolerance),
+                ]
+            )
+
     return not_overlapping
 
 

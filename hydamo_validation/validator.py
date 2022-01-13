@@ -2,6 +2,7 @@
 
 from typing import List, Callable, Literal
 from pathlib import Path
+import pandas as pd
 from functools import partial
 import json
 import shutil
@@ -104,8 +105,9 @@ def _validator(
         results_path = None
         logger = logging.getLogger(__name__)
         logger.setLevel(getattr(logging, log_level))
-        result_summary = ResultSummary()
-        layers_summary = LayersSummary()
+        date_check = pd.Timestamp.now().isoformat()
+        result_summary = ResultSummary(date_check=date_check)
+        layers_summary = LayersSummary(date_check=date_check)
         # check if all files are present
         dir_path = Path(directory)
         # create a results_path
@@ -130,7 +132,11 @@ def _validator(
             result_summary.error = f'missing_paths: {",".join(missing_paths)}'
             raise FileNotFoundError(f'missing_paths: {",".join(missing_paths)}')
         else:
-            validation_rules_sets = json.loads(validation_rules_json.read_text())
+            try:
+                validation_rules_sets = json.loads(validation_rules_json.read_text())
+            except Exception as e:
+                result_summary.error = "the file with validationrules is not a valid JSON (see exception)"
+                raise e
             try:
                 rules_version = validation_rules_sets["schema"]
                 schema = _read_schema(rules_version, schemas_path)
@@ -238,7 +244,7 @@ def _validator(
         ]
         result_summary.syntax_result = syntax_result
         result_summary.validation_result = [
-            i["object"] for i in validation_rules_sets["objects"]
+            i["object"] for i in validation_rules_sets["objects"] if i in result_layers
         ]
         result_summary.success = True
         result_summary.status = "finished"
@@ -251,7 +257,10 @@ def _validator(
     except Exception as e:
         e_str = str(e).replace("\n", " ")
         e_str = " ".join(e_str.split())
-        result_summary.exception = fr"{e_str}"
+        if result_summary.error is not None:
+            result_summary.error = fr"{result_summary.error} Python Exception: '{e_str}'"
+        else:
+            result_summary.error = fr"Python Exception: '{e_str}'"
         if results_path is not None:
             result_summary.to_json(results_path)
         if raise_error:

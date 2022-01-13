@@ -44,3 +44,6 @@ tests/exports/*
 
 # Windows batch-files
 *.bat
+
+# loose scripts
+scripts/*

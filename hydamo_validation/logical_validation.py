@@ -203,13 +203,12 @@ def execute(
                 # remove all nan indices
                 notna_indices = _notna_indices(object_gdf, input_variables)
                 indices = [i for i in indices if i in notna_indices]
-
                 # apply filter on indices
                 if "filter" in rule.keys():
-                    function = next(iter(rule["function"]))
-                    input_variables = rule["function"][function]
+                    filter_function = next(iter(rule["filter"]))
+                    filter_input_variables = rule["filter"][filter_function]
                     series = _process_logic_function(
-                        object_gdf, function, input_variables
+                        object_gdf, filter_function, filter_input_variables
                     )
                     filter_indices = series.loc[series].index.to_list()
                     indices = [i for i in filter_indices if i in indices]
@@ -236,6 +235,7 @@ def execute(
                     object_gdf.loc[indices, (result_variable)] = result_series.loc[
                         indices
                     ]
+
                 col_translation = {
                     **col_translation,
                     result_variable: result_variable_name,

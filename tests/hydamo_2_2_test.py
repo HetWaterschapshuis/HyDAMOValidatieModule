@@ -28,10 +28,13 @@ object_layers = ['admingrenswaterschap',
                  'grondwaterinfopunt',
                  'grondwaterkoppellijn',
                  'grondwaterkoppelpunt',
+                 'hydrologischerandvoorwaarde',
                  'hydroobject',
                  'hydroobject_normgp',
                  'kunstwerkopening',
                  'lateraleknoop',
+                 'meetlocatie',
+                 'meetwaardeactiewaarde',
                  'normgeparamprofiel',
                  'normgeparamprofielwaarde',
                  'peilafwijkinggebied',
@@ -39,12 +42,17 @@ object_layers = ['admingrenswaterschap',
                  'peilgebiedpraktijk',
                  'peilgebiedvigerend',
                  'pomp',
+                 'profielgroep',
+                 'profiellijn',
+                 'profielpunt',
                  'regelmiddel',
                  'reglementgrenswaterschap',
                  'streefpeil',
+                 'sturing',
                  'stuw',
                  'vispassage',
                  'vispassagevlak',
+                 'vuilvang',
                  'zandvang']
 
 ignored_layers = ['afvoeraanvoergebied',
@@ -55,6 +63,10 @@ ignored_layers = ['afvoeraanvoergebied',
 
 dataset_gpkg = DATA_DIR / "tasks" / "test_wrij" / "datasets" / "HyDAMO.gpkg"
 hydroobject_gdf = gpd.read_file(dataset_gpkg, layer="Hydroobject")
+hydroobject_gdf.rename(columns={"ruwheidswaardehoog": "ruwheidhoog",
+                                "ruwheidswaardelaag": "ruwheidlaag"},
+                       inplace=True)
+
 stuw_gdf = gpd.read_file(dataset_gpkg, layer="Stuw")
 
 exports_dir = Path(__file__).parent / "exports"

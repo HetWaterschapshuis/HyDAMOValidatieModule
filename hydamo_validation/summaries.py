@@ -1,5 +1,6 @@
 import logging
 import geopandas as gpd
+import pandas as pd
 from pathlib import Path
 import json
 
@@ -9,8 +10,9 @@ OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 
 
 class LayersSummary:
-    def __init__(self, log_level="DEBUG"):
+    def __init__(self, log_level="DEBUG", date_check=pd.Timestamp.now().isoformat()):
         self.geo_types = {}
+        self.date_check = date_check
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(getattr(logging, log_level))
 
@@ -24,7 +26,10 @@ class LayersSummary:
             elif "validate" in i:
                 properties[i] = "bool"
             elif "general" in i:
-                properties[i] = "float"
+                if gdf[i].dtype == float:
+                    properties[i] = "float"
+                else:
+                    properties[i] = "str"
             elif i == "rating":
                 properties[i] = "int"
             elif i != "geometry":
@@ -106,7 +111,7 @@ class LayersSummary:
         gdf_dict = {
             k: v for k, v in self.__dict__.items() if isinstance(v, gpd.GeoDataFrame)
         }
-        layers = list(gdf_dict.keys())
+        layers = []
         # make directories for output_types
         results_path = Path(results_path)
         for output_type in ["geojson", "csv"]:
@@ -125,6 +130,10 @@ class LayersSummary:
                     "properties": self._get_properties(gdf),
                     "geometry": self.geo_types[object_layer],
                 }
+
+                #add date_check
+                gdf["date_check"] = self.date_check
+                schema["properties"]["date_check"] = "str"
 
                 for output_type in output_types:
                     # set gdf to WGS84 for export to geojson
@@ -151,16 +160,18 @@ class LayersSummary:
                         gdf.to_file(
                             file_path, layer=object_layer, driver="GPKG", schema=schema
                         )
+                layers += [object_layer]
             else:
                 self.logger.warn(f"{object_layer} is empty (!)")
         return layers
 
 
 class ResultSummary:
-    def __init__(self):
+    def __init__(self, date_check=pd.Timestamp.now().isoformat()):
         """Initialize class."""
         self.success = False
         self.module_version = __version__
+        self.date_check = date_check
         self.duration = None
         self.status = "Initialization"
         self.dataset_layers = []
@@ -169,6 +180,7 @@ class ResultSummary:
         self.error_layers = []
         self.syntax_result = []
         self.validation_result = []
+        self.error = None
         self.errors = None
         self.warnings = None
 

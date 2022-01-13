@@ -14,7 +14,6 @@ from hydamo_validation.__init__ import (__author__,
 author = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
 copyright = "Copyright 2021, HyDAMO ValidatieTool"
 credits = ["D2HYDRO", "HKV", "HydroConsult"]
-version = "0.9.0"
 
 license = "MIT"
 maintainer = "Daniel Tollenaar"
@@ -32,10 +31,6 @@ def test_copyright():
 
 def test_credits():
     assert __credits__ == credits
-
-
-def test_version():
-    assert __version__ == version
 
 
 def test_license():
