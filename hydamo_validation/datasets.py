@@ -31,12 +31,13 @@ class DataSets:
     def _filter_status(self, gdf, status_object):
         if status_object is not None:
             if "statusobject" in gdf.columns:
-                gdf = gdf.loc[
-                    np.where(
-                        gdf["statusobject"].isna()
-                        | gdf["statusobject"].isin(status_object)
-                    )
-                ]
+                gdf = gdf.loc[gdf["statusobject"].isin(status_object)]
+                # gdf = gdf.loc[
+                #     np.where(
+                #         gdf["statusobject"].isna()
+                #         | gdf["statusobject"].isin(status_object)
+                #     )
+                # ]
         return gdf
 
     @property
