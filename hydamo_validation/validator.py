@@ -244,7 +244,7 @@ def _validator(
         ]
         result_summary.syntax_result = syntax_result
         result_summary.validation_result = [
-            i["object"] for i in validation_rules_sets["objects"] if i in result_layers
+            i["object"] for i in validation_rules_sets["objects"] if i["object"] in result_layers
         ]
         result_summary.success = True
         result_summary.status = "finished"

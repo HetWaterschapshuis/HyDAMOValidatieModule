@@ -31,9 +31,9 @@ def test_read_layer():
 
 def test_read_layer_filter_status():
     gdf, schema = datasets.read_layer(
-        layer="Duikersifonhevel", status_object=["gerealiseerd"]
+        layer="Duikersifonhevel", status_object=["planvorming", "gerealiseerd"]
         )
-    assert len(gdf) == 52
+    assert len(gdf) == 2
 
 
 def test_read_layer_not_available():
