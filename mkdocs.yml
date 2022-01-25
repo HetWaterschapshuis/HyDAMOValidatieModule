@@ -1,4 +1,5 @@
 site_name: HyDAMO Validation documentation
+site_url: https://HetWaterschapshuis.github.io
 theme:
   name: "material"
   language: en

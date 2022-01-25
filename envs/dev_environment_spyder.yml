@@ -12,8 +12,8 @@ dependencies:
   - mkdocstrings
   - mkdocs-material
   - numpy
-  - pdoc3
   - pip
+  - git
   - pytest
   - pytest-cov
   - rasterio
