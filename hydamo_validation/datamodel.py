@@ -370,17 +370,17 @@ class HyDAMO:
                     schema = getattr(self, layer)._get_schema()
                     schema_cols = list(schema["properties"].keys()) + ["geometry"]
                     drop_cols = [i for i in gdf.columns if i not in schema_cols]
-                    gdf.drop(columns=drop_cols, inplace=True)
+                    gdf_export = gdf.drop(columns=drop_cols)
 
                     schema["properties"] = {
                         k: v
                         for k, v in schema["properties"].items()
-                        if k in gdf.columns
+                        if k in gdf_export.columns
                     }
 
                     # write gdf to geopackage, including schema
-                    if gdf.index.name in gdf.columns:
-                        export_gdf = gdf.reset_index(drop=True).copy()
+                    if gdf_export.index.name in gdf_export.columns:
+                        export_gdf = gdf_export.reset_index(drop=True).copy()
                     export_gdf.to_file(
                         file_path,
                         layer=layer,
@@ -390,5 +390,5 @@ class HyDAMO:
                 else:
                     # write gdf to geopackage as is
                     if gdf.index.name in gdf.columns:
-                        export_gdf = gdf.reset_index(drop=True).copy()
-                    export_gdf.to_file(file_path, layer=layer, driver="GPKG")
+                        gdf = gdf.reset_index(drop=True).copy()
+                    gdf.to_file(file_path, layer=layer, driver="GPKG")

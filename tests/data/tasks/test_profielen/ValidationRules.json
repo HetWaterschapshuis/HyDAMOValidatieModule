@@ -1,0 +1,114 @@
+{
+	"schema": "0.9.4",
+	"hydamo_version": "2.2",
+	"status_object": [
+		"planvorming",
+		"gerealiseerd"
+	],
+	"objects": [
+		{
+			"object": "profiellijn",
+			"general_rules": [
+				{
+					"id": 0,
+					"order": 0,
+					"result_variable": "bodemhoogte",
+					"function": {
+						"object_relation": {
+							"statistic": "min",
+							"related_object": "profielpunt",
+							"related_parameter": "geometry.z"
+						}
+					}
+				},
+				{
+					"id": 1,
+					"order": 1,
+					"result_variable": "bodemhoogte_marge_min",
+					"function": {
+						"difference": {
+							"left": "bodemhoogte",
+							"right": 0.2
+						}
+					}
+				}
+			],
+			"validation_rules": [
+				{
+					"id": 0,
+					"name": "Profiel moet intersecten met een waterlijn",
+					"type": "topologic",
+					"validation_rule_set": "basic",
+					"error_type": "critical",
+					"result_variable": "op_watergang",
+					"error_message": "niet op watergang",
+					"active": true,
+					"function": {
+						"snaps_to_hydroobject": {
+							"method": "overall"
+						}
+					}
+				}
+			]
+		},
+		{
+			"object": "duikersifonhevel",
+			"validation_rules": [
+				{
+					"id": 0,
+					"name": "Dit object moet precies samenvallen met het hydroobject",
+					"type": "topologic",
+					"validation_rule_set": "basic",
+					"error_type": "critical",
+					"result_variable": "op_hydroobject",
+					"error_message": "niet op hydroobject",
+					"active": true,
+					"function": {
+						"snaps_to_hydroobject": {
+							"tolerance": 0.01,
+							"method": "ends"
+						}
+					}
+				},
+				{
+					"id": 1,
+					"name": "De BOK bovenstrooms mag slechts minimaal lager liggen dan de bovenstroomse bodemhoogte van het hydroobject",
+					"type": "topologic",
+					"validation_rule_set": "basic",
+					"error_type": "critical",
+					"result_variable": "bok_bov_boven_bodem",
+					"error_message": "bok bovenstrooms beneden bodem",
+					"active": true,
+					"function": {
+						"compare_longitudinal": {
+							"parameter": "hoogtebinnenonderkantbov",
+							"compare_object": "profiellijn",
+							"compare_parameter": "bodemhoogte_marge_min",
+							"logical_operator": "GT",
+							"direction": "upstream"
+						}
+					}
+				},
+				{
+					"id": 2,
+					"name": "De BOK benedenstrooms mag slechts minimaal lager liggen dan de bendenstroomse bodemhoogte van het hydroobject",
+					"type": "topologic",
+					"validation_rule_set": "basic",
+					"error_type": "critical",
+					"result_variable": "bok_ben_boven_bodem",
+					"error_message": "bok bendenstrooms beneden bodem",
+					"active": true,
+					"function": {
+						"compare_longitudinal": {
+							"parameter": "hoogtebinnenonderkantbene",
+							"compare_object": "profiellijn",
+							"compare_parameter": "bodemhoogte_marge_min",
+							"logical_operator": "GT",
+							"direction": "downstream"
+						}
+					}
+				}
+			]
+		}
+	]
+}

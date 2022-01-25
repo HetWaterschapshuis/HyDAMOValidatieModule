@@ -35,21 +35,13 @@ def _set_coverage(coverage: str, directory: str):
     COVERAGES[coverage] = coverage_path
 
 
-# def set_data_model(data_model):
-#     """Add a coverage for functions."""
-#     global DATA_MODEL
-#     DATA_MODEL = data_model
-
-# def set_object_layer(object_layer):
-#     """Add a object_layer for functions."""
-#     global OBJECT_LAYER
-#     OBJECT_LAYER = object_layer
-
-
 def _buffer_row(row, column):
     radius = max(row[column], 0.5)
     return row.geometry.buffer(radius)
 
+def _get_geometric_attribute(gdf, geom_parameter):
+    geometry, method = geom_parameter.split(".")
+    return getattr(gdf[geometry], method)
 
 def sum(gdf, array: list):
     """Return a sum expression."""
@@ -266,7 +258,13 @@ def object_relation(
 
     # remove NaN values in from related_gdf[related_parameter]
     if related_parameter:
+        if "geometry" in related_parameter:
+           related_gdf[related_parameter] = _get_geometric_attribute(
+               related_gdf,
+               related_parameter
+               ) 
         related_gdf = related_gdf.loc[related_gdf[related_parameter].notna()]
+
 
     # compute statistic
     if statistic == "count":

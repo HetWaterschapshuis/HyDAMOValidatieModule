@@ -129,6 +129,8 @@ def execute(
                     # get function
                     function = next(iter(rule["function"]))
                     input_variables = rule["function"][function]
+
+                    # remove all nan indices
                     indices = _notna_indices(object_gdf, input_variables)
                     dropped_indices = [i for i in object_gdf.index if i not in indices]
 
@@ -203,6 +205,7 @@ def execute(
                 # remove all nan indices
                 notna_indices = _notna_indices(object_gdf, input_variables)
                 indices = [i for i in indices if i in notna_indices]
+
                 # apply filter on indices
                 if "filter" in rule.keys():
                     filter_function = next(iter(rule["filter"]))

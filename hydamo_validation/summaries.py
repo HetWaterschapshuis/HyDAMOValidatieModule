@@ -157,6 +157,7 @@ class LayersSummary:
                     # write to geopackage as is
                     elif output_type == "geopackage":
                         file_path = results_path.joinpath("results.gpkg")
+
                         gdf.to_file(
                             file_path, layer=object_layer, driver="GPKG", schema=schema
                         )
