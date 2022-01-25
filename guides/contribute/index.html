@@ -1,0 +1,833 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.8">
+    
+    
+      
+        <title>Contribute - HyDAMO Validation documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6e60f8b8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#contribute" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HyDAMO Validation documentation" class="md-header__button md-logo" aria-label="HyDAMO Validation documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HyDAMO Validation documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Contribute
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HyDAMO Validation documentation" class="md-nav__button md-logo" aria-label="HyDAMO Validation documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    HyDAMO Validation documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Guides
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Guides" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Guides
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../get_started/" class="md-nav__link">
+        Get Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Contribute
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Contribute
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dev-installation" class="md-nav__link">
+    Dev installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Dev installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-environment" class="md-nav__link">
+    Setup environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork-repo" class="md-nav__link">
+    Fork repo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clone-repo" class="md-nav__link">
+    Clone repo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-copy" class="md-nav__link">
+    Install copy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#improve-code" class="md-nav__link">
+    Improve code
+  </a>
+  
+    <nav class="md-nav" aria-label="Improve code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-code" class="md-nav__link">
+    Add code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-code" class="md-nav__link">
+    Test code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribute_1" class="md-nav__link">
+    Contribute
+  </a>
+  
+    <nav class="md-nav" aria-label="Contribute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commit" class="md-nav__link">
+    Commit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#request-a-merge" class="md-nav__link">
+    Request a merge
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Code Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Code Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/datasets/" class="md-nav__link">
+        DataSets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/hydamo/" class="md-nav__link">
+        HyDAMO
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          Functions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Functions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Functions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/general_functions/" class="md-nav__link">
+        General Functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/logic_functions/" class="md-nav__link">
+        Logic Functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/topologic_functions/" class="md-nav__link">
+        Topologic Functions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dev-installation" class="md-nav__link">
+    Dev installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Dev installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-environment" class="md-nav__link">
+    Setup environment
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fork-repo" class="md-nav__link">
+    Fork repo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clone-repo" class="md-nav__link">
+    Clone repo
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-copy" class="md-nav__link">
+    Install copy
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#improve-code" class="md-nav__link">
+    Improve code
+  </a>
+  
+    <nav class="md-nav" aria-label="Improve code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#add-code" class="md-nav__link">
+    Add code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-code" class="md-nav__link">
+    Test code
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contribute_1" class="md-nav__link">
+    Contribute
+  </a>
+  
+    <nav class="md-nav" aria-label="Contribute">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commit" class="md-nav__link">
+    Commit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#request-a-merge" class="md-nav__link">
+    Request a merge
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+<h1 id="contribute">Contribute</h1>
+<p>For doing contributions you:</p>
+<ul>
+<li>have your own <a href="https://github.com/join">GitHub account</a></li>
+<li>work with <a href="https://desktop.github.com">GitHub Desktop</a> or work-round with Git</li>
+<li>can work with <a href="https://geopandas.org">GeoPandas</a> and <a href="https://www.pytest.org/">Pytest</a></li>
+</ul>
+<p>We are very happy with contributions that are:</p>
+<ol>
+<li>written similar to existing code (e.g. use of GeoPandas)</li>
+<li>provided with docstrings so it can be documented</li>
+<li>tested with Pytest</li>
+</ol>
+<p>You can make a contribution in the following steps:</p>
+<ol>
+<li>Development installation</li>
+<li>Fork and clone and install a copy</li>
+<li>Add and test new code</li>
+<li>Commit your copy and request a merge</li>
+</ol>
+<p>The remainder of this guide explains how to do it.</p>
+<h2 id="dev-installation">Dev installation</h2>
+<h3 id="setup-environment">Setup environment</h3>
+<p>Use the <code>env/dev_environment.yml</code> in the repository to create the conda environment <code>validatietool</code> with all required packages</p>
+<pre><code>conda env create -f dev_environment.yml
+</code></pre>
+<p>After installation you can activate your environment in command prompt</p>
+<h3 id="fork-repo">Fork repo</h3>
+<p>Fork the respository to your own GitHub account:</p>
+<ol>
+<li>Click <code>fork</code> in the upper-right of the rository.</li>
+<li>Select your own github account</li>
+</ol>
+<p>The repository is now available on your own github account:</p>
+<p><img alt="" src="../images/fork.gif" title="Fork repository" /></p>
+<h3 id="clone-repo">Clone repo</h3>
+<p>Now clone your fork to your local drive. We do this with <a href="https://desktop.github.com">GitHub Desktop</a>. After <a href="https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/getting-started-with-github-desktop">installation and authentication</a>
+you can get a local copy by:</p>
+<ol>
+<li><code>Add</code> and <code>Clone repository...</code> in the top-left corner</li>
+<li>Find your fork and clone it to an empty directory on your local drive</li>
+<li>Press  clone`</li>
+</ol>
+<p><img alt="" src="../images/clone.gif" title="Clone repository" /></p>
+<p>Verify if the repository is on your local drive. </p>
+<h3 id="install-copy">Install copy</h3>
+<p>Install the module in the activated <code>validatietool</code> environment in develop-mode:</p>
+<pre><code>pip install -e .
+</code></pre>
+<p><strong>Now you're good to go!</strong></p>
+<h2 id="improve-code">Improve code</h2>
+<p>Imagine we want to be able to multiply an HyDAMO attribute by a constant value or a value in an other attribute.
+Therefore we will add a function <code>multiply</code> to the general functions</p>
+<h3 id="add-code">Add code</h3>
+<p>In functions.general.py we add our new function:</p>
+<pre><code class="language-python">def multiply(gdf, left, right):
+    &quot;&quot;&quot;
+    Multiply 'left' with 'right'
+
+    Parameters
+    ----------
+    gdf : GeoDataFrame
+        Input GeoDataFrame
+    left : str, numeric
+        Left column or value in expression
+    right : str, numeric
+        Right column or value in expression
+
+    Returns
+    -------
+    result : Series
+        Float series
+
+    &quot;&quot;&quot;
+    expression = &quot; * &quot;.join(map(str, [left, right]))
+    return gdf.eval(expression)
+
+</code></pre>
+<p>Please note the use of <a href="https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard">numpy docstrings</a>.
+These are required as they are later translated to documentation.</p>
+<p>Also note we use <a href="https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.html">GeoPandas GeoDataFrames</a> specified by
+the input variable <code>gdf</code>. Please make your code fast and efficient by the use of in-build methods. Above we use <code>gdf.eval(expression)</code> by example.</p>
+<p>In complex cases you can use <code>gdf.apply(lambda x: _a_function_for_every_row(row, *args, **kwargs), axis=1)</code> to apply a function on every <code>row</code> in your
+GeoDataFrame. Here <code>*args</code> and <code>**kwargs</code> refer to extra input arguments. In <code>functions.topologic.py</code> and <code>functions.logic.py</code> you can find numerous examples.</p>
+<h3 id="test-code">Test code</h3>
+<p>In the test-folder we add a test. In this case we can add it to <code>tests.general_functions_test.py</code>:</p>
+<pre><code class="language-python">def test_multiply():
+    _gdf = gpd.GeoDataFrame(data={&quot;left&quot;: [1, 2, 3],
+                                  &quot;right&quot;: [4, 5, 6],
+                                  &quot;geometry&quot;: [None, None, None]})
+    expected_result = [4, 10, 18]
+    result = general_functions.multiply(_gdf, left=&quot;left&quot;, right=&quot;right&quot;).to_list()
+    assert result == expected_result
+</code></pre>
+<p>A test-function starts with <code>test_</code>. In within the test-function you confirm if your new functionity is correct with <code>assert = True</code>. In this case
+we check if the <code>result</code> of our function is the same as our <code>expected_result</code></p>
+<p>Within your activated environment you can test your function with pytest:</p>
+<pre><code>pytest --cov-report term-missing --cov=hydamo_validation tests/
+</code></pre>
+<p>As your function is correct, the test should not fail. You can confirm all lines of your new code are tested:
+<img alt="" src="../images/test.png" title="Test" /></p>
+<h2 id="contribute_1">Contribute</h2>
+<h3 id="commit">Commit</h3>
+<p>First commit your new function in your own repository:</p>
+<p><img alt="" src="../images/commit.gif" title="Commit" /></p>
+<h3 id="request-a-merge">Request a merge</h3>
+<p>Now request a merge:</p>
+<p><img alt="" src="../images/merge.gif" title="Merge request" /></p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../get_started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Get Started" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Get Started
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../reference/datasets/" class="md-footer__link md-footer__link--next" aria-label="Next: DataSets" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              DataSets
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.22074ed6.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.960e086b.min.js"></script>
+      
+    
+  </body>
+</html>

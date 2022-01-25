@@ -1,0 +1,1628 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.8">
+    
+    
+      
+        <title>Topologic Functions - HyDAMO Validation documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6e60f8b8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#topologic-functions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HyDAMO Validation documentation" class="md-header__button md-logo" aria-label="HyDAMO Validation documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HyDAMO Validation documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Topologic Functions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HyDAMO Validation documentation" class="md-nav__button md-logo" aria-label="HyDAMO Validation documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    HyDAMO Validation documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Guides
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Guides" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Guides
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/get_started/" class="md-nav__link">
+        Get Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/contribute/" class="md-nav__link">
+        Contribute
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Code Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Code Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datasets/" class="md-nav__link">
+        DataSets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hydamo/" class="md-nav__link">
+        HyDAMO
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          Functions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Functions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Functions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../general_functions/" class="md-nav__link">
+        General Functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logic_functions/" class="md-nav__link">
+        Logic Functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Topologic Functions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Topologic Functions
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions" class="md-nav__link">
+    hydamo_validation.functions.topologic.topologic_functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.distant_to_others" class="md-nav__link">
+    distant_to_others()
+  </a>
+  
+    <nav class="md-nav" aria-label="distant_to_others()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.distant_to_others--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.distant_to_others--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.geometry_length" class="md-nav__link">
+    geometry_length()
+  </a>
+  
+    <nav class="md-nav" aria-label="geometry_length()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.geometry_length--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.geometry_length--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.no_dangling_node" class="md-nav__link">
+    no_dangling_node()
+  </a>
+  
+    <nav class="md-nav" aria-label="no_dangling_node()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.no_dangling_node--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.no_dangling_node--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.not_overlapping" class="md-nav__link">
+    not_overlapping()
+  </a>
+  
+    <nav class="md-nav" aria-label="not_overlapping()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.not_overlapping--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.not_overlapping--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.snaps_to_hydroobject" class="md-nav__link">
+    snaps_to_hydroobject()
+  </a>
+  
+    <nav class="md-nav" aria-label="snaps_to_hydroobject()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.snaps_to_hydroobject--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.snaps_to_hydroobject--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.splitted_at_junction" class="md-nav__link">
+    splitted_at_junction()
+  </a>
+  
+    <nav class="md-nav" aria-label="splitted_at_junction()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.splitted_at_junction--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.splitted_at_junction--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_boundaries" class="md-nav__link">
+    structures_at_boundaries()
+  </a>
+  
+    <nav class="md-nav" aria-label="structures_at_boundaries()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_boundaries--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_boundaries--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_intersections" class="md-nav__link">
+    structures_at_intersections()
+  </a>
+  
+    <nav class="md-nav" aria-label="structures_at_intersections()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_intersections--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_intersections--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_nodes" class="md-nav__link">
+    structures_at_nodes()
+  </a>
+  
+    <nav class="md-nav" aria-label="structures_at_nodes()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_nodes--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_nodes--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions" class="md-nav__link">
+    hydamo_validation.functions.topologic.topologic_functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.distant_to_others" class="md-nav__link">
+    distant_to_others()
+  </a>
+  
+    <nav class="md-nav" aria-label="distant_to_others()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.distant_to_others--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.distant_to_others--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.geometry_length" class="md-nav__link">
+    geometry_length()
+  </a>
+  
+    <nav class="md-nav" aria-label="geometry_length()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.geometry_length--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.geometry_length--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.no_dangling_node" class="md-nav__link">
+    no_dangling_node()
+  </a>
+  
+    <nav class="md-nav" aria-label="no_dangling_node()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.no_dangling_node--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.no_dangling_node--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.not_overlapping" class="md-nav__link">
+    not_overlapping()
+  </a>
+  
+    <nav class="md-nav" aria-label="not_overlapping()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.not_overlapping--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.not_overlapping--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.snaps_to_hydroobject" class="md-nav__link">
+    snaps_to_hydroobject()
+  </a>
+  
+    <nav class="md-nav" aria-label="snaps_to_hydroobject()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.snaps_to_hydroobject--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.snaps_to_hydroobject--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.splitted_at_junction" class="md-nav__link">
+    splitted_at_junction()
+  </a>
+  
+    <nav class="md-nav" aria-label="splitted_at_junction()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.splitted_at_junction--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.splitted_at_junction--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_boundaries" class="md-nav__link">
+    structures_at_boundaries()
+  </a>
+  
+    <nav class="md-nav" aria-label="structures_at_boundaries()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_boundaries--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_boundaries--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_intersections" class="md-nav__link">
+    structures_at_intersections()
+  </a>
+  
+    <nav class="md-nav" aria-label="structures_at_intersections()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_intersections--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_intersections--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_nodes" class="md-nav__link">
+    structures_at_nodes()
+  </a>
+  
+    <nav class="md-nav" aria-label="structures_at_nodes()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_nodes--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.topologic.topologic_functions.structures_at_nodes--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+<h1 id="topologic-functions">Topologic functions</h1>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="hydamo_validation.functions.topologic.topologic_functions"></a>
+    <div class="doc doc-contents first">
+
+      <p>Topologic functions executed on extended geodataframe.</p>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.topologic.topologic_functions.distant_to_others" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">distant_to_others</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Check if two objects are sufficient distant to other objects of the same layer.</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.distant_to_others--parameters">Parameters</h4>
+<p>gdf : ExtendedGeoDataframe
+    ExtendedGeoDataFrame, HyDAMO hydroobject layer
+datamodel : HyDAMO
+    HyDAMO datamodel class
+distance : numeric
+    Max distance to other node</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.distant_to_others--returns">Returns</h4>
+<p>Pandas Series
+    Default dtype is bool</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\topologic.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">distant_to_others</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if two objects are sufficient distant to other objects of the same layer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : ExtendedGeoDataframe</span>
+<span class="sd">        ExtendedGeoDataFrame, HyDAMO hydroobject layer</span>
+<span class="sd">    datamodel : HyDAMO</span>
+<span class="sd">        HyDAMO datamodel class</span>
+<span class="sd">    distance : numeric</span>
+<span class="sd">        Max distance to other node</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Pandas Series</span>
+<span class="sd">        Default dtype is bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">sindex</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">sindex</span>
+
+    <span class="k">return</span> <span class="n">gdf</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_distant_to_others</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">sindex</span><span class="p">,</span> <span class="n">distance</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.topologic.topologic_functions.geometry_length" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">geometry_length</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">statistic</span><span class="o">=</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">bool</span><span class="s1">&#39;&gt;)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Check if geometrie length is longer/shorter than a value</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.geometry_length--parameters">Parameters</h4>
+<p>gdf : ExtendedGeoDataframe
+    ExtendedGeoDataFrame, typically a layer in a HyDAMO datamodel class
+datamodel : HyDAMO
+    HyDAMO datamodel class
+length : numeric
+    Length to compare the geometry length to
+statistic : str, options: 'min', 'max'
+    Use length as minimal or maximal length. Default is 'min'
+dtype : dtype, optional
+    Dtype to assign to the result series. The default is bool.</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.geometry_length--returns">Returns</h4>
+<p>Pandas Series
+    Default dtype is bool</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\topologic.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">geometry_length</span><span class="p">(</span>
+    <span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">statistic</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if geometrie length is longer/shorter than a value</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : ExtendedGeoDataframe</span>
+<span class="sd">        ExtendedGeoDataFrame, typically a layer in a HyDAMO datamodel class</span>
+<span class="sd">    datamodel : HyDAMO</span>
+<span class="sd">        HyDAMO datamodel class</span>
+<span class="sd">    length : numeric</span>
+<span class="sd">        Length to compare the geometry length to</span>
+<span class="sd">    statistic : str, options: &#39;min&#39;, &#39;max&#39;</span>
+<span class="sd">        Use length as minimal or maximal length. Default is &#39;min&#39;</span>
+<span class="sd">    dtype : dtype, optional</span>
+<span class="sd">        Dtype to assign to the result series. The default is bool.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Pandas Series</span>
+<span class="sd">        Default dtype is bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">statistic</span> <span class="o">==</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;=</span> <span class="n">length</span>
+    <span class="k">elif</span> <span class="n">statistic</span> <span class="o">==</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;=</span> <span class="n">length</span>
+    <span class="k">return</span> <span class="n">series</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.topologic.topologic_functions.no_dangling_node" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">no_dangling_node</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Check if there are structures at intersections</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.no_dangling_node--parameters">Parameters</h4>
+<p>gdf : ExtendedGeoDataframe
+    ExtendedGeoDataFrame, HyDAMO hydroobject layer
+datamodel : HyDAMO
+    HyDAMO datamodel class
+tolerance : numeric
+    Max tolerance to determine if nodes are connected</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.no_dangling_node--returns">Returns</h4>
+<p>Pandas Series
+    Default dtype is bool</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\topologic.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">no_dangling_node</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if there are structures at intersections</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : ExtendedGeoDataframe</span>
+<span class="sd">        ExtendedGeoDataFrame, HyDAMO hydroobject layer</span>
+<span class="sd">    datamodel : HyDAMO</span>
+<span class="sd">        HyDAMO datamodel class</span>
+<span class="sd">    tolerance : numeric</span>
+<span class="sd">        Max tolerance to determine if nodes are connected</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Pandas Series</span>
+<span class="sd">        Default dtype is bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">end_nodes_series</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">sindex</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">sindex</span>
+
+    <span class="k">return</span> <span class="n">end_nodes_series</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_intersects_end_node</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">series</span><span class="p">,</span> <span class="n">sindex</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.topologic.topologic_functions.not_overlapping" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">not_overlapping</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Check if geometrie length is longer/shorter than a value</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.not_overlapping--parameters">Parameters</h4>
+<p>gdf : ExtendedGeoDataframe
+    ExtendedGeoDataFrame, typically a layer in a HyDAMO datamodel class
+datamodel : HyDAMO
+    HyDAMO datamodel class
+tolerance : numeric
+    Max tolerance for overlapping</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.not_overlapping--returns">Returns</h4>
+<p>Pandas Series
+    Default dtype is bool</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\topologic.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">not_overlapping</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if geometrie length is longer/shorter than a value</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : ExtendedGeoDataframe</span>
+<span class="sd">        ExtendedGeoDataFrame, typically a layer in a HyDAMO datamodel class</span>
+<span class="sd">    datamodel : HyDAMO</span>
+<span class="sd">        HyDAMO datamodel class</span>
+<span class="sd">    tolerance : numeric</span>
+<span class="sd">        Max tolerance for overlapping</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Pandas Series</span>
+<span class="sd">        Default dtype is bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sindex</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">sindex</span>
+    <span class="k">return</span> <span class="n">gdf</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_not_overlapping_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">sindex</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.topologic.topologic_functions.snaps_to_hydroobject" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">snaps_to_hydroobject</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">bool</span><span class="s1">&#39;&gt;)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Check if geometries snap to HydroObject</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.snaps_to_hydroobject--parameters">Parameters</h4>
+<p>gdf : ExtendedGeoDataframe
+    ExtendedGeoDataFrame, typically a layer in a HyDAMO datamodel class
+datamodel : HyDAMO
+    HyDAMO datamodel class
+method : str, options: 'intersecting', 'overal', 'centroid', 'ends'
+    Method that can be used to deterine nearest hydrobject
+tolerance : numeric
+    Tolerance used to snap to the hydroobjct
+dtype : dtype, optional
+    Dtype to assign to the result series. The default is bool.</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.snaps_to_hydroobject--returns">Returns</h4>
+<p>Pandas Series
+    Default dtype is bool</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\topologic.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">snaps_to_hydroobject</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if geometries snap to HydroObject</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : ExtendedGeoDataframe</span>
+<span class="sd">        ExtendedGeoDataFrame, typically a layer in a HyDAMO datamodel class</span>
+<span class="sd">    datamodel : HyDAMO</span>
+<span class="sd">        HyDAMO datamodel class</span>
+<span class="sd">    method : str, options: &#39;intersecting&#39;, &#39;overal&#39;, &#39;centroid&#39;, &#39;ends&#39;</span>
+<span class="sd">        Method that can be used to deterine nearest hydrobject</span>
+<span class="sd">    tolerance : numeric</span>
+<span class="sd">        Tolerance used to snap to the hydroobjct</span>
+<span class="sd">    dtype : dtype, optional</span>
+<span class="sd">        Dtype to assign to the result series. The default is bool.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Pandas Series</span>
+<span class="sd">        Default dtype is bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">branches</span> <span class="o">=</span> <span class="n">datamodel</span><span class="o">.</span><span class="n">hydroobject</span>
+    <span class="n">gdf</span><span class="o">.</span><span class="n">snap_to_branch</span><span class="p">(</span><span class="n">branches</span><span class="p">,</span> <span class="n">snap_method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">maxdist</span><span class="o">=</span><span class="n">tolerance</span><span class="p">)</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="o">~</span><span class="n">gdf</span><span class="o">.</span><span class="n">branch_offset</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">series</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.topologic.topologic_functions.splitted_at_junction" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">splitted_at_junction</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Check if line is splitted when it can considered to be a junction</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.splitted_at_junction--parameters">Parameters</h4>
+<p>gdf : ExtendedGeoDataframe
+    ExtendedGeoDataFrame, HyDAMO hydroobject layer
+datamodel : HyDAMO
+    HyDAMO datamodel class
+tolerance : numeric
+    Max tolerance for junction nodes</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.splitted_at_junction--returns">Returns</h4>
+<p>Pandas Series
+    Default dtype is bool</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\topologic.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">splitted_at_junction</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if line is splitted when it can considered to be a junction</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : ExtendedGeoDataframe</span>
+<span class="sd">        ExtendedGeoDataFrame, HyDAMO hydroobject layer</span>
+<span class="sd">    datamodel : HyDAMO</span>
+<span class="sd">        HyDAMO datamodel class</span>
+<span class="sd">    tolerance : numeric</span>
+<span class="sd">        Max tolerance for junction nodes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Pandas Series</span>
+<span class="sd">        Default dtype is bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get the nodes of the hydroobjects within tolerance</span>
+    <span class="n">nodes_series</span> <span class="o">=</span> <span class="n">_get_nodes</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span>
+
+    <span class="c1"># check for lines if there are nodes on segment outside tolerance of</span>
+    <span class="c1"># the start-node and end-node.</span>
+    <span class="n">sindex</span> <span class="o">=</span> <span class="n">nodes_series</span><span class="o">.</span><span class="n">sindex</span>
+    <span class="k">return</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_only_end_nodes</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nodes_series</span><span class="p">,</span> <span class="n">sindex</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.topologic.topologic_functions.structures_at_boundaries" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">structures_at_boundaries</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">areas</span><span class="p">,</span> <span class="n">structures</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Check if there are structures near area (typically water-level areas) boundaries.</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.structures_at_boundaries--parameters">Parameters</h4>
+<p>gdf : ExtendedGeoDataframe
+    ExtendedGeoDataFrame, HyDAMO hydroobject layer
+datamodel : HyDAMO
+    HyDAMO datamodel class
+areas : str
+    HyDAMO datamodel class with areas ("peilgebiedenpraktijk")
+structures : str
+    List with structure-types to be expected on the boundary
+tolerance : numeric
+    Tolerance to dermine if a structure is on the hydroobject
+distance : numeric
+    Max distance between structure and area-boundary</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.structures_at_boundaries--returns">Returns</h4>
+<p>Pandas Series
+    Default dtype is bool</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\topologic.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">structures_at_boundaries</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">areas</span><span class="p">,</span> <span class="n">structures</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if there are structures near area (typically water-level areas) boundaries.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : ExtendedGeoDataframe</span>
+<span class="sd">        ExtendedGeoDataFrame, HyDAMO hydroobject layer</span>
+<span class="sd">    datamodel : HyDAMO</span>
+<span class="sd">        HyDAMO datamodel class</span>
+<span class="sd">    areas : str</span>
+<span class="sd">        HyDAMO datamodel class with areas (&quot;peilgebiedenpraktijk&quot;)</span>
+<span class="sd">    structures : str</span>
+<span class="sd">        List with structure-types to be expected on the boundary</span>
+<span class="sd">    tolerance : numeric</span>
+<span class="sd">        Tolerance to dermine if a structure is on the hydroobject</span>
+<span class="sd">    distance : numeric</span>
+<span class="sd">        Max distance between structure and area-boundary</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Pandas Series</span>
+<span class="sd">        Default dtype is bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">areas_gdf</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">datamodel</span><span class="p">,</span> <span class="n">areas</span><span class="p">)</span>
+    <span class="n">areas_sindex</span> <span class="o">=</span> <span class="n">areas_gdf</span><span class="o">.</span><span class="n">sindex</span>
+
+    <span class="n">struc_series</span> <span class="o">=</span> <span class="n">_layers_from_datamodel</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">)</span>
+    <span class="n">struc_sindex</span> <span class="o">=</span> <span class="n">struc_series</span><span class="o">.</span><span class="n">sindex</span>
+
+    <span class="k">return</span> <span class="n">gdf</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_structures_at_boundaries</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">areas_gdf</span><span class="p">,</span> <span class="n">areas_sindex</span><span class="p">,</span> <span class="n">struc_series</span><span class="p">,</span> <span class="n">struc_sindex</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="n">distance</span>
+        <span class="p">),</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.topologic.topologic_functions.structures_at_intersections" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">structures_at_intersections</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">structures</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Check if there are structures at intersections</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.structures_at_intersections--parameters">Parameters</h4>
+<p>gdf : ExtendedGeoDataframe
+    ExtendedGeoDataFrame, HyDAMO hydroobject layer
+datamodel : HyDAMO
+    HyDAMO datamodel class
+!!! structures "str or list"
+    HyDAMO structures to be expected at intersections
+    ("stuw", "duikersifonhevel") Presented as a string or list
+tolerance : numeric
+    Max tolerance for junction nodes</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.structures_at_intersections--returns">Returns</h4>
+<p>Pandas Series
+    Default dtype is bool</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\topologic.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">structures_at_intersections</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">structures</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if there are structures at intersections</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : ExtendedGeoDataframe</span>
+<span class="sd">        ExtendedGeoDataFrame, HyDAMO hydroobject layer</span>
+<span class="sd">    datamodel : HyDAMO</span>
+<span class="sd">        HyDAMO datamodel class</span>
+<span class="sd">    structures: str or list</span>
+<span class="sd">        HyDAMO structures to be expected at intersections</span>
+<span class="sd">        (&quot;stuw&quot;, &quot;duikersifonhevel&quot;) Presented as a string or list</span>
+<span class="sd">    tolerance : numeric</span>
+<span class="sd">        Max tolerance for junction nodes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Pandas Series</span>
+<span class="sd">        Default dtype is bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># make a geodataframe from structures list</span>
+    <span class="n">struc_series</span> <span class="o">=</span> <span class="n">_layers_from_datamodel</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">)</span>
+    <span class="c1"># create spatial indices</span>
+    <span class="n">sindex</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">sindex</span>
+    <span class="n">struc_sindex</span> <span class="o">=</span> <span class="n">struc_series</span><span class="o">.</span><span class="n">sindex</span>
+
+    <span class="c1"># return result</span>
+    <span class="k">return</span> <span class="n">gdf</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_structures_at_intersections</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">sindex</span><span class="p">,</span> <span class="n">struc_series</span><span class="p">,</span> <span class="n">struc_sindex</span><span class="p">,</span> <span class="n">tolerance</span>
+        <span class="p">),</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.topologic.topologic_functions.structures_at_nodes" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">structures_at_nodes</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">structures</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Check if structures are on boundary-nodes of lines (hydroobjects)</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.structures_at_nodes--parameters">Parameters</h4>
+<p>gdf : ExtendedGeoDataframe
+    ExtendedGeoDataFrame, HyDAMO hydroobject layer
+datamodel : HyDAMO
+    HyDAMO datamodel class
+structures : str
+    List with structure-types to be expected on the boundary
+tolerance : numeric
+    Tolerance to determine if a structure is on a node</p>
+<h4 id="hydamo_validation.functions.topologic.topologic_functions.structures_at_nodes--returns">Returns</h4>
+<p>Pandas Series
+    Default dtype is bool</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\topologic.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">structures_at_nodes</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">,</span> <span class="n">structures</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if structures are on boundary-nodes of lines (hydroobjects)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : ExtendedGeoDataframe</span>
+<span class="sd">        ExtendedGeoDataFrame, HyDAMO hydroobject layer</span>
+<span class="sd">    datamodel : HyDAMO</span>
+<span class="sd">        HyDAMO datamodel class</span>
+<span class="sd">    structures : str</span>
+<span class="sd">        List with structure-types to be expected on the boundary</span>
+<span class="sd">    tolerance : numeric</span>
+<span class="sd">        Tolerance to determine if a structure is on a node</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Pandas Series</span>
+<span class="sd">        Default dtype is bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">struc_series</span> <span class="o">=</span> <span class="n">_layers_from_datamodel</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span> <span class="n">datamodel</span><span class="p">)</span>
+    <span class="n">struc_sindex</span> <span class="o">=</span> <span class="n">struc_series</span><span class="o">.</span><span class="n">sindex</span>
+
+    <span class="k">return</span> <span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_no_struc_on_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">struc_series</span><span class="p">,</span> <span class="n">struc_sindex</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../logic_functions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Logic Functions" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Logic Functions
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.22074ed6.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.960e086b.min.js"></script>
+      
+    
+  </body>
+</html>

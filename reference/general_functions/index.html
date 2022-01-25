@@ -1,0 +1,1313 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.8">
+    
+    
+      
+        <title>General Functions - HyDAMO Validation documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6e60f8b8.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#topologic-functions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="HyDAMO Validation documentation" class="md-header__button md-logo" aria-label="HyDAMO Validation documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            HyDAMO Validation documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              General Functions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="HyDAMO Validation documentation" class="md-nav__button md-logo" aria-label="HyDAMO Validation documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    HyDAMO Validation documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Guides
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Guides" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Guides
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/get_started/" class="md-nav__link">
+        Get Started
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/contribute/" class="md-nav__link">
+        Contribute
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Code Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Code Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datasets/" class="md-nav__link">
+        DataSets
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hydamo/" class="md-nav__link">
+        HyDAMO
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          Functions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Functions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Functions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          General Functions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        General Functions
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions" class="md-nav__link">
+    hydamo_validation.functions.general.general_functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.buffer" class="md-nav__link">
+    buffer()
+  </a>
+  
+    <nav class="md-nav" aria-label="buffer()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.buffer--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.buffer--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.difference" class="md-nav__link">
+    difference()
+  </a>
+  
+    <nav class="md-nav" aria-label="difference()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.difference--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.difference--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.divide" class="md-nav__link">
+    divide()
+  </a>
+  
+    <nav class="md-nav" aria-label="divide()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.divide--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.divide--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.multiply" class="md-nav__link">
+    multiply()
+  </a>
+  
+    <nav class="md-nav" aria-label="multiply()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.multiply--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.multiply--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.object_relation" class="md-nav__link">
+    object_relation()
+  </a>
+  
+    <nav class="md-nav" aria-label="object_relation()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.object_relation--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.object_relation--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.sum" class="md-nav__link">
+    sum()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../logic_functions/" class="md-nav__link">
+        Logic Functions
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../topologic_functions/" class="md-nav__link">
+        Topologic Functions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions" class="md-nav__link">
+    hydamo_validation.functions.general.general_functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.buffer" class="md-nav__link">
+    buffer()
+  </a>
+  
+    <nav class="md-nav" aria-label="buffer()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.buffer--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.buffer--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.difference" class="md-nav__link">
+    difference()
+  </a>
+  
+    <nav class="md-nav" aria-label="difference()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.difference--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.difference--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.divide" class="md-nav__link">
+    divide()
+  </a>
+  
+    <nav class="md-nav" aria-label="divide()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.divide--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.divide--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.multiply" class="md-nav__link">
+    multiply()
+  </a>
+  
+    <nav class="md-nav" aria-label="multiply()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.multiply--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.multiply--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.object_relation" class="md-nav__link">
+    object_relation()
+  </a>
+  
+    <nav class="md-nav" aria-label="object_relation()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.object_relation--parameters" class="md-nav__link">
+    Parameters
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.object_relation--returns" class="md-nav__link">
+    Returns
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.functions.general.general_functions.sum" class="md-nav__link">
+    sum()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+<h1 id="topologic-functions">Topologic functions</h1>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="hydamo_validation.functions.general.general_functions"></a>
+    <div class="doc doc-contents first">
+
+      <p>functions to be executed on gdf.</p>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.general.general_functions.buffer" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">buffer</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">percentile</span><span class="p">,</span> <span class="n">coverage</span><span class="o">=</span><span class="s1">&#39;ahn&#39;</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Percentile of coverage-value of an area defined by a radius around the
+object</p>
+<h4 id="hydamo_validation.functions.general.general_functions.buffer--parameters">Parameters</h4>
+<p>gdf : GeoDataFrame
+    Input GeoDataFrame
+!!! radius "str, numeric"
+    Radius around object used to define a cirular area
+percentile : int
+    The percentile of the coverage within area around object
+coverage : str, optional
+    The coverage to use. The default value is 'ahn'
+fill_value : float, optional
+    The fill_value to use when the area is not intersecting the coverage.
+    The default is None</p>
+<h4 id="hydamo_validation.functions.general.general_functions.buffer--returns">Returns</h4>
+<p>result : Series
+    Float series</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\general.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">buffer</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">percentile</span><span class="p">,</span> <span class="n">coverage</span><span class="o">=</span><span class="s2">&quot;ahn&quot;</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Percentile of coverage-value of an area defined by a radius around the</span>
+<span class="sd">    object</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : GeoDataFrame</span>
+<span class="sd">        Input GeoDataFrame</span>
+<span class="sd">    radius: str, numeric</span>
+<span class="sd">        Radius around object used to define a cirular area</span>
+<span class="sd">    percentile : int</span>
+<span class="sd">        The percentile of the coverage within area around object</span>
+<span class="sd">    coverage : str, optional</span>
+<span class="sd">        The coverage to use. The default value is &#39;ahn&#39;</span>
+<span class="sd">    fill_value : float, optional</span>
+<span class="sd">        The fill_value to use when the area is not intersecting the coverage.</span>
+<span class="sd">        The default is None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    result : Series</span>
+<span class="sd">        Float series</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gdf_out</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">gdf_out</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">gdf_out</span><span class="o">.</span><span class="n">total_bounds</span>
+    <span class="n">coverage_path</span> <span class="o">=</span> <span class="n">COVERAGES</span><span class="p">[</span><span class="n">coverage</span><span class="p">]</span>
+
+    <span class="n">index_gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">coverage_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s2">&quot;index.shp&quot;</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">index_gdf</span><span class="o">.</span><span class="n">cx</span><span class="p">[</span><span class="n">xmin</span><span class="p">:</span><span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">]</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">bathymetrie_raster</span> <span class="o">=</span> <span class="n">coverage_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;bladnr&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s1">_CM.tif&#39;</span>
+            <span class="p">)</span>
+
+            <span class="n">gdf_select</span> <span class="o">=</span> <span class="n">gdf_out</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+                <span class="n">gdf_out</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">centroid</span><span class="o">.</span><span class="n">within</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">])</span>
+            <span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">gdf_select</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">gdf_select</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">gdf_select</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                        <span class="n">_buffer_row</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">radius</span><span class="p">,),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">radius</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+                    <span class="n">gdf_select</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">(</span><span class="s2">&quot;geometry&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">gdf_select</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span>
+                        <span class="n">radius</span>
+                    <span class="p">)</span>
+
+                <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">bathymetrie_raster</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+                    <span class="n">profile</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">profile</span>
+                    <span class="n">raster_data</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">affine</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">transform</span>
+                    <span class="n">scale</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">scales</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="n">raster_stats</span> <span class="o">=</span> <span class="n">zonal_stats</span><span class="p">(</span>
+                    <span class="n">gdf_select</span><span class="p">,</span>
+                    <span class="n">raster_data</span><span class="p">,</span>
+                    <span class="n">affine</span><span class="o">=</span><span class="n">affine</span><span class="p">,</span>
+                    <span class="n">stats</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;percentile_</span><span class="si">{</span><span class="n">percentile</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">nodata</span><span class="o">=</span><span class="n">profile</span><span class="p">[</span><span class="s2">&quot;nodata&quot;</span><span class="p">],</span>
+                    <span class="n">raster_out</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="n">gdf_out</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdf_select</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_list</span><span class="p">(),</span> <span class="s2">&quot;result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">nan</span> <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">round</span><span class="p">(</span><span class="n">item</span> <span class="o">*</span> <span class="n">scale</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span>
+                        <span class="n">item</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;percentile_</span><span class="si">{</span><span class="n">percentile</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">raster_stats</span>
+                    <span class="p">]</span>
+                <span class="p">]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;bathymetrie: </span><span class="si">{</span><span class="n">bathymetrie_raster</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;indices: </span><span class="si">{</span><span class="n">gdf_select</span><span class="o">.</span><span class="n">index</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;geometrien: </span><span class="si">{</span><span class="n">gdf_select</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="c1"># fill series if if provided</span>
+    <span class="k">if</span> <span class="n">fill_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">gdf_out</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdf_out</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(),</span> <span class="s2">&quot;result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fill_value</span>
+
+    <span class="k">return</span> <span class="n">gdf_out</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.general.general_functions.difference" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">difference</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Difference between 'left' and 'right'</p>
+<h4 id="hydamo_validation.functions.general.general_functions.difference--parameters">Parameters</h4>
+<p>gdf : GeoDataFrame
+    Input GeoDataFrame
+left : str, numeric
+    Left column or value in expression
+right : TYPE
+    Right column or value in expression
+absolute : bool, optional
+    Absolute (True) or relative difference (False) to left.
+    The default is False.</p>
+<h4 id="hydamo_validation.functions.general.general_functions.difference--returns">Returns</h4>
+<p>result : Series
+    Float series</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\general.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">difference</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Difference between &#39;left&#39; and &#39;right&#39;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : GeoDataFrame</span>
+<span class="sd">        Input GeoDataFrame</span>
+<span class="sd">    left : str, numeric</span>
+<span class="sd">        Left column or value in expression</span>
+<span class="sd">    right : TYPE</span>
+<span class="sd">        Right column or value in expression</span>
+<span class="sd">    absolute : bool, optional</span>
+<span class="sd">        Absolute (True) or relative difference (False) to left.</span>
+<span class="sd">        The default is False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    result : Series</span>
+<span class="sd">        Float series</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">left</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">left</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">left</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">right</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">right</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="n">right</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">absolute</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">left</span> <span class="o">-</span> <span class="n">right</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">left</span> <span class="o">-</span> <span class="n">right</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.general.general_functions.divide" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">divide</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Division of 'left' by 'right'</p>
+<h4 id="hydamo_validation.functions.general.general_functions.divide--parameters">Parameters</h4>
+<p>gdf : GeoDataFrame
+    Input GeoDataFrame
+left : str, numeric
+    Left column or value in expression
+right : TYPE
+    Right column or value in expression</p>
+<h4 id="hydamo_validation.functions.general.general_functions.divide--returns">Returns</h4>
+<p>result : Series
+    Float series</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\general.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Division of &#39;left&#39; by &#39;right&#39;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : GeoDataFrame</span>
+<span class="sd">        Input GeoDataFrame</span>
+<span class="sd">    left : str, numeric</span>
+<span class="sd">        Left column or value in expression</span>
+<span class="sd">    right : TYPE</span>
+<span class="sd">        Right column or value in expression</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    result : Series</span>
+<span class="sd">        Float series</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">expression</span> <span class="o">=</span> <span class="s2">&quot; / &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">gdf</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.general.general_functions.multiply" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">multiply</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Multiply 'left' with 'right'</p>
+<h4 id="hydamo_validation.functions.general.general_functions.multiply--parameters">Parameters</h4>
+<p>gdf : GeoDataFrame
+    Input GeoDataFrame
+left : str, numeric
+    Left column or value in expression
+right : str, numeric
+    Right column or value in expression</p>
+<h4 id="hydamo_validation.functions.general.general_functions.multiply--returns">Returns</h4>
+<p>result : Series
+    Float series</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\general.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Multiply &#39;left&#39; with &#39;right&#39;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : GeoDataFrame</span>
+<span class="sd">        Input GeoDataFrame</span>
+<span class="sd">    left : str, numeric</span>
+<span class="sd">        Left column or value in expression</span>
+<span class="sd">    right : str, numeric</span>
+<span class="sd">        Right column or value in expression</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    result : Series</span>
+<span class="sd">        Float series</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">expression</span> <span class="o">=</span> <span class="s2">&quot; * &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="p">[</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">gdf</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.general.general_functions.object_relation" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">object_relation</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">related_gdf</span><span class="p">,</span> <span class="n">code_relation</span><span class="p">,</span> <span class="n">statistic</span><span class="p">,</span> <span class="n">related_parameter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Statistic of related object to geodataframe</p>
+<h4 id="hydamo_validation.functions.general.general_functions.object_relation--parameters">Parameters</h4>
+<p>gdf : GeoDataFrame
+    Input GeoDataFrame
+related_gdf : GeoDataFrame
+    GeoDataFrame with related attributes
+code_relation : str
+    Column in related_gdf used to relate to gdf. Example 'stuwid'
+statistic : str, options: 'min', 'max', 'sum', 'count'
+    Statistic to compute over related values
+!!! related_parameter "str"
+    Column in related_gdf over which the statistic is to be computed
+fill_value : float, optional
+    The fill_value to use when the area is not intersecting the coverage.
+    The default is None</p>
+<h4 id="hydamo_validation.functions.general.general_functions.object_relation--returns">Returns</h4>
+<p>result : Series
+    Float series</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\general.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">object_relation</span><span class="p">(</span>
+    <span class="n">gdf</span><span class="p">,</span>
+    <span class="n">related_gdf</span><span class="p">:</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">,</span>
+    <span class="n">code_relation</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">statistic</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="s2">&quot;count&quot;</span><span class="p">],</span>
+    <span class="n">related_parameter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Statistic of related object to geodataframe</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gdf : GeoDataFrame</span>
+<span class="sd">        Input GeoDataFrame</span>
+<span class="sd">    related_gdf : GeoDataFrame</span>
+<span class="sd">        GeoDataFrame with related attributes</span>
+<span class="sd">    code_relation : str</span>
+<span class="sd">        Column in related_gdf used to relate to gdf. Example &#39;stuwid&#39;</span>
+<span class="sd">    statistic : str, options: &#39;min&#39;, &#39;max&#39;, &#39;sum&#39;, &#39;count&#39;</span>
+<span class="sd">        Statistic to compute over related values</span>
+<span class="sd">    related_parameter: str</span>
+<span class="sd">        Column in related_gdf over which the statistic is to be computed</span>
+<span class="sd">    fill_value : float, optional</span>
+<span class="sd">        The fill_value to use when the area is not intersecting the coverage.</span>
+<span class="sd">        The default is None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    result : Series</span>
+<span class="sd">        Float series</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gdf_out</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># remove NaN values in from related_gdf[related_parameter]</span>
+    <span class="k">if</span> <span class="n">related_parameter</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;geometry&quot;</span> <span class="ow">in</span> <span class="n">related_parameter</span><span class="p">:</span>
+           <span class="n">related_gdf</span><span class="p">[</span><span class="n">related_parameter</span><span class="p">]</span> <span class="o">=</span> <span class="n">_get_geometric_attribute</span><span class="p">(</span>
+               <span class="n">related_gdf</span><span class="p">,</span>
+               <span class="n">related_parameter</span>
+               <span class="p">)</span> 
+        <span class="n">related_gdf</span> <span class="o">=</span> <span class="n">related_gdf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">related_gdf</span><span class="p">[</span><span class="n">related_parameter</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
+
+
+    <span class="c1"># compute statistic</span>
+    <span class="k">if</span> <span class="n">statistic</span> <span class="o">==</span> <span class="s2">&quot;count&quot;</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">related_gdf</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">code_relation</span><span class="p">])[</span><span class="n">code_relation</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">statistic</span> <span class="o">==</span> <span class="s2">&quot;sum&quot;</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">related_gdf</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">code_relation</span><span class="p">])[</span><span class="n">related_parameter</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">statistic</span> <span class="o">==</span> <span class="s2">&quot;min&quot;</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">related_gdf</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">code_relation</span><span class="p">])[</span><span class="n">related_parameter</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">statistic</span> <span class="o">==</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">related_gdf</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">code_relation</span><span class="p">])[</span><span class="n">related_parameter</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">statistic</span> <span class="o">==</span> <span class="s2">&quot;majority&quot;</span><span class="p">:</span>
+        <span class="n">series</span> <span class="o">=</span> <span class="n">related_gdf</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">code_relation</span><span class="p">])[</span><span class="n">related_parameter</span><span class="p">]</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">mode</span>
+        <span class="p">)</span>
+
+    <span class="c1"># join series with gdf</span>
+    <span class="n">series</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;result&quot;</span>
+    <span class="n">series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">series</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">series</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">gdf</span><span class="p">[</span><span class="s2">&quot;globalid&quot;</span><span class="p">])])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">gdf_out</span> <span class="o">=</span> <span class="n">gdf_out</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+        <span class="n">series</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s2">&quot;globalid&quot;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="n">code_relation</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;nen3610id&quot;</span><span class="p">)</span>
+
+    <span class="c1"># fill series if if provided</span>
+    <span class="k">if</span> <span class="n">fill_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">gdf_out</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdf_out</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(),</span> <span class="s2">&quot;result&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fill_value</span>
+    <span class="k">return</span> <span class="n">gdf_out</span><span class="p">[</span><span class="s2">&quot;result&quot;</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="hydamo_validation.functions.general.general_functions.sum" class="doc doc-heading">
+<code class="highlight language-python"><span class="nb">sum</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">array</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Return a sum expression.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>hydamo_validation\functions\general.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">array</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a sum expression.&quot;&quot;&quot;</span>
+    <span class="n">expression</span> <span class="o">=</span> <span class="s2">&quot; + &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">array</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">gdf</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../hydamo/" class="md-footer__link md-footer__link--prev" aria-label="Previous: HyDAMO" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              HyDAMO
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../logic_functions/" class="md-footer__link md-footer__link--next" aria-label="Next: Logic Functions" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Logic Functions
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.22074ed6.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.960e086b.min.js"></script>
+      
+    
+  </body>
+</html>
