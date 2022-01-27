@@ -259,6 +259,46 @@ def _no_struc_on_line(geometry, struc_series, sindex, tolerance):
     return no_struc_on_line
 
 
+def _compare_longitudinal(row,
+                          parameter,
+                          compare_gdf,
+                          compare_parameter,
+                          direction,
+                          logical_operator):
+    branch_id = row["branch_id"]
+    select_gdf = compare_gdf.loc[compare_gdf["branch_id"] == branch_id]
+    right = None
+    result = None
+
+    if not select_gdf.empty:
+        if direction == "downstream":
+            # select downstream objects
+            select_gdf = select_gdf[
+                        select_gdf["branch_offset"].gt(row["branch_offset"])
+                        ]
+            # if any, select value from closest object
+            if not select_gdf.empty:
+                right = select_gdf.loc[
+                    select_gdf["branch_offset"].idxmin()][compare_parameter]
+        elif direction == "upstream":
+            # select downstream objects
+            select_gdf = select_gdf[
+                        select_gdf["branch_offset"].lt(row["branch_offset"])
+                        ]
+            # if any, select value from closest object
+            if not select_gdf.empty:
+                right = select_gdf.loc[
+                    select_gdf["branch_offset"].idxmax()][compare_parameter]
+
+    # if there is a right, there is something to compare
+    if right is not None:
+        if logical_operator == "GT":
+            result = row[parameter] > right
+        elif logical_operator == "LT":
+            result = row[parameter] < right
+    return result
+
+
 """ 
 In this block we define topologic functions.
 """
@@ -326,7 +366,8 @@ def geometry_length(
 
 
 def not_overlapping(gdf, datamodel, tolerance):
-    """Check if geometrie length is longer/shorter than a value
+    """Check if an objects LineString geometry is not overlapping other object
+    of the same layer.
 
     Parameters
     ----------
@@ -413,7 +454,8 @@ def structures_at_intersections(gdf, datamodel, structures, tolerance):
 
 
 def no_dangling_node(gdf, datamodel, tolerance):
-    """Check if there are structures at intersections
+    """Check if the end-node of a linestring object is not within tolerance of
+    a start-node of another linestring object in the same layer.
 
     Parameters
     ----------
@@ -532,46 +574,6 @@ def structures_at_nodes(gdf, datamodel, structures, tolerance):
         lambda x: _no_struc_on_line(x, struc_series, struc_sindex, tolerance)
     )
 
-#%%
-def _compare_longitudinal(row,
-                          parameter,
-                          compare_gdf,
-                          compare_parameter,
-                          direction,
-                          logical_operator):
-    branch_id = row["branch_id"]
-    select_gdf = compare_gdf.loc[compare_gdf["branch_id"] == branch_id]
-    right = None
-    result = None
-
-    if not select_gdf.empty:
-        if direction == "downstream":
-            # select downstream objects
-            select_gdf = select_gdf[
-                        select_gdf["branch_offset"].gt(row["branch_offset"])
-                        ]
-            # if any, select value from closest object
-            if not select_gdf.empty:
-                right = select_gdf.loc[
-                    select_gdf["branch_offset"].idxmin()][compare_parameter]
-        elif direction == "upstream":
-            # select downstream objects
-            select_gdf = select_gdf[
-                        select_gdf["branch_offset"].lt(row["branch_offset"])
-                        ]
-            # if any, select value from closest object
-            if not select_gdf.empty:
-                right = select_gdf.loc[
-                    select_gdf["branch_offset"].idxmax()][compare_parameter]
-
-    # if there is a right, there is something to compare
-    if right is not None:
-        if logical_operator == "GT":
-            result = row[parameter] > right
-        elif logical_operator == "LT":
-            result = row[parameter] < right
-    return result
-
 
 def compare_longitudinal(gdf,
                          datamodel,
@@ -580,6 +582,28 @@ def compare_longitudinal(gdf,
                          compare_parameter,
                          direction,
                          logical_operator):
+    """
+    Check if the value of a parameter in an object is lower/greater than an
+    upstream/downstream value of another parameter from another object-layer.
+
+
+    Parameters
+    ----------
+    gdf : ExtendedGeoDataframe
+        ExtendedGeoDataFrame, HyDAMO hydroobject layer
+    datamodel : HyDAMO
+        HyDAMO datamodel class
+    structures : str
+        List with structure-types to be expected on the boundary
+    tolerance : numeric
+        Tolerance to determine if a structure is on a node
+
+    Returns
+    -------
+    Pandas Series
+        Default dtype is bool
+
+    """
     compare_gdf = getattr(datamodel, compare_object)
     return gdf.apply(
         lambda x: _compare_longitudinal(x,
