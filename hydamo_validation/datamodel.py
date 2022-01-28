@@ -197,7 +197,10 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):
 
         # reproject to crs if necessary
         if gdf.crs is not None:
-            gdf.set_crs(MODEL_CRS, inplace=True)
+            if f"epsg:{gdf.crs.to_epsg()}" == MODEL_CRS:
+                gdf.set_crs(MODEL_CRS, inplace=True, allow_override=True)
+            else:
+                gdf.to_crs(MODEL_CRS, inplace=True)
 
         # Check columns
         gdf.columns = [i.lower() for i in gdf.columns]

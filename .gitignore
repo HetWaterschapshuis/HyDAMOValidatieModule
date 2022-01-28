@@ -39,6 +39,7 @@ coverage.xml
 
 tests/data/tasks/test_wrij/results/*
 tests/data/tasks/test_profielen/results/*
+tests/data/tasks/test_sturing/results/*
 tests/exports/*
 
 # Jupyter Notebook
@@ -51,5 +52,5 @@ tests/exports/*
 scripts/*
 
 #
-
 site/*
+
