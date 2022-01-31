@@ -219,6 +219,29 @@ def buffer(gdf, radius, percentile, coverage="ahn", fill_value: float = None):
 
     return gdf_out["result"]
 
+def join_parameter(
+    gdf,
+    join_object: str,
+    join_gdf: gpd.GeoDataFrame,
+    join_parameter: str,
+    fill_value=None,
+):
+    """Joins a parameteer of other object to geodataframe."""
+    _gdf = gdf.copy()
+
+    _join_gdf = join_gdf.copy()
+    _join_gdf.set_index("globalid", inplace=True)
+    series = _join_gdf[join_parameter]
+    series.name = "result"
+    _gdf = _gdf.merge(
+        series, how="left", left_on=f"{join_object}id", right_index=True
+    ).set_index("nen3610id")
+
+    # fill series if if provided
+    if fill_value is not None:
+        _gdf.loc[_gdf["result"].isna(), "result"] = fill_value
+    
+    return _gdf["result"]
 
 def object_relation(
     gdf,

@@ -9,7 +9,7 @@ except ImportError:
     from config import DATA_DIR
 
 coverage = {"AHN": DATA_DIR.joinpath(r"dtm")}
-directory = DATA_DIR.joinpath(r"tasks/test_sturing")
+directory = DATA_DIR.joinpath(r"tasks/test_dommelerwaard")
 exports_dir = Path(__file__).parent / "exports"
 exports_dir.mkdir(exist_ok=True)
 

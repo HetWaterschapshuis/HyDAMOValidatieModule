@@ -2,6 +2,10 @@
 
 import pandas as pd
 
+def _overlapping_period(row, df, start_date, end_date):
+    _df = df[df.index != row.name]
+    return ~((row[start_date] <= _df[end_date]) & (row[end_date] >= _df[end_date])).any()
+
 
 def LE(gdf, left, right, dtype=bool):
     """
@@ -207,10 +211,46 @@ def NOTIN(gdf, parameter, array):
     return ~ISIN(gdf, parameter, array)
 
 
-def _overlapping_period(row, df, start_date, end_date):
-    _df = df[df.index != row.name]
-    return ~((row[start_date] <= _df[end_date]) & (row[end_date] >= _df[end_date])).any()
+def NOTNA(gdf, parameter):
+    """Evaluate if values in parameter ar not NaN or None
 
+    Parameters
+    ----------
+    gdf : GeoDataFrame
+        Input GeoDataFrame
+    parameter: str
+        Input column with numeric values
+
+    Returns
+    -------
+    result : Series
+        Pandas Series (default dtype = bool)
+
+    """
+    return gdf[parameter].notna()
+
+
+def join_object_exists(gdf, join_gdf, join_object):
+    """Evaluate if defined related_object id exists in globalid parameter of
+    related object-table.
+
+    Parameters
+    ----------
+    gdf : GeoDataFrame
+        Input GeoDataFrame
+    related_gdf : GeoDataFrame
+        Input GeoDataFrame with related objects
+    object: str
+        HyDAMO object name of related object-layer
+
+    Returns
+    -------
+    result : Series
+        Pandas Series (default dtype = bool)
+
+    """
+
+    return gdf[f"{join_object}id"].isin(join_gdf["globalid"])
 
 def consistent_period(gdf,
                       max_gap=1,

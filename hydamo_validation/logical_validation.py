@@ -54,12 +54,18 @@ def _nan_message(nbr_indices, object_layer, rule_id, rule_type):
     )
 
 
-def _add_object_relation(input_variables, datamodel, object_layer):
+def _add_related_gdf(input_variables, datamodel, object_layer):
     input_variables["related_gdf"] = getattr(
         datamodel, input_variables["related_object"]
     ).copy()
     input_variables["code_relation"] = f"{object_layer}id"
     input_variables.pop("related_object")
+    return input_variables
+
+def _add_join_gdf(input_variables, datamodel):
+    input_variables["join_gdf"] = getattr(
+        datamodel, input_variables["join_object"]
+    ).copy()
     return input_variables
 
 
@@ -136,8 +142,12 @@ def execute(
 
                     # add object_relation
                     if "related_object" in input_variables.keys():
-                        input_variables = _add_object_relation(
+                        input_variables = _add_related_gdf(
                             input_variables, datamodel, object_layer
+                        )
+                    elif "join_object" in input_variables.keys():
+                        input_variables = _add_join_gdf(
+                            input_variables, datamodel
                         )
 
                     if dropped_indices:
@@ -205,6 +215,12 @@ def execute(
                 # remove all nan indices
                 notna_indices = _notna_indices(object_gdf, input_variables)
                 indices = [i for i in indices if i in notna_indices]
+
+                # add object_relation
+                if "join_object" in input_variables.keys():
+                    input_variables = _add_join_gdf(
+                        input_variables, datamodel
+                    )
 
                 # apply filter on indices
                 if "filter" in rule.keys():
