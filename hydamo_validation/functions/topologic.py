@@ -25,8 +25,11 @@ def _lines_snap_at_boundaries(line, other_line, tolerance):
     return sum([snaps_start, snaps_end])
 
 def _point_not_overlapping_line(point, line, tolerance):
-    snaps_start = line.boundary[0].distance(point) < tolerance
-    snaps_end = line.boundary[-1].distance(point) < tolerance
+    if line.boundary:
+        snaps_start = line.boundary[0].distance(point) < tolerance
+        snaps_end = line.boundary[-1].distance(point) < tolerance
+    else:
+        snaps_start = snaps_end = Point(list(line.coords)[0]) < tolerance
     if not any([snaps_start, snaps_end]):
         not_overlapping = line.distance(point) > tolerance
     else:
@@ -119,7 +122,8 @@ def _get_nodes(gdf, tolerance):
     return nodes_series
 
 
-def _only_end_nodes(geometry, series, sindex, tolerance):
+def _only_end_nodes(row, series, sindex, tolerance):
+    geometry = row["geometry"]
     indices = list(sindex.intersection(geometry.bounds))
     if indices:
         series_select = series.loc[indices]
@@ -128,6 +132,7 @@ def _only_end_nodes(geometry, series, sindex, tolerance):
         )
     else:
         only_end_nodes = True
+
     return only_end_nodes
 
 
@@ -412,9 +417,9 @@ def splitted_at_junction(gdf, datamodel, tolerance):
     # check for lines if there are nodes on segment outside tolerance of
     # the start-node and end-node.
     sindex = nodes_series.sindex
-    return gdf["geometry"].apply(
+    return gdf.apply((
         lambda x: _only_end_nodes(x, nodes_series, sindex, tolerance)
-    )
+    ), axis = 1)
 
 
 def structures_at_intersections(gdf, datamodel, structures, tolerance):
