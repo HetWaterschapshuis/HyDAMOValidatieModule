@@ -248,12 +248,12 @@ def execute(
                     hasattr(datamodel, "hydroobject")
                 ):
                     result_series = _process_topologic_function(
-                        getattr(datamodel, object_layer).loc[indices],
+                        getattr(datamodel, object_layer),
                         datamodel,
                         function,
                         input_variables,
                     )
-                    object_gdf.loc[indices, (result_variable)] = result_series
+                    object_gdf.loc[indices, (result_variable)] = result_series.loc[indices]
 
                 col_translation = {
                     **col_translation,
