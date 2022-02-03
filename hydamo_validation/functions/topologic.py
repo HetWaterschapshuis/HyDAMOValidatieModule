@@ -17,7 +17,7 @@ def _layers_from_datamodel(layers, datamodel):
         series = pd.concat([getattr(datamodel, i)["geometry"] for i in layers])
     else:
         series = getattr(datamodel, layers[0])["geometry"]
-    return series
+    return series.loc[series.index.notna()]
 
 def _lines_snap_at_boundaries(line, other_line, tolerance):
     snaps_start = any(line.boundary[0].distance(i) < tolerance for i in other_line.boundary)
@@ -448,7 +448,6 @@ def structures_at_intersections(gdf, datamodel, structures, tolerance):
     # create spatial indices
     sindex = gdf.sindex
     struc_sindex = struc_series.sindex
-
     # return result
     return gdf.apply(
         lambda x: _structures_at_intersections(

@@ -138,7 +138,9 @@ def execute(
 
                     # remove all nan indices
                     indices = _notna_indices(object_gdf, input_variables)
-                    dropped_indices = [i for i in object_gdf.index if i not in indices]
+                    dropped_indices = [
+                        i for i in object_gdf.index[object_gdf.index.notna()] if i not in indices
+                        ]
 
                     # add object_relation
                     if "related_object" in input_variables.keys():
@@ -214,7 +216,7 @@ def execute(
 
                 # remove all nan indices
                 notna_indices = _notna_indices(object_gdf, input_variables)
-                indices = [i for i in indices if i in notna_indices]
+                indices = [i for i in indices[indices.notna()] if i in notna_indices]
 
                 # add object_relation
                 if "join_object" in input_variables.keys():
@@ -246,14 +248,12 @@ def execute(
                     hasattr(datamodel, "hydroobject")
                 ):
                     result_series = _process_topologic_function(
-                        getattr(datamodel, object_layer),
+                        getattr(datamodel, object_layer).loc[indices],
                         datamodel,
                         function,
                         input_variables,
                     )
-                    object_gdf.loc[indices, (result_variable)] = result_series.loc[
-                        indices
-                    ]
+                    object_gdf.loc[indices, (result_variable)] = result_series
 
                 col_translation = {
                     **col_translation,
