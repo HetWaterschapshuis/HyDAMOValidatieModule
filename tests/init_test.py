@@ -8,8 +8,7 @@ from hydamo_validation.__init__ import (__author__,
                                         __version__,
                                         __license__,
                                         __maintainer__,
-                                        __email__,
-                                        __status__)
+                                        __email__)
 
 author = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
 copyright = "Copyright 2021, HyDAMO ValidatieTool"
@@ -18,7 +17,6 @@ credits = ["D2HYDRO", "HKV", "HydroConsult"]
 license = "MIT"
 maintainer = "Daniel Tollenaar"
 email = "daniel@d2hydro.nl"
-status = "testing"
 
 
 def test_author():
@@ -43,7 +41,3 @@ def test_maintainer():
 
 def test_email():
     assert __email__ == email
-
-
-def test_statusl():
-    assert __status__ == status
