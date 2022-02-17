@@ -10,7 +10,7 @@
 		"schema": {
 			"type": "string",
 			"enum": [
-				"0.9.8"
+				"1.0"
 			]
 		},
 		"hydamo_version": {
@@ -427,7 +427,7 @@
 		"multiply": {
 			"type": "object",
 			"required": [
-				"multiply"
+				"mulitply"
 			],
 			"properties": {
 				"multiply": {

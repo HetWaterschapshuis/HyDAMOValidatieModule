@@ -63,11 +63,14 @@ def non_domain_values(series, dtype, domain_values):
 
 def _convertable_dtype(x, dtype):
     try:
-        if dtype == "int":
+        if dtype == "datetime":
+            return False
+        elif dtype in ["int", "int64", "float"]:
+            if x is None:
+                return False
             result = pd.to_numeric(x)
-            return not "." in str(result)
-        else:
-            FIELD_TYPES_MAP[dtype](x)
+            if dtype in ["int", "int64"]:
+                return not "." in str(result)
         return True
     except ValueError:
         return False
@@ -95,6 +98,7 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
 
     # check iteratively if column fails a valiation rule
     for col in [i for i in validation_schema if i["id"] != "geometry"]:
+        print(col)
         valid_series = _get_constant_series(result_gdf)
 
         replace_series = _get_constant_series(result_gdf, value="", dtype=str)
@@ -131,10 +135,14 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
                 else:
                     result_gdf.loc[~convertable_rows, col["id"]] = pd.NA
 
-                if col["dtype"] == "int":
+                if col["dtype"] in ["int", "int64"]:
                     result_gdf.loc[:, col["id"]] = pd.to_numeric(
                         result_gdf[col["id"]]
                     ).astype(pd.Int64Dtype())
+                elif col["dtype"] == "datetime":
+                    result_gdf.loc[:, col["id"]] = pd.to_numeric(
+                        result_gdf[col["id"]]
+                    ).astype("datetime64[ns]")
                 else:
                     result_gdf.loc[:, col["id"]] = result_gdf[col["id"]].astype(
                         col["dtype"]

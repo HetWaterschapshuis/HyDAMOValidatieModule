@@ -10,7 +10,7 @@
 		"schema": {
 			"type": "string",
 			"enum": [
-				"0.9.1"
+				"1.0.0"
 			]
 		},
 		"hydamo_version": {
@@ -101,10 +101,16 @@
 							"$ref": "#/$defs/buffer"
 						},
 						{
+							"$ref": "#/$defs/difference"
+						},
+						{
 							"$ref": "#/$defs/divide"
 						},
 						{
-							"$ref": "#/$defs/difference"
+							"$ref": "#/$defs/join_parameter"
+						},
+						{
+							"$ref": "#/$defs/multiply"
 						},
 						{
 							"$ref": "#/$defs/object_relation"
@@ -179,6 +185,9 @@
 						},
 						{
 							"$ref": "#/$defs/NOTIN"
+						},
+						{
+							"$ref": "#/$defs/NOTNA"
 						}
 					]
 				},
@@ -219,55 +228,67 @@
 					"type": "object",
 					"oneOf": [
 						{
+							"$ref": "#/$defs/BE"
+						},
+						{
+							"$ref": "#/$defs/compare_longitudinal"
+						},
+						{
+							"$ref": "#/$defs/consistent_period"
+						},
+						{
+							"$ref": "#/$defs/distant_to_others"
+						},
+						{
+							"$ref": "#/$defs/EQ"
+						},
+						{
+							"$ref": "#/$defs/GE"
+						},
+						{
+							"$ref": "#/$defs/geometry_length"
+						},
+						{
+							"$ref": "#/$defs/GT"
+						},
+						{
+							"$ref": "#/$defs/ISIN"
+						},
+						{
 							"$ref": "#/$defs/LE"
 						},
 						{
 							"$ref": "#/$defs/LT"
 						},
 						{
-							"$ref": "#/$defs/GE"
-						},
-						{
-							"$ref": "#/$defs/GT"
-						},
-						{
-							"$ref": "#/$defs/EQ"
-						},
-						{
-							"$ref": "#/$defs/BE"
-						},
-						{
-							"$ref": "#/$defs/ISIN"
-						},
-						{
-							"$ref": "#/$defs/NOTIN"
-						},
-						{
-							"$ref": "#/$defs/distant_to_others"
-						},
-						{
-							"$ref": "#/$defs/snaps_to_hydroobject"
+							"$ref": "#/$defs/no_dangling_node"
 						},
 						{
 							"$ref": "#/$defs/not_overlapping"
 						},
 						{
-							"$ref": "#/$defs/splitted_at_junction"
+							"$ref": "#/$defs/NOTIN"
 						},
 						{
-							"$ref": "#/$defs/structures_at_intersections"
+							"$ref": "#/$defs/NOTNA"
+						},
+						{
+							"$ref": "#/$defs/join_object_exists"
+						},
+						{
+							"$ref": "#/$defs/snaps_to_hydroobject"
+						},
+						{
+							"$ref": "#/$defs/splitted_at_junction"
 						},
 						{
 							"$ref": "#/$defs/structures_at_boundaries"
 						},
 						{
+							"$ref": "#/$defs/structures_at_intersections"
+						},
+						{
 							"$ref": "#/$defs/structures_at_nodes"
-						},
-						{
-							"$ref": "#/$defs/no_dangling_node"
-						},
-						{
-							"$ref": "#/$defs/geometry_length"
 						}
 					]
 				},
@@ -280,13 +301,81 @@
 				}
 			}
 		},
-		"LE": {
+		"buffer": {
 			"type": "object",
 			"required": [
-				"LE"
+				"buffer"
 			],
 			"properties": {
-				"LE": {
+				"buffer": {
+					"type": "object",
+					"required": [
+						"radius",
+						"percentile",
+						"coverage"
+					],
+					"properties": {
+						"radius": {
+							"type": [
+								"string",
+								"number"
+							]
+						},
+						"percentile": {
+							"type": "integer"
+						},
+						"coverage": {
+							"type": "string",
+							"enum": [
+								"AHN"
+							]
+						},
+						"fill_value": {
+							"type": "number"
+						}
+					}
+				}
+			}
+		},
+		"difference": {
+			"type": "object",
+			"required": [
+				"difference"
+			],
+			"properties": {
+				"difference": {
+					"type": "object",
+					"required": [
+						"left",
+						"right"
+					],
+					"properties": {
+						"left": {
+							"type": [
+								"string",
+								"number"
+							]
+						},
+						"right": {
+							"type": [
+								"string",
+								"number"
+							]
+						},
+						"absolute": {
+							"type": "boolean"
+						}
+					}
+				}
+			}
+		},
+		"divide": {
+			"type": "object",
+			"required": [
+				"divide"
+			],
+			"properties": {
+				"divide": {
 					"type": "object",
 					"required": [
 						"left",
@@ -309,13 +398,182 @@
 				}
 			}
 		},
-		"LT": {
+		"join_parameter": {
 			"type": "object",
 			"required": [
-				"LT"
+				"join_parameter"
 			],
 			"properties": {
-				"LT": {
+				"join_parameter": {
+					"type": "object",
+					"required": [
+						"join_object",
+						"join_parameter"
+					],
+					"properties": {
+						"join_object": {
+							"$ref": "#/$defs/hydamo_objects"
+						},
+						"join_parameter": {
+							"type": "string"
+						},
+						"fill_value": {
+							"type": "number"
+						}
+					}
+				}
+			}
+		},
+		"multiply": {
+			"type": "object",
+			"required": [
+				"mulitply"
+			],
+			"properties": {
+				"multiply": {
+					"type": "object",
+					"required": [
+						"left",
+						"right"
+					],
+					"properties": {
+						"left": {
+							"type": [
+								"string",
+								"number"
+							]
+						},
+						"right": {
+							"type": [
+								"string",
+								"number"
+							]
+						}
+					}
+				}
+			}
+		},
+		"object_relation": {
+			"type": "object",
+			"required": [
+				"object_relation"
+			],
+			"properties": {
+				"object_relation": {
+					"type": "object",
+					"required": [
+						"related_object",
+						"statistic"
+					],
+					"properties": {
+						"related_object": {
+							"$ref": "#/$defs/hydamo_objects"
+						},
+						"related_parameter": {
+							"type": "string"
+						},
+						"statistic": {
+							"type": "string",
+							"enum": [
+								"min",
+								"majority",
+								"max",
+								"sum",
+								"count"
+							]
+						},
+						"fill_value": {
+							"type": "number"
+						}
+					}
+				}
+			}
+		},
+		"sum": {
+			"type": "object",
+			"required": [
+				"sum"
+			],
+			"properties": {
+				"sum": {
+					"type": "object",
+					"required": [
+						"array"
+					],
+					"properties": {
+						"array": {
+							"type": "array",
+							"items": {
+								"type": [
+									"number",
+									"string"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		"BE": {
+			"type": "object",
+			"required": [
+				"BE"
+			],
+			"properties": {
+				"BE": {
+					"type": "object",
+					"required": [
+						"parameter",
+						"min",
+						"max",
+						"inclusive"
+					],
+					"properties": {
+						"parameter": {
+							"type": "string"
+						},
+						"min": {
+							"type": [
+								"number",
+								"string"
+							]
+						},
+						"max": {
+							"type": [
+								"number",
+								"string"
+							]
+						},
+						"inclusive": {
+							"type": "boolean"
+						}
+					}
+				}
+			}
+		},
+		"consistent_period": {
+			"type": "object",
+			"required": [
+				"consistent_period"
+			],
+			"properties": {
+				"consistent_period": {
+					"type": "object",
+					"properties": {
+						"max_gap": {
+							"type": "integer"
+						}
+					}
+				}
+			}
+		},
+		"EQ": {
+			"type": "object",
+			"required": [
+				"EQ"
+			],
+			"properties": {
+				"EQ": {
 					"type": "object",
 					"required": [
 						"left",
@@ -396,13 +654,39 @@
 				}
 			}
 		},
-		"EQ": {
+		"ISIN": {
 			"type": "object",
 			"required": [
-				"EQ"
+				"ISIN"
 			],
 			"properties": {
-				"EQ": {
+				"ISIN": {
+					"type": "object",
+					"required": [
+						"parameter",
+						"array"
+					],
+					"properties": {
+						"parameter": {
+							"type": "string"
+						},
+						"array": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		},
+		"LE": {
+			"type": "object",
+			"required": [
+				"LE"
+			],
+			"properties": {
+				"LE": {
 					"type": "object",
 					"required": [
 						"left",
@@ -425,57 +709,30 @@
 				}
 			}
 		},
-		"BE": {
+		"LT": {
 			"type": "object",
 			"required": [
-				"BE"
+				"LT"
 			],
 			"properties": {
-				"BE": {
+				"LT": {
 					"type": "object",
 					"required": [
-						"parameter",
-						"min",
-						"max"
+						"left",
+						"right"
 					],
 					"properties": {
-						"parameter": {
-							"type": "string"
+						"left": {
+							"type": [
+								"string",
+								"number"
+							]
 						},
-						"min": {
-							"type": "number"
-						},
-						"max": {
-							"type": "number"
-						},
-						"inclusive": {
-							"type": "boolean"
-						}
-					}
-				}
-			}
-		},
-		"ISIN": {
-			"type": "object",
-			"required": [
-				"ISIN"
-			],
-			"properties": {
-				"ISIN": {
-					"type": "object",
-					"required": [
-						"parameter",
-						"array"
-					],
-					"properties": {
-						"parameter": {
-							"type": "string"
-						},
-						"array": {
-							"type": "array",
-							"items": {
-								"type": "string"
-							}
+						"right": {
+							"type": [
+								"string",
+								"number"
+							]
 						}
 					}
 				}
@@ -507,6 +764,87 @@
 				}
 			}
 		},
+		"NOTNA": {
+			"type": "object",
+			"required": [
+				"NOTNA"
+			],
+			"properties": {
+				"NOTNA": {
+					"type": "object",
+					"required": [
+						"parameter"
+					],
+					"properties": {
+						"parameter": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		},
+		"join_object_exists": {
+			"type": "object",
+			"required": [
+				"join_object_exists"
+			],
+			"properties": {
+				"join_object_exists": {
+					"type": "object",
+					"required": [
+						"join_object"
+					],
+					"properties": {
+						"join_object": {
+							"$ref": "#/$defs/hydamo_objects"
+						}
+					}
+				}
+			}
+		},
+		"compare_longitudinal": {
+			"type": "object",
+			"required": [
+				"compare_longitudinal"
+			],
+			"properties": {
+				"compare_longitudinal": {
+					"type": "object",
+					"required": [
+						"parameter",
+						"compare_object",
+						"compare_parameter",
+						"logical_operator",
+						"direction"
+					],
+					"properties": {
+						"parameter": {
+							"type": "string"
+						},
+						"compare_object": {
+							"$ref": "#/$defs/hydamo_objects"
+						},
+						"compare_parameter": {
+							"type": "string"
+						},
+						"logical_operator": {
+							"type": "string",
+							"enum": [
+								"GT",
+								"LT"
+							]
+						},
+						"direction": {
+							"type": "string",
+							"enum": [
+								"upstream",
+								"downstream"
+							]
+						}
+					}
+				}
+			}
+		},
 		"distant_to_others": {
 			"type": "object",
 			"required": [
@@ -520,6 +858,71 @@
 					],
 					"properties": {
 						"distance": {
+							"type": "number"
+						}
+					}
+				}
+			}
+		},
+		"geometry_length": {
+			"type": "object",
+			"required": [
+				"geometry_length"
+			],
+			"properties": {
+				"geometry_length": {
+					"type": "object",
+					"required": [
+						"length",
+						"statistic"
+					],
+					"properties": {
+						"length": {
+							"type": "number"
+						},
+						"statistic": {
+							"type": "string",
+							"enum": [
+								"min",
+								"max"
+							]
+						}
+					}
+				}
+			}
+		},
+		"no_dangling_node": {
+			"type": "object",
+			"required": [
+				"no_dangling_node"
+			],
+			"properties": {
+				"no_dangling_node": {
+					"type": "object",
+					"required": [
+						"tolerance"
+					],
+					"properties": {
+						"tolerance": {
+							"type": "number"
+						}
+					}
+				}
+			}
+		},
+		"not_overlapping": {
+			"type": "object",
+			"required": [
+				"not_overlapping"
+			],
+			"properties": {
+				"not_overlapping": {
+					"type": "object",
+					"required": [
+						"tolerance"
+					],
+					"properties": {
+						"tolerance": {
 							"type": "number"
 						}
 					}
@@ -554,25 +957,6 @@
 				}
 			}
 		},
-		"not_overlapping": {
-			"type": "object",
-			"required": [
-				"not_overlapping"
-			],
-			"properties": {
-				"not_overlapping": {
-					"type": "object",
-					"required": [
-						"tolerance"
-					],
-					"properties": {
-						"tolerance": {
-							"type": "number"
-						}
-					}
-				}
-			}
-		},
 		"splitted_at_junction": {
 			"type": "object",
 			"required": [
@@ -587,36 +971,6 @@
 					"properties": {
 						"tolerance": {
 							"type": "number"
-						}
-					}
-				}
-			}
-		},
-		"structures_at_intersections": {
-			"type": "object",
-			"required": [
-				"structures_at_intersections"
-			],
-			"properties": {
-				"structures_at_intersections": {
-					"type": "object",
-					"required": [
-						"tolerance",
-						"structures"
-					],
-					"properties": {
-						"tolerance": {
-							"type": "number"
-						},
-						"structures": {
-							"type": "array",
-							"items": {
-								"type": "string",
-								"enum": [
-									"duikersifonhevel",
-									"aquaduct"
-								]
-							}
 						}
 					}
 				}
@@ -664,6 +1018,36 @@
 				}
 			}
 		},
+		"structures_at_intersections": {
+			"type": "object",
+			"required": [
+				"structures_at_intersections"
+			],
+			"properties": {
+				"structures_at_intersections": {
+					"type": "object",
+					"required": [
+						"tolerance",
+						"structures"
+					],
+					"properties": {
+						"tolerance": {
+							"type": "number"
+						},
+						"structures": {
+							"type": "array",
+							"items": {
+								"type": "string",
+								"enum": [
+									"duikersifonhevel",
+									"aquaduct"
+								]
+							}
+						}
+					}
+				}
+			}
+		},
 		"structures_at_nodes": {
 			"type": "object",
 			"required": [
@@ -695,215 +1079,12 @@
 				}
 			}
 		},
-		"no_dangling_node": {
-			"type": "object",
-			"required": [
-				"no_dangling_node"
-			],
-			"properties": {
-				"no_dangling_node": {
-					"type": "object",
-					"required": [
-						"tolerance"
-					],
-					"properties": {
-						"tolerance": {
-							"type": "number"
-						}
-					}
-				}
-			}
-		},
-		"geometry_length": {
-			"type": "object",
-			"required": [
-				"geometry_length"
-			],
-			"properties": {
-				"geometry_length": {
-					"type": "object",
-					"required": [
-						"length",
-						"statistic"
-					],
-					"properties": {
-						"length": {
-							"type": "number"
-						},
-						"statistic": {
-							"type": "string",
-							"enum": [
-								"min",
-								"max"
-							]
-						}
-					}
-				}
-			}
-		},
-		"sum": {
-			"type": "object",
-			"required": [
-				"sum"
-			],
-			"properties": {
-				"sum": {
-					"type": "object",
-					"required": [
-						"array"
-					],
-					"properties": {
-						"array": {
-							"type": "array",
-							"items": {
-								"type": [
-									"number",
-									"string"
-								]
-							}
-						}
-					}
-				}
-			}
-		},
-		"difference": {
-			"type": "object",
-			"required": [
-				"difference"
-			],
-			"properties": {
-				"difference": {
-					"type": "object",
-					"required": [
-						"left",
-						"right"
-					],
-					"properties": {
-						"left": {
-							"type": [
-								"string",
-								"number"
-							]
-						},
-						"right": {
-							"type": [
-								"string",
-								"number"
-							]
-						},
-						"absolute": {
-							"type": "boolean"
-						}
-					}
-				}
-			}
-		},
-		"divide": {
-			"type": "object",
-			"required": [
-				"divide"
-			],
-			"properties": {
-				"divide": {
-					"type": "object",
-					"required": [
-						"left",
-						"right"
-					],
-					"properties": {
-						"left": {
-							"type": [
-								"string",
-								"number"
-							]
-						},
-						"right": {
-							"type": [
-								"string",
-								"number"
-							]
-						}
-					}
-				}
-			}
-		},
-		"buffer": {
-			"type": "object",
-			"required": [
-				"buffer"
-			],
-			"properties": {
-				"buffer": {
-					"type": "object",
-					"required": [
-						"radius",
-						"percentile",
-						"coverage"
-					],
-					"properties": {
-						"radius": {
-							"type": [
-								"string",
-								"number"
-							]
-						},
-						"percentile": {
-							"type": "integer"
-						},
-						"coverage": {
-							"type": "string",
-							"enum": [
-								"AHN"
-							]
-						},
-						"fill_value": {
-							"type": "number"
-						}
-					}
-				}
-			}
-		},
-		"object_relation": {
-			"type": "object",
-			"required": [
-				"object_relation"
-			],
-			"properties": {
-				"object_relation": {
-					"type": "object",
-					"required": [
-						"related_object",
-						"statistic"
-					],
-					"properties": {
-						"related_object": {
-							"$ref": "#/$defs/hydamo_objects"
-						},
-						"related_parameter": {
-							"type": "string"
-						},
-						"statistic": {
-							"type": "string",
-							"enum": [
-								"min",
-								"majority",
-								"max",
-								"sum",
-								"count"
-							]
-						},
-						"fill_value": {
-							"type": "number"
-						}
-					}
-				}
-			}
-		},
 		"hydamo_objects": {
 			"type": "string",
 			"enum": [
 				"admingrenswaterschap",
 				"afsluitmiddel",
+				"afvoeraanvoergebied",
 				"afvoergebiedaanvoergebied",
 				"aquaduct",
 				"beheergrenswaterschap",
@@ -917,10 +1098,16 @@
 				"grondwaterinfopunt",
 				"grondwaterkoppellijn",
 				"grondwaterkoppelpunt",
+				"hydrologischerandvoorwaarde",
 				"hydroobject",
 				"hydroobject_normgp",
+				"imwa_geoobject",
 				"kunstwerkopening",
 				"lateraleknoop",
+				"leggerwatersysteem",
+				"leggerwaterveiligheid",
+				"meetlocatie",
+				"meetwaardeactiewaarde",
 				"normgeparamprofiel",
 				"normgeparamprofielwaarde",
 				"peilafwijkinggebied",
@@ -928,12 +1115,18 @@
 				"peilgebiedpraktijk",
 				"peilgebiedvigerend",
 				"pomp",
+				"profielgroep",
+				"profiellijn",
+				"profielpunt",
 				"regelmiddel",
 				"reglementgrenswaterschap",
 				"streefpeil",
+				"sturing",
 				"stuw",
 				"vispassage",
 				"vispassagevlak",
+				"vuilvang",
+				"waterbeheergebied",
 				"zandvang"
 			]
 		}

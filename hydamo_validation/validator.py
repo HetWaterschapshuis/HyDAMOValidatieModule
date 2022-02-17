@@ -21,6 +21,8 @@ from hydamo_validation.syntax_validation import (
 
 OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 LOG_LEVELS = Literal["INFO", "DEBUG"]
+INDEX = "nen3610id"
+INCLUDE_COLUMNS = ["code"]
 
 
 def _read_schema(version, schema_path=Path(__file__).parent.joinpath(r"./schemas")):
@@ -205,22 +207,26 @@ def _validator(
                 layer, result_summary=result_summary, status_object=status_object
             )
             layer = layer.lower()
-            if "code" in gdf.columns:
-                keep_columns = ["code"]
-            else:
-                keep_columns = []
+            for col in INCLUDE_COLUMNS:
+                if not col in gdf.columns:
+                    gdf[col] = None
+                    schema["properties"][col] = "str"
+            if not INDEX in gdf.columns:
+                result_summary.error = f"Index-column '{INDEX}' is compulsory and not defined for layer '{layer}'."
+                raise KeyError(f"{INDEX} not in columns")
+            print(layer, schema)
             gdf, result_gdf = fields_syntax(
                 gdf,
                 schema,
                 datamodel.validation_schemas[layer],
-                "nen3610id",
-                keep_columns=keep_columns,
+                INDEX,
+                keep_columns=INCLUDE_COLUMNS,
             )
 
             # Add the syntax-validation result to the results_summary
             layers_summary.set_data(result_gdf, layer, schema["geometry"])
             # Add the corrected datasets_layer data to the datamodel.
-            datamodel.set_data(gdf, layer, index_col="nen3610id")
+            datamodel.set_data(gdf, layer, index_col=INDEX)
             syntax_result += [layer]
 
         # do logical validation: append result to layers_summary
