@@ -29,7 +29,7 @@ def _point_not_overlapping_line(point, line, tolerance):
         snaps_start = line.boundary[0].distance(point) < tolerance
         snaps_end = line.boundary[-1].distance(point) < tolerance
     else:
-        snaps_start = snaps_end = Point(list(line.coords)[0]) < tolerance
+        snaps_start = snaps_end = Point(list(line.coords)[0]).distance(point) < tolerance
     if not any([snaps_start, snaps_end]):
         not_overlapping = line.distance(point) > tolerance
     else:

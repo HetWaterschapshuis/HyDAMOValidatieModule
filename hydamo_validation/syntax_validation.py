@@ -109,7 +109,8 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
         if (not col_exists) and ("required" in col.keys()):
             # required columns should not be missing!
             if col["required"]:
-                validation_gdf.loc[:, result_col].apply(lambda x: x.append(0))
+                validation_gdf.loc[:, result_col].apply(lambda x: x.append(4))
+                valid_series.loc[:] = False
                 if col["dtype"] == "float":
                     result_gdf.loc[:, col["id"]] = np.NaN
                 else:
