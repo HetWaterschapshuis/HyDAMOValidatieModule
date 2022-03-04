@@ -214,7 +214,6 @@ def _validator(
             if not INDEX in gdf.columns:
                 result_summary.error = f"Index-column '{INDEX}' is compulsory and not defined for layer '{layer}'."
                 raise KeyError(f"{INDEX} not in columns")
-            print(layer, schema)
             gdf, result_gdf = fields_syntax(
                 gdf,
                 schema,

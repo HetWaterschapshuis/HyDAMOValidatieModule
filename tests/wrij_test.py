@@ -147,6 +147,7 @@ def test_result_missing_layers():
                        'profiellijn',
                        'profielpunt',
                        'reglementgrenswaterschap',
+                       'ruwheidprofiel',
                        'streefpeil',
                        'sturing',
                        'vispassage',

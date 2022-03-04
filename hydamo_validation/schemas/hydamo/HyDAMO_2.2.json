@@ -43,6 +43,7 @@
 				{ "$ref": "#/definitions/profielpunt" },
 				{ "$ref": "#/definitions/regelmiddel" },
 				{ "$ref": "#/definitions/reglementgrenswaterschap" },
+				{ "$ref": "#/definitions/ruwheidprofiel" },
 				{ "$ref": "#/definitions/streefpeil" },
 				{ "$ref": "#/definitions/sturing" },
 				{ "$ref": "#/definitions/stuw" },
@@ -64,6 +65,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -93,6 +100,12 @@
 					"maxlength" : 256,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lvpublicatiedatum":
 				{
 					"type" : "string",
@@ -119,12 +132,6 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
@@ -148,12 +155,6 @@
 				{
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"waterschapcode":
@@ -189,6 +190,12 @@
 					"VerwijstNaar" : "Coupure",
 					"maxlength" : 38,
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -255,6 +262,12 @@
 					"maxlength" : 256,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lvpublicatiedatum":
 				{
 					"type" : "string",
@@ -287,12 +300,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -376,12 +383,6 @@
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"tunnelid":
 				{
 					"type" : "string",
@@ -424,6 +425,12 @@
 					"maxlength" : 50,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"detailniveaugeometrie":
 				{
 					"type" : "integer",
@@ -455,6 +462,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lateraleknoopid":
@@ -498,12 +511,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -571,12 +578,6 @@
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"waterafvoer":
 				{
 					"type" : "integer",
@@ -620,6 +621,12 @@
 					"maxlength" : 50,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"detailniveaugeometrie":
 				{
 					"type" : "integer",
@@ -655,6 +662,12 @@
 					"maxlength" : 256,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lvpublicatiedatum":
 				{
 					"type" : "string",
@@ -687,12 +700,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -746,12 +753,6 @@
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"typekruising":
 				{
 					"type" : "string",
@@ -776,6 +777,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -805,6 +812,12 @@
 					"maxlength" : 256,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lvpublicatiedatum":
 				{
 					"type" : "string",
@@ -829,12 +842,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -867,12 +874,6 @@
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -885,6 +886,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -912,6 +919,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -948,12 +961,6 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
@@ -978,12 +985,6 @@
 				{
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"typehydraulischobject":
@@ -1027,6 +1028,12 @@
 					"maxlength" : 50,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"detailniveaugeometrie":
 				{
 					"type" : "integer",
@@ -1052,6 +1059,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -1086,12 +1099,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -1131,12 +1138,6 @@
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -1149,6 +1150,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -1214,6 +1221,12 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lengte":
 				{
 					"type" : "number",
@@ -1254,12 +1267,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -1319,12 +1326,6 @@
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"typekruising":
 				{
 					"type" : "string",
@@ -1367,6 +1368,12 @@
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"doorvaartnummer":
 				{
 					"type" : "integer",
@@ -1394,6 +1401,12 @@
 					"enum" : [ "ja","nee","onbekend" ],
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"nen3610id":
 				{
 					"type" : "string",
@@ -1402,24 +1415,12 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
 					"maxlength" : 10,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				}
 			}
@@ -1465,6 +1466,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -1551,6 +1558,12 @@
 					"maxlength" : 8,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lengte":
 				{
 					"type" : "number",
@@ -1591,12 +1604,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -1683,12 +1690,6 @@
 				{
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"typekruising":
@@ -1778,6 +1779,12 @@
 					"maxlength" : 50,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"detailniveaugeometrie":
 				{
 					"type" : "integer",
@@ -1837,6 +1844,12 @@
 					"maxlength" : 8,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lvpublicatiedatum":
 				{
 					"type" : "string",
@@ -1876,12 +1889,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -1963,12 +1970,6 @@
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"typewaterkerendeconstructie":
 				{
 					"type" : "string",
@@ -2017,6 +2018,12 @@
 					"maxlength" : 8,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"eindperiode":
 				{
 					"type" : "string",
@@ -2060,6 +2067,12 @@
 					"maxlength" : 8,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"natteomtrek":
 				{
 					"type" : "number",
@@ -2076,23 +2089,11 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
 					"maxlength" : 10,
 					"uniqueItems" : true,
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				}
 			}
@@ -2106,6 +2107,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"eindperiode":
@@ -2138,6 +2145,12 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"nen3610id":
 				{
 					"type" : "string",
@@ -2146,23 +2159,11 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
 					"maxlength" : 10,
 					"uniqueItems" : true,
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"waterstand":
@@ -2184,6 +2185,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -2211,6 +2218,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -2245,12 +2258,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -2278,12 +2285,6 @@
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -2296,6 +2297,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -2323,6 +2330,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -2359,12 +2372,6 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
@@ -2390,12 +2397,6 @@
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -2408,6 +2409,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"debiet":
@@ -2444,6 +2451,12 @@
 					"maxlength" : 256,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lvpublicatiedatum":
 				{
 					"type" : "string",
@@ -2470,12 +2483,6 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
@@ -2500,12 +2507,6 @@
 				{
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"typerandvoorwaarde":
@@ -2547,6 +2548,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -2604,6 +2611,12 @@
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lengte":
 				{
 					"type" : "number",
@@ -2651,17 +2664,12 @@
 					"enum" : [ "boven maaiveld","onder bodem/maaiveld","op maaiveld" ],
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
 					"maxlength" : 10,
 					"uniqueItems" : true,
+					"minItems": 1,
 					"maxItems": 1
 				},
 				"ontstaanswijze":
@@ -2746,12 +2754,6 @@
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"typeruwheid":
 				{
 					"type" : "string",
@@ -2821,6 +2823,12 @@
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"doorstroomlengte":
 				{
 					"type" : "number",
@@ -2875,18 +2883,18 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"nen3610id":
 				{
 					"type" : "string",
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -2913,12 +2921,6 @@
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"vormopening":
 				{
 					"type" : "string",
@@ -2937,6 +2939,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -2964,6 +2972,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -3000,12 +3014,6 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
@@ -3030,12 +3038,6 @@
 				{
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				}
 			}
@@ -3063,6 +3065,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -3098,6 +3106,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -3140,12 +3154,6 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
@@ -3177,12 +3185,6 @@
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -3202,6 +3204,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"eenheidactiewaarde":
@@ -3231,6 +3239,12 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"meetwaarde":
 				{
 					"type" : "number",
@@ -3243,12 +3257,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -3273,12 +3281,6 @@
 					"type" : "string",
 					"format" : "date-time",
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -3287,6 +3289,12 @@
 			"type": "object",
 			"properties":
 			{
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"featuretype":
 				{
 					"type" : "string",
@@ -3302,18 +3310,18 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"nen3610id":
 				{
 					"type" : "string",
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -3347,12 +3355,6 @@
 					"type" : "string",
 					"enum" : [ "Gewijzigd","In ontwerp","Niet van toepassing","Vastgesteld","Verwijderd" ],
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -3365,6 +3367,12 @@
 				{
 					"type" : "integer",
 					"maxlength" : 5,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"featuretype":
@@ -3382,6 +3390,12 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"nen3610id":
 				{
 					"type" : "string",
@@ -3396,12 +3410,6 @@
 					"VerwijstNaar" : "NormGeparamProfiel",
 					"maxlength" : 38,
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -3428,12 +3436,6 @@
 				{
 					"type" : "string",
 					"enum" : [ "bodembreedte","bodemhoogte benedenstrooms","bodemhoogte bovenstrooms","breedte plasberm linkerzijde","breedte plasberm rechterzijde","hoogte insteek linkerzijde","hoogte insteek rechterzijde","hoogte plasberm linkerzijde","hoogte plasberm rechterzijde","taludhelling linkerzijde","taludhelling plasberm linkerzijde","taludhelling plasberm rechterzijde","taludhelling rechterzijde" ],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"typeruwheid":
@@ -3467,6 +3469,12 @@
 					"maxlength" : 50,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"detailniveaugeometrie":
 				{
 					"type" : "integer",
@@ -3492,6 +3500,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -3528,12 +3542,6 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
@@ -3564,12 +3572,6 @@
 				{
 					"type" : "string",
 					"enum" : [ "Onbekend","Ontwerp","Overig","Praktijk","Vigerend definitief","Vigerend interim" ],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"voertafop":
@@ -3591,6 +3593,12 @@
 					"maxlength" : 50,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"detailniveaugeometrie":
 				{
 					"type" : "integer",
@@ -3616,6 +3624,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -3650,12 +3664,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -3682,12 +3690,6 @@
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -3706,6 +3708,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -3733,6 +3741,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -3767,12 +3781,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -3807,12 +3815,6 @@
 					"enum" : [ "Onbekend","Ontwerp","Overig","Praktijk","Vigerend definitief","Vigerend interim" ],
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"voertafop":
 				{
 					"type" : "integer",
@@ -3830,6 +3832,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -3857,6 +3865,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -3891,12 +3905,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -3937,12 +3945,6 @@
 					"type" : "string",
 					"enum" : [ "Onbekend","Ontwerp","Overig","Praktijk","Vigerend definitief","Vigerend interim" ],
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -3955,7 +3957,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
-					"minItems": 1,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"featuretype":
@@ -3981,6 +3988,12 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"maximalecapaciteit":
 				{
 					"type" : "number",
@@ -4002,12 +4015,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -4049,12 +4056,6 @@
 				{
 					"type" : "string",
 					"enum" : [ "Axiaal","Centrifugaal","Diesel","Elektrisch","Halfaxiaal","Ntb","Onbekend","Overig","Radiaal","Schroef","Schroefcentrifugaal","Vijzelgemaal","Wind","Zonne-energie" ],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"typepomp":
@@ -4106,6 +4107,12 @@
 					"maxlength" : 50,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"featuretype":
 				{
 					"type" : "string",
@@ -4136,6 +4143,12 @@
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"naam":
 				{
 					"type" : "string",
@@ -4148,12 +4161,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -4178,12 +4185,6 @@
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"waterkeringid":
 				{
 					"type" : "string",
@@ -4206,6 +4207,12 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"featuretype":
 				{
 					"type" : "string",
@@ -4219,6 +4226,12 @@
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
 					"uniqueItems" : true,
 					"minItems": 1,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"metadataid":
@@ -4241,12 +4254,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -4299,12 +4306,6 @@
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -4330,6 +4331,13 @@
 				{
 					"type" : "integer",
 					"maxlength" : 5,
+					"minItems": 1,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"featuretype":
@@ -4354,18 +4362,18 @@
 					"maxlength" : 5,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"nen3610id":
 				{
 					"type" : "string",
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -4392,7 +4400,7 @@
 				},
 				"shape":
 				{
-					"type" : "Point",
+					"type" : "PointZ",
 					"maxItems": 1
 				},
 				"soortmeetpunt":
@@ -4405,12 +4413,6 @@
 				{
 					"type" : "string",
 					"enum" : [ "(perkoen)paaltjes","aankoopgrens","afrastering","asfalt","aslijn","azobe matten","bebouwing (links)","bebouwing (rechts)","beschoeiing","beton","betuining","bodembekleding","bomenrij","boom","boomgaard","bos","bouwland","cascades (stroombrekers)","damwand","damwand beton","damwand hout","damwand staal","erf/siertuin","haag/heg","hectometerpaal","hek","houtwal","kadastrale grens","kant onverhard","kant verharding","kasseien","kassen/glastuinbouw","keer- of kademuur","keerwand beton","keerwand metselwerk","keien/arcering","krib","lantaarnpaal","linker gevel bijgebouw","linker gevel hoofdgebouw","linkeroever lengte profiel","losse verharding/grind","muur","onverhard","overig","perkoenpalenrij","piket","rechter gevel bijgebouw","rechter gevel hoofdgebouw","rechteroever lengte profiel","schutting","stortsteen","strekdam","talud- en bodembekleding","taludbekleding","tegels","trafo/gasgebouw","tuinbouw/moestuin","tussenoplossing of cominatie van damwand en talud (gebroken)","weiland","wiepen","woelbak","zetsteen","zetsteen (veldkeien)" ],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				}
 			}
@@ -4438,6 +4440,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -4505,6 +4513,12 @@
 					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lvpublicatiedatum":
 				{
 					"type" : "string",
@@ -4553,12 +4567,6 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"objectid":
 				{
 					"type" : "integer",
@@ -4589,6 +4597,7 @@
 				"shape":
 				{
 					"type" : "Point",
+					"minItems": 1,
 					"maxItems": 1
 				},
 				"soortregelbaarheid":
@@ -4609,12 +4618,6 @@
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"typemateriaaregelmiddel":
 				{
 					"type" : "string",
@@ -4632,6 +4635,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"datumvastelling":
@@ -4667,6 +4676,12 @@
 					"maxlength" : 256,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lvpublicatiedatum":
 				{
 					"type" : "string",
@@ -4691,12 +4706,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -4730,16 +4739,85 @@
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
+				"verwijzingnaarreglement":
+				{
+					"type" : "string",
+					"maxlength" : 50,
+					"maxItems": 1
+				}
+			}
+		},
+		"ruwheidprofiel" : 
+		{
+			"type": "object",
+			"properties":
+			{
+				"created_date":
 				{
 					"type" : "string",
 					"format" : "date-time",
 					"maxItems": 1
 				},
-				"verwijzingnaarreglement":
+				"featuretype":
 				{
 					"type" : "string",
-					"maxlength" : 50,
+					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"globalid":
+				{
+					"type" : "string",
+					"maxlength" : 38,
+					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
+					"uniqueItems" : true,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
+				"nen3610id":
+				{
+					"type" : "string",
+					"maxlength" : 256,
+					"uniqueItems" : true,
+					"minItems": 1,
+					"maxItems": 1
+				},
+				"objectid":
+				{
+					"type" : "integer",
+					"maxlength" : 10,
+					"uniqueItems" : true,
+					"minItems": 1,
+					"maxItems": 1
+				},
+				"profielpuntid":
+				{
+					"type" : "string",
+					"VerwijstNaar" : "ProfielPunt",
+					"maxlength" : 38,
+					"pattern" : "^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$",
+					"maxItems": 1
+				},
+				"ruwheidhoog":
+				{
+					"type" : "number",
+					"maxlength" : 8,
+					"maxItems": 1
+				},
+				"ruwheidlaag":
+				{
+					"type" : "number",
+					"maxlength" : 8,
+					"maxItems": 1
+				},
+				"typeruwheid":
+				{
+					"type" : "string",
+					"enum" : [ "Bos en Bijkerk","Chezy","Manning","Onbekend","Overig","StricklerKn","StricklerKs","White Colebrook" ],
 					"maxItems": 1
 				}
 			}
@@ -4753,6 +4831,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"eenheid":
@@ -4782,18 +4866,18 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"nen3610id":
 				{
 					"type" : "string",
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -4835,12 +4919,6 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"waterhoogte":
 				{
 					"type" : "number",
@@ -4867,6 +4945,12 @@
 				{
 					"type" : "number",
 					"maxlength" : 8,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"doelvariabele":
@@ -4919,6 +5003,12 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"meetlocatieid":
 				{
 					"type" : "string",
@@ -4933,12 +5023,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -4992,12 +5076,6 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"typecontroller":
 				{
 					"type" : "string",
@@ -5048,6 +5126,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -5140,6 +5224,12 @@
 					"maxlength" : 8,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lvpublicatiedatum":
 				{
 					"type" : "string",
@@ -5172,12 +5262,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -5286,12 +5370,6 @@
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"typewaterkerendeconstructie":
 				{
 					"type" : "string",
@@ -5337,6 +5415,12 @@
 					"maxlength" : 50,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"detailniveaugeometrie":
 				{
 					"type" : "integer",
@@ -5378,6 +5462,12 @@
 					"maxlength" : 8,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"lvpublicatiedatum":
 				{
 					"type" : "string",
@@ -5410,12 +5500,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -5502,12 +5586,6 @@
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
 				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
-				},
 				"waterkeringid":
 				{
 					"type" : "string",
@@ -5523,6 +5601,12 @@
 			"type": "object",
 			"properties":
 			{
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"featuretype":
 				{
 					"type" : "string",
@@ -5538,18 +5622,18 @@
 					"minItems": 1,
 					"maxItems": 1
 				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"nen3610id":
 				{
 					"type" : "string",
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -5563,12 +5647,6 @@
 				"shape":
 				{
 					"type" : ["Polygon","MultiPolygon"],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"vispassageid":
@@ -5598,6 +5676,12 @@
 					"maxlength" : 50,
 					"maxItems": 1
 				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
+					"maxItems": 1
+				},
 				"detailniveaugeometrie":
 				{
 					"type" : "integer",
@@ -5623,6 +5707,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -5657,12 +5747,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -5719,12 +5803,6 @@
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
 					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
-					"maxItems": 1
 				}
 			}
 		},
@@ -5744,6 +5822,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 50,
+					"maxItems": 1
+				},
+				"created_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"detailniveaugeometrie":
@@ -5771,6 +5855,12 @@
 				{
 					"type" : "string",
 					"maxlength" : 256,
+					"maxItems": 1
+				},
+				"last_edited_date":
+				{
+					"type" : "string",
+					"format" : "date-time",
 					"maxItems": 1
 				},
 				"lvpublicatiedatum":
@@ -5805,12 +5895,6 @@
 					"maxlength" : 256,
 					"uniqueItems" : true,
 					"minItems": 1,
-					"maxItems": 1
-				},
-				"objectbegintijd":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				},
 				"objectid":
@@ -5854,12 +5938,6 @@
 				{
 					"type" : "string",
 					"enum" : [ "buiten bedrijf","gerealiseerd","niet meer aanwezig","onbekend","planvorming","realisatie","te verwijderen" ],
-					"maxItems": 1
-				},
-				"tijdstipregistratie":
-				{
-					"type" : "string",
-					"format" : "date-time",
 					"maxItems": 1
 				}
 			}

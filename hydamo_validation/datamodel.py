@@ -25,6 +25,7 @@ GEOTYPE_MAPPING = {
     "LineString": LineString,
     "MultiLineString": MultiLineString,
     "Point": Point,
+    "PointZ": Point,
     "Polygon": Polygon,
     "MultiPolygon": MultiPolygon,
 }

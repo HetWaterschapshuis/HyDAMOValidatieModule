@@ -55,10 +55,24 @@ def _nan_message(nbr_indices, object_layer, rule_id, rule_type):
 
 
 def _add_related_gdf(input_variables, datamodel, object_layer):
-    input_variables["related_gdf"] = getattr(
-        datamodel, input_variables["related_object"]
+    related_object = input_variables["related_object"]
+    related_gdf = getattr(
+        datamodel, related_object
     ).copy()
-    input_variables["code_relation"] = f"{object_layer}id"
+    if related_gdf.empty:
+        raise Exception(f"Layer '{related_object}' is empty. Rule cannot be executed")
+    
+    code_relation = f"{object_layer}id"
+    if code_relation not in related_gdf.columns:
+        raise KeyError(f"'{code_relation}' not in columns of layer '{related_object}': {related_gdf.columns}")
+    if "related_parameter" in input_variables.keys():
+        related_parameter = input_variables["related_parameter"]
+        if related_parameter.startswith("geometry"):
+            related_parameter = "geometry"
+        if related_parameter not in related_gdf.columns:
+            raise KeyError(f"'{related_parameter}' not in columns of layer '{related_object}': {related_gdf.columns}")
+    input_variables["code_relation"] = code_relation
+    input_variables["related_gdf"] = related_gdf
     input_variables.pop("related_object")
     return input_variables
 
@@ -178,11 +192,12 @@ def execute(
                         result_variable: result_variable_name,
                     }
                 except Exception as e:
+                    logger.error(f"{object_layer} general_rule {rule['id']} crashed")
                     result_summary.append_error(
                         (
                             "general_rule niet uitgevoerd. Inspecteer de invoer voor deze regel: "
                             f"(object: '{object_layer}', id: '{rule['id']}', function: '{function}', "
-                            f"input_variables: {input_variables}, Exception (Python): {e})"
+                            f"input_variables: {input_variables}, Reason (Exception): {e})"
                         )
                     )
                     if raise_error:
@@ -231,6 +246,7 @@ def execute(
                     series = _process_logic_function(
                         object_gdf, filter_function, filter_input_variables
                     )
+                    series = series[series.index.notna()]
                     filter_indices = series.loc[series].index.to_list()
                     indices = [i for i in filter_indices if i in indices]
                 else:
@@ -278,7 +294,8 @@ def execute(
                     tags = None
 
                 exceptions += filter_indices
-                tags_indices = [i for i in object_gdf.index if i not in exceptions]
+                _valid_indices = object_gdf[~object_gdf.index.isna()].index
+                tags_indices = [i for i in _valid_indices if i not in exceptions]
                 object_gdf = gdf_add_summary(
                     gdf=object_gdf,
                     variable=result_variable,
@@ -291,11 +308,12 @@ def execute(
                 )
 
             except Exception as e:
+                logger.error(f"{object_layer} validation_rule {rule['id']} crashed")
                 result_summary.append_error(
                     (
                         "validation_rule niet uitgevoerd. Inspecteer de invoer voor deze regel: "
                         f"(object '{object_layer}', rule_id '{rule['id']}', function: '{function}', "
-                        f"input_variables: {input_variables}, Exception (Python): {e})"
+                        f"input_variables: {input_variables}, Reason (Exception): {e})"
                     )
                 )
                 if raise_error:

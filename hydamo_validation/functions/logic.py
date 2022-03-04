@@ -6,6 +6,11 @@ def _overlapping_period(row, df, start_date, end_date):
     _df = df[df.index != row.name]
     return ~((row[start_date] <= _df[end_date]) & (row[end_date] >= _df[end_date])).any()
 
+def _check_attributes(gdf, attributes):
+    for i in attributes:
+        if type(i) == str:
+            if not i in gdf.columns:
+                raise KeyError(fr"'{i}' not in columns: {gdf.columns.to_list()}. Rule cannot be executed")
 
 def LE(gdf, left, right, dtype=bool):
     """
@@ -29,6 +34,7 @@ def LE(gdf, left, right, dtype=bool):
         Pandas Series (default dtype = bool)
 
     """
+    _check_attributes(gdf, [left, right])
     expression = f"{left} <= {right}".lower()
     return gdf.eval(expression).astype(dtype)
 
@@ -55,6 +61,7 @@ def LT(gdf, left, right, dtype=bool):
         Pandas Series (default dtype = bool)
 
     """
+    _check_attributes(gdf, [left, right])
     expression = f"{left} < {right}".lower()
     return gdf.eval(expression).astype(dtype)
 
@@ -81,6 +88,7 @@ def GT(gdf, left, right, dtype=bool):
         Pandas Series (default dtype = bool)
 
     """
+    _check_attributes(gdf, [left, right])
     expression = f"{left} > {right}".lower()
     return gdf.eval(expression).astype(dtype)
 
@@ -106,6 +114,7 @@ def GE(gdf, left, right, dtype=bool):
         Pandas Series (default dtype = bool)
 
     """
+    _check_attributes(gdf, [left, right])
     expression = f"{left} >= {right}".lower()
     return gdf.eval(expression).astype(dtype)
 
@@ -131,6 +140,7 @@ def EQ(gdf, left, right, dtype=bool):
         Pandas Series (default dtype = bool)
 
     """
+    _check_attributes(gdf, [left, right])
     expression = f"{left} == {right}".lower()
     return gdf.eval(expression).astype(dtype)
 
@@ -158,6 +168,7 @@ def BE(gdf, parameter, min, max, inclusive=False):
         Pandas Series (default dtype = bool)
 
     """
+    _check_attributes(gdf, [parameter, min, max])
     if inclusive:
         series = GE(gdf, parameter, min, dtype=bool) & LE(
             gdf, parameter, max, dtype=bool
@@ -187,6 +198,7 @@ def ISIN(gdf, parameter, array):
         Pandas Series (default dtype = bool)
 
     """
+    _check_attributes(gdf, [parameter])
     return gdf[parameter].isin(array)
 
 
@@ -208,6 +220,7 @@ def NOTIN(gdf, parameter, array):
         Pandas Series (default dtype = bool)
 
     """
+    _check_attributes(gdf, [parameter])
     return ~ISIN(gdf, parameter, array)
 
 
@@ -227,6 +240,7 @@ def NOTNA(gdf, parameter):
         Pandas Series (default dtype = bool)
 
     """
+    _check_attributes(gdf, [parameter])
     return gdf[parameter].notna()
 
 
@@ -249,7 +263,8 @@ def join_object_exists(gdf, join_gdf, join_object):
         Pandas Series (default dtype = bool)
 
     """
-
+    _check_attributes(join_gdf, ["globalid"])
+    _check_attributes(gdf, [f"{join_object}id"])
     return gdf[f"{join_object}id"].isin(join_gdf["globalid"])
 
 def consistent_period(gdf,

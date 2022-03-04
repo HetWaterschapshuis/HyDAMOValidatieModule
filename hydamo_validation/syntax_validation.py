@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from fiona.schema import FIELD_TYPES_MAP
+from fiona.schema import FIELD_TYPES_MAP, normalize_field_type
 
 
 # %% validation functions applied on datasets
@@ -98,7 +98,6 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
 
     # check iteratively if column fails a valiation rule
     for col in [i for i in validation_schema if i["id"] != "geometry"]:
-        print(col)
         valid_series = _get_constant_series(result_gdf)
 
         replace_series = _get_constant_series(result_gdf, value="", dtype=str)
@@ -157,6 +156,12 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
                 valid_series.loc[~convertable_rows] = False
             else:
                 convertable_rows = _get_constant_series(result_gdf)
+                if normalize_field_type(dtype) == "float":
+                    result_gdf[col["id"]] = result_gdf[col["id"]].astype(float)
+                elif normalize_field_type(dtype) == 'int64':
+                    result_gdf[col["id"]] = result_gdf[col["id"]].astype(
+                        pd.Int64Dtype()
+                        )
 
             if dtype_fixed:
                 # only unique values if specified
@@ -210,11 +215,12 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
                         lambda x: x.append(6)
                     )
                     valid_series.loc[bool_series] = False
-                    valid_summary.loc[~valid_series] = False
+        
+        valid_summary.loc[~valid_series] = False
         #%%
         # set all invalid data from original gdf to Null
         if col_exists:
-            valid_series[~convertable_rows] = True
+            #valid_series[~convertable_rows] = True
             replace_series.loc[~valid_series] = result_gdf.loc[
                 ~valid_series, col["id"]
             ].apply(lambda x: f"{x} -> NULL ")
@@ -248,8 +254,10 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
         )
         validation_gdf.loc[bool_series, result_col] = f"{geotype} -> NULL (7)"
         result_gdf.loc[bool_series, "geometry"] = None
+        valid_series.loc[bool_series] = False
         valid_summary.loc[bool_series] = False
 
+    
     # report if any validation error occured
     validation_gdf.loc[:, "syntax_oordeel"] = valid_summary.astype(bool)
 
