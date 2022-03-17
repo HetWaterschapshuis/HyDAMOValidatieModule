@@ -226,7 +226,7 @@
 					"error_type": "critical",
 					"result_variable": "geen_overlap",
 					"error_message": "overlapping",
-					"active": true,
+					"active": false,
 					"function": {
 						"not_overlapping": {
 							"tolerance": 0.01

@@ -206,6 +206,7 @@ def execute(
                         pass
 
         validation_rules = object_rules["validation_rules"]
+        validation_rules = [i for i in validation_rules if ("active" not in i.keys()) | i["active"]]
         validation_rules_sorted = sorted(validation_rules, key=lambda k: k["id"])
         # validation rules section
         for rule in validation_rules_sorted:
