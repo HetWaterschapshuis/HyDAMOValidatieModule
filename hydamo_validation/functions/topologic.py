@@ -208,7 +208,7 @@ def _structures_at_boundaries(
     indices = list(areas_sindex.intersection(geometry.bounds))
     areas_gdf_select = areas_gdf.iloc[indices]
     areas_gdf_select = areas_gdf_select.loc[
-        areas_gdf_select["geometry"].intersects(geometry)
+        areas_gdf_select["geometry"].boundary.intersects(geometry)
     ]
 
     if areas_gdf_select.empty:
