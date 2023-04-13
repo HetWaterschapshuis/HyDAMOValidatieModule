@@ -17,11 +17,12 @@ setup(
     package_data={
             "hydamo_validation": ["schemas/hydamo/*.json","schemas/rules/*.json"],
         },
-    python_requires='>=3.8',
+    python_requires='<=3.9',
     install_requires=[
-        'geopandas',
-        'rasterio',
-        'rasterstats'
+        'geopandas<=0.10.2',
+        'pandas<=1.5.3',
+        'rasterio==1.2.10',
+        'rasterstats<=0.16.0'
     ],
     keywords='HyDAMO data validation',
 )

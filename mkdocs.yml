@@ -18,3 +18,4 @@ nav:
             - General Functions: reference/general_functions.md
             - Logic Functions: reference/logic_functions.md
             - Topologic Functions: reference/topologic_functions.md
+  - Changelog: changelog.md
