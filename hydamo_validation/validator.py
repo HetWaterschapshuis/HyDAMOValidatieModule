@@ -32,6 +32,19 @@ def _read_schema(version, schema_path=Path(__file__).parent.joinpath(r"./schemas
     return schema
 
 
+def _init_logger(log_level, log_file):
+    """Init logger for validator."""
+    logger = logging.getLogger(__name__)
+    logger.setLevel(getattr(logging, log_level))
+    fh = logging.FileHandler(log_file)
+    fh.setFormatter(
+        logging.Formatter("%(asctime)s %(name)s %(levelname)s - %(message)s")
+    )
+    fh.setLevel(logging.DEBUG)
+    logger.addHandler(fh)
+    return logger
+
+
 def validator(
     output_types: List[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
@@ -105,13 +118,17 @@ def _validator(
     timer = Timer()
     try:
         results_path = None
-        logger = logging.getLogger(__name__)
-        logger.setLevel(getattr(logging, log_level))
+        dir_path = Path(directory)
+        logger = _init_logger(
+            log_level=log_level,
+            log_file=dir_path.joinpath("validator.log")
+            )
+
+        logger.info("validator start")
         date_check = pd.Timestamp.now().isoformat()
         result_summary = ResultSummary(date_check=date_check)
         layers_summary = LayersSummary(date_check=date_check)
         # check if all files are present
-        dir_path = Path(directory)
         # create a results_path
         if dir_path.exists():
             results_path = dir_path.joinpath("results")
@@ -186,7 +203,7 @@ def _validator(
         result_summary.dataset_layers = datasets.layers
 
         ## validate syntax of datasets on layers-level and append to result
-        logger.info("syntax-validation of object-layers")
+        logger.info("start syntax-validation of object-layers")
         valid_layers = datamodel_layers(datamodel.layers, datasets.layers)
         result_summary.missing_layers = missing_layers(
             datamodel.layers, datasets.layers
@@ -202,7 +219,7 @@ def _validator(
             status_object = validation_rules_sets["status_object"]
 
         for layer in valid_layers:
-            logger.info(f"syntax-validation of fields in {layer}")
+            logger.info(f"start syntax-validation of fields in {layer}")
             gdf, schema = datasets.read_layer(
                 layer, result_summary=result_summary, status_object=status_object
             )
@@ -230,12 +247,13 @@ def _validator(
 
         # do logical validation: append result to layers_summary
         result_summary.status = "logical validation"
+        logger.info(f"start (topo)logical-validation")
         layers_summary, result_summary = logical_validation.execute(
             datamodel,
             validation_rules_sets,
             layers_summary,
             result_summary,
-            log_level,
+            logger,
             raise_error,
         )
 

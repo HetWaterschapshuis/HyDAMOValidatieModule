@@ -279,6 +279,10 @@ class HyDAMO:
 
         self.init_datamodel()
 
+    @property
+    def data_layers(self):
+        return [layer for layer in self.layers if not getattr(self, layer).empty]
+
     def init_datamodel(self):
         """Initialize DataModel from self.schemas_path."""
         self.validation_schemas: dict = {}

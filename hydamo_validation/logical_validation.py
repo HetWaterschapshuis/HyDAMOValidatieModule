@@ -117,17 +117,19 @@ def execute(
     validation_rules_sets,
     layers_summary,
     result_summary,
-    log_level,
+    logger=None,
     raise_error=False,
 ):
     """Execute the logical validation."""
-    logger = logging.getLogger(__name__)
-    logger.setLevel(getattr(logging, log_level))
-    for object_rules in validation_rules_sets["objects"]:
+
+    object_rules_sets = (
+        i for i in validation_rules_sets["objects"] if i["object"] in datamodel.data_layers
+        )
+    for object_rules in object_rules_sets:
         col_translation: dict = {}
 
         object_layer = object_rules["object"]
-        logger.info(f"layer: {object_layer}")
+        logger.info(f"start logical validations of layer: {object_layer}")
         object_gdf = getattr(datamodel, object_layer).copy()
 
         # add summary columns
@@ -140,6 +142,7 @@ def execute(
             general_rules = object_rules["general_rules"]
             general_rules_sorted = sorted(general_rules, key=lambda k: k["id"])
             for rule in general_rules_sorted:
+                logger.info(f"{object_layer}: executing general-rule with id {rule['id']}")
                 try:
                     result_variable = rule["result_variable"]
                     result_variable_name = (
@@ -192,7 +195,7 @@ def execute(
                         result_variable: result_variable_name,
                     }
                 except Exception as e:
-                    logger.error(f"{object_layer} general_rule {rule['id']} crashed")
+                    logger.error(f"{object_layer}: general_rule {rule['id']} crashed")
                     result_summary.append_error(
                         (
                             "general_rule niet uitgevoerd. Inspecteer de invoer voor deze regel: "
@@ -212,6 +215,7 @@ def execute(
         for rule in validation_rules_sorted:
             try:
                 rule_id = rule["id"]
+                logger.info(f"{object_layer}: executing validation-rule with id {rule_id} ({rule['name']})")
                 result_variable = rule["result_variable"]
                 if "exceptions" in rule.keys():
                     exceptions = rule["exceptions"]
@@ -309,7 +313,7 @@ def execute(
                 )
 
             except Exception as e:
-                logger.error(f"{object_layer} validation_rule {rule['id']} crashed")
+                logger.error(f"{object_layer}: validation_rule {rule['id']} crashed")
                 result_summary.append_error(
                     (
                         "validation_rule niet uitgevoerd. Inspecteer de invoer voor deze regel: "
