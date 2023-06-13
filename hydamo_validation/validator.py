@@ -286,6 +286,7 @@ def _validator(
             result_summary.error = fr"Python Exception: '{e_str}'"
         if results_path is not None:
             result_summary.to_json(results_path)
+            result_layers = layers_summary.export(results_path, output_types)
         if raise_error:
             raise e
         else:

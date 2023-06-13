@@ -98,12 +98,13 @@ def map_definition(definition: Dict) -> List:
 class ExtendedGeoDataFrame(gpd.GeoDataFrame):
     """A GeoPandas GeoDataFrame with extended properties and methods."""
 
-    _metadata = ["required_columns", "geotype"] + gpd.GeoDataFrame._metadata
+    _metadata = ["required_columns", "geotype", "layer_name"] + gpd.GeoDataFrame._metadata
 
     def __init__(
         self,
         validation_schema: Dict,
         geotype: Literal[list(GEOTYPE_MAPPING.keys())],
+        layer_name: str = "",
         required_columns: List = [],
         logger=logging,
         *args,
@@ -123,6 +124,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):
 
         self.validation_schema = validation_schema
         self.required_columns = required_columns
+        self.layer_name = layer_name
         self.geotype = geotype
         if not "geometry" in self.required_columns:
             self.required_columns += ["geometry"]
@@ -153,8 +155,9 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):
                 for geo in self.geometry
             ):
                 raise TypeError(
-                    'Geometrytype "{}" required. The input shapefile has geometry type(s) {}.'.format(
+                    'Geometry-type "{}" required in layer "{}". The input feature-file has geometry type(s) {}.'.format(
                         re.findall("([A-Z].*)'", repr(self.geotype))[0],
+                        self.layer_name,
                         self.geometry.type.unique().tolist(),
                     )
                 )
@@ -171,7 +174,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):
         )
         return dict(properties=properties, geometry=geometry)
 
-    def set_data(self, gdf, index_col=None, check_columns=True, check_geotype=True):
+    def set_data(self, gdf, layer="", index_col=None, check_columns=True, check_geotype=True):
         """
 
 
@@ -316,6 +319,7 @@ class HyDAMO:
                 hydamo_layer,
                 ExtendedGeoDataFrame(
                     validation_schema=layer_schema,
+                    layer_name=hydamo_layer,
                     geotype=geotype,
                     required_columns=required_columns,
                 ),
