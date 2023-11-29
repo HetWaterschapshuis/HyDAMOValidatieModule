@@ -1,6 +1,6 @@
 """Function to be picked up by the api."""
 
-from typing import List, Callable, Literal
+from typing import List, Callable, Literal, Union
 from pathlib import Path
 import pandas as pd
 from functools import partial
@@ -8,6 +8,7 @@ import json
 import shutil
 import logging
 from jsonschema import validate, ValidationError
+from json import JSONDecodeError
 from hydamo_validation import logical_validation
 from hydamo_validation.utils import Timer
 from hydamo_validation.summaries import LayersSummary, ResultSummary
@@ -23,10 +24,11 @@ OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 LOG_LEVELS = Literal["INFO", "DEBUG"]
 INDEX = "nen3610id"
 INCLUDE_COLUMNS = ["code"]
+SCHEMAS_PATH = Path(__file__).parent.joinpath(r"./schemas")
 
 
-def _read_schema(version, schema_path=Path(__file__).parent.joinpath(r"./schemas")):
-    schema_json = schema_path.joinpath(rf"rules/rules_{version}.json").resolve()
+def _read_schema(version):
+    schema_json = SCHEMAS_PATH.joinpath(rf"rules/rules_{version}.json").resolve()
     with open(schema_json) as src:
         schema = json.load(src)
     return schema
@@ -50,11 +52,63 @@ def _add_log_file(logger, log_file):
     return logger
 
 
+def read_validation_rules(
+    validation_rules_json: Path, result_summary: Union[ResultSummary, None] = None
+) -> dict:
+    """_summary_
+
+    Parameters
+    ----------
+    validation_rules_json : Path
+        Path to ValidationRules.json()
+    result_summary : Union[ResultSummary, None]
+        ResultSummary to write exceptions to if specified. Default is None.
+
+    Returns
+    -------
+    dict
+        Validated validationrules
+
+    Raises
+    ------
+    Exceptions
+        - the file with validationrules is not a valid JSON (see exception)
+        - schema version cannot be read from validation rules (see exception)
+        - validation rules invalid according to json-schema (see exception)
+    """
+    try:
+        validation_rules_sets = json.loads(validation_rules_json.read_text())
+    except JSONDecodeError as e:
+        if result_summary is not None:
+            result_summary.error = (
+                "the file with validationrules is not a valid JSON (see exception)"
+            )
+        raise e
+    try:
+        rules_version = validation_rules_sets["schema"]
+        schema = _read_schema(rules_version)
+    except FileNotFoundError as e:
+        if result_summary is not None:
+            result_summary.error = (
+                "schema version cannot be read from validation rules (see exception)"
+            )
+        raise e
+    try:
+        validate(validation_rules_sets, schema)
+    except ValidationError as e:
+        if result_summary is not None:
+            result_summary.error = (
+                "validation rules invalid according to json-schema (see exception)"
+            )
+        raise e
+
+    return validation_rules_sets
+
+
 def validator(
     output_types: List[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
-    schemas_path: Path = Path(__file__).parent.joinpath(r"./schemas"),
 ) -> Callable:
     """
 
@@ -67,9 +121,6 @@ def validator(
         Level for logger. The default is "INFO".
     coverages : dict, optional
        Location of coverages. E.g. {"AHN: path_to_ahn_dir} The default is {}.
-    schemas_path : Path, optional
-        Path to the HyDAMO and validation_rules schemas.
-        The default is Path(__file__).parent.joinpath(r"./schemas").
 
     Returns
     -------
@@ -79,11 +130,7 @@ def validator(
     """
 
     return partial(
-        _validator,
-        output_types=output_types,
-        log_level=log_level,
-        coverages=coverages,
-        schemas_path=schemas_path,
+        _validator, output_types=output_types, log_level=log_level, coverages=coverages
     )
 
 
@@ -92,7 +139,6 @@ def _validator(
     output_types: List[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
-    schemas_path: Path = Path(__file__).parent.joinpath(r"./schemas"),
     raise_error: bool = False,
 ):
     """
@@ -107,9 +153,6 @@ def _validator(
         Level for logger. The default is "INFO".
     coverages : dict, optional
        Location of coverages. E.g. {"AHN: path_to_ahn_dir} The default is {}.
-    schemas_path : Path, optional
-        Path to the HyDAMO and validation_rules schemas.
-        The default is Path(__file__).parent.joinpath(r"./schemas").
     raise_error: bool, optional
         Will raise an error (or not) when Exception is raised. The default is False
 
@@ -155,26 +198,7 @@ def _validator(
             result_summary.error = f'missing_paths: {",".join(missing_paths)}'
             raise FileNotFoundError(f'missing_paths: {",".join(missing_paths)}')
         else:
-            try:
-                validation_rules_sets = json.loads(validation_rules_json.read_text())
-            except Exception as e:
-                result_summary.error = (
-                    "the file with validationrules is not a valid JSON (see exception)"
-                )
-                raise e
-            try:
-                rules_version = validation_rules_sets["schema"]
-                schema = _read_schema(rules_version, schemas_path)
-            except Exception as e:
-                result_summary.error = "schema version cannot be read from validation rules (see exception)"
-                raise e
-            try:
-                validate(validation_rules_sets, schema)
-            except ValidationError as e:
-                result_summary.error = (
-                    "validation rules invalid according to json-schema (see exception)"
-                )
-                raise e
+            validation_rules_sets = read_validation_rules(validation_rules_json)
 
         # check if output-files are supported
         unsupported_output_types = [
