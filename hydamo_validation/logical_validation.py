@@ -1,12 +1,8 @@
 """Logical validation."""
 
-import json
 from hydamo_validation import general_functions, logic_functions, topologic_functions
-from shapely.geometry import LineString, Point, Polygon, MultiPolygon
-from hydamo_validation import utils
-import logging
+from shapely.geometry import LineString, Point, Polygon
 import numpy as np
-import pandas as pd
 
 
 GEOTYPE_MAPPING = {LineString: "LineString", Point: "Point", Polygon: "Polygon"}
@@ -56,25 +52,28 @@ def _nan_message(nbr_indices, object_layer, rule_id, rule_type):
 
 def _add_related_gdf(input_variables, datamodel, object_layer):
     related_object = input_variables["related_object"]
-    related_gdf = getattr(
-        datamodel, related_object
-    ).copy()
+    related_gdf = getattr(datamodel, related_object).copy()
     if related_gdf.empty:
         raise Exception(f"Layer '{related_object}' is empty. Rule cannot be executed")
-    
+
     code_relation = f"{object_layer}id"
     if code_relation not in related_gdf.columns:
-        raise KeyError(f"'{code_relation}' not in columns of layer '{related_object}': {related_gdf.columns}")
+        raise KeyError(
+            f"'{code_relation}' not in columns of layer '{related_object}': {related_gdf.columns}"
+        )
     if "related_parameter" in input_variables.keys():
         related_parameter = input_variables["related_parameter"]
         if related_parameter.startswith("geometry"):
             related_parameter = "geometry"
         if related_parameter not in related_gdf.columns:
-            raise KeyError(f"'{related_parameter}' not in columns of layer '{related_object}': {related_gdf.columns}")
+            raise KeyError(
+                f"'{related_parameter}' not in columns of layer '{related_object}': {related_gdf.columns}"
+            )
     input_variables["code_relation"] = code_relation
     input_variables["related_gdf"] = related_gdf
     input_variables.pop("related_object")
     return input_variables
+
 
 def _add_join_gdf(input_variables, datamodel):
     input_variables["join_gdf"] = getattr(
@@ -123,8 +122,10 @@ def execute(
     """Execute the logical validation."""
 
     object_rules_sets = (
-        i for i in validation_rules_sets["objects"] if i["object"] in datamodel.data_layers
-        )
+        i
+        for i in validation_rules_sets["objects"]
+        if i["object"] in datamodel.data_layers
+    )
     for object_rules in object_rules_sets:
         col_translation: dict = {}
 
@@ -142,7 +143,9 @@ def execute(
             general_rules = object_rules["general_rules"]
             general_rules_sorted = sorted(general_rules, key=lambda k: k["id"])
             for rule in general_rules_sorted:
-                logger.info(f"{object_layer}: executing general-rule with id {rule['id']}")
+                logger.info(
+                    f"{object_layer}: executing general-rule with id {rule['id']}"
+                )
                 try:
                     result_variable = rule["result_variable"]
                     result_variable_name = (
@@ -156,8 +159,10 @@ def execute(
                     # remove all nan indices
                     indices = _notna_indices(object_gdf, input_variables)
                     dropped_indices = [
-                        i for i in object_gdf.index[object_gdf.index.notna()] if i not in indices
-                        ]
+                        i
+                        for i in object_gdf.index[object_gdf.index.notna()]
+                        if i not in indices
+                    ]
 
                     # add object_relation
                     if "related_object" in input_variables.keys():
@@ -165,9 +170,7 @@ def execute(
                             input_variables, datamodel, object_layer
                         )
                     elif "join_object" in input_variables.keys():
-                        input_variables = _add_join_gdf(
-                            input_variables, datamodel
-                        )
+                        input_variables = _add_join_gdf(input_variables, datamodel)
 
                     if dropped_indices:
                         result_summary.append_warning(
@@ -195,7 +198,9 @@ def execute(
                         result_variable: result_variable_name,
                     }
                 except Exception as e:
-                    logger.error(f"{object_layer}: general_rule {rule['id']} crashed")
+                    logger.error(
+                        f"{object_layer}: general_rule {rule['id']} crashed width Exception {e}"
+                    )
                     result_summary.append_error(
                         (
                             "general_rule niet uitgevoerd. Inspecteer de invoer voor deze regel: "
@@ -209,13 +214,17 @@ def execute(
                         pass
 
         validation_rules = object_rules["validation_rules"]
-        validation_rules = [i for i in validation_rules if ("active" not in i.keys()) | i["active"]]
+        validation_rules = [
+            i for i in validation_rules if ("active" not in i.keys()) | i["active"]
+        ]
         validation_rules_sorted = sorted(validation_rules, key=lambda k: k["id"])
         # validation rules section
         for rule in validation_rules_sorted:
             try:
                 rule_id = rule["id"]
-                logger.info(f"{object_layer}: executing validation-rule with id {rule_id} ({rule['name']})")
+                logger.info(
+                    f"{object_layer}: executing validation-rule with id {rule_id} ({rule['name']})"
+                )
                 result_variable = rule["result_variable"]
                 if "exceptions" in rule.keys():
                     exceptions = rule["exceptions"]
@@ -240,9 +249,7 @@ def execute(
 
                 # add object_relation
                 if "join_object" in input_variables.keys():
-                    input_variables = _add_join_gdf(
-                        input_variables, datamodel
-                    )
+                    input_variables = _add_join_gdf(input_variables, datamodel)
 
                 # apply filter on indices
                 if "filter" in rule.keys():
@@ -274,7 +281,9 @@ def execute(
                         function,
                         input_variables,
                     )
-                    object_gdf.loc[indices, (result_variable)] = result_series.loc[indices]
+                    object_gdf.loc[indices, (result_variable)] = result_series.loc[
+                        indices
+                    ]
 
                 col_translation = {
                     **col_translation,
@@ -313,7 +322,9 @@ def execute(
                 )
 
             except Exception as e:
-                logger.error(f"{object_layer}: validation_rule {rule['id']} crashed")
+                logger.error(
+                    f"{object_layer}: validation_rule {rule['id']} width Exception {e}"
+                )
                 result_summary.append_error(
                     (
                         "validation_rule niet uitgevoerd. Inspecteer de invoer voor deze regel: "
