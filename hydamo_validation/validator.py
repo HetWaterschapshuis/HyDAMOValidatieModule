@@ -32,10 +32,14 @@ def _read_schema(version, schema_path=Path(__file__).parent.joinpath(r"./schemas
     return schema
 
 
-def _init_logger(log_level, log_file):
+def _init_logger(log_level):
     """Init logger for validator."""
     logger = logging.getLogger(__name__)
     logger.setLevel(getattr(logging, log_level))
+    return logger
+
+def _add_log_file(logger, log_file):
+    """Add log-file to existing logger"""
     fh = logging.FileHandler(log_file)
     fh.setFormatter(
         logging.Formatter("%(asctime)s %(name)s %(levelname)s - %(message)s")
@@ -43,6 +47,7 @@ def _init_logger(log_level, log_file):
     fh.setLevel(logging.DEBUG)
     logger.addHandler(fh)
     return logger
+
 
 
 def validator(
@@ -91,7 +96,6 @@ def _validator(
     raise_error: bool = False,
 ) -> dict:
     """
-
     Parameters
     ----------
     directory : str
@@ -121,7 +125,6 @@ def _validator(
         dir_path = Path(directory)
         logger = _init_logger(
             log_level=log_level,
-            log_file=dir_path.joinpath("validator.log")
             )
 
         logger.info("validator start")
@@ -141,6 +144,7 @@ def _validator(
         else:
             raise FileNotFoundError(f"{dir_path.absolute().resolve()} does not exist")
 
+        logger = _add_log_file(logger, log_file=dir_path.joinpath("validator.log"))
         dataset_path = dir_path.joinpath("datasets")
         validation_rules_json = dir_path.joinpath("validationrules.json")
         missing_paths = []
