@@ -27,7 +27,7 @@ def _lines_snap_at_boundaries(line, other_line, tolerance):
     snaps_end = any(
         line.boundary[-1].distance(i) < tolerance for i in other_line.boundary
     )
-    return sum([snaps_start, snaps_end])
+    return snaps_start, snaps_end
 
 
 def _point_not_overlapping_line(point, line, tolerance):
@@ -46,19 +46,12 @@ def _point_not_overlapping_line(point, line, tolerance):
 
 
 def _line_not_overlapping_line(line, other_line, tolerance):
-    def select_coords(line_string, snapping_boundaries):
-        """Select all coords if boundaries do not snap, else only all in between."""
-        if snapping_boundaries:
-            return line_string.coords[1:-1]
-        else:
-            return line_string.coords
-
     # check if lines snap at boundaries
-    snapping_boundaries = _lines_snap_at_boundaries(line, other_line, tolerance)
+    snaps_start, snaps_end = _lines_snap_at_boundaries(line, other_line, tolerance)
 
     # in the case we have two lines with only and-points and all end-points overlap, these are overlapping lines
     if (
-        (snapping_boundaries == 2)
+        (snaps_start and snaps_end)
         and (len(line.coords) == 2)
         and (len(other_line.coords) == 2)
     ):
@@ -70,14 +63,14 @@ def _line_not_overlapping_line(line, other_line, tolerance):
         not_overlapping = all(
             (
                 _point_not_overlapping_line(Point(i), other_line, tolerance)
-                for i in select_coords(line.coords, snapping_boundaries)
+                for i in line.coords
             )
         )
     else:
         not_overlapping = all(
             (
                 _point_not_overlapping_line(Point(i), line, tolerance)
-                for i in select_coords(other_line.coords, snapping_boundaries)
+                for i in other_line.coords
             )
         )
 
