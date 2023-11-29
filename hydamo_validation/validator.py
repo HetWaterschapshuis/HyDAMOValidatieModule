@@ -26,7 +26,7 @@ INCLUDE_COLUMNS = ["code"]
 
 
 def _read_schema(version, schema_path=Path(__file__).parent.joinpath(r"./schemas")):
-    schema_json = schema_path.joinpath(fr"rules/rules_{version}.json").resolve()
+    schema_json = schema_path.joinpath(rf"rules/rules_{version}.json").resolve()
     with open(schema_json) as src:
         schema = json.load(src)
     return schema
@@ -37,6 +37,7 @@ def _init_logger(log_level):
     logger = logging.getLogger(__name__)
     logger.setLevel(getattr(logging, log_level))
     return logger
+
 
 def _add_log_file(logger, log_file):
     """Add log-file to existing logger"""
@@ -49,13 +50,12 @@ def _add_log_file(logger, log_file):
     return logger
 
 
-
 def validator(
     output_types: List[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
     schemas_path: Path = Path(__file__).parent.joinpath(r"./schemas"),
-) -> Callable[[str], dict]:
+) -> Callable:
     """
 
     Parameters
@@ -94,7 +94,7 @@ def _validator(
     coverages: dict = {},
     schemas_path: Path = Path(__file__).parent.joinpath(r"./schemas"),
     raise_error: bool = False,
-) -> dict:
+):
     """
     Parameters
     ----------
@@ -125,7 +125,7 @@ def _validator(
         dir_path = Path(directory)
         logger = _init_logger(
             log_level=log_level,
-            )
+        )
 
         logger.info("validator start")
         date_check = pd.Timestamp.now().isoformat()
@@ -158,7 +158,9 @@ def _validator(
             try:
                 validation_rules_sets = json.loads(validation_rules_json.read_text())
             except Exception as e:
-                result_summary.error = "the file with validationrules is not a valid JSON (see exception)"
+                result_summary.error = (
+                    "the file with validationrules is not a valid JSON (see exception)"
+                )
                 raise e
             try:
                 rules_version = validation_rules_sets["schema"]
@@ -170,7 +172,7 @@ def _validator(
                 validate(validation_rules_sets, schema)
             except ValidationError as e:
                 result_summary.error = (
-                    f"validation rules invalid according to json-schema (see exception)"
+                    "validation rules invalid according to json-schema (see exception)"
                 )
                 raise e
 
@@ -229,10 +231,10 @@ def _validator(
             )
             layer = layer.lower()
             for col in INCLUDE_COLUMNS:
-                if not col in gdf.columns:
+                if col not in gdf.columns:
                     gdf[col] = None
                     schema["properties"][col] = "str"
-            if not INDEX in gdf.columns:
+            if INDEX not in gdf.columns:
                 result_summary.error = f"Index-column '{INDEX}' is compulsory and not defined for layer '{layer}'."
                 raise KeyError(f"{INDEX} not in columns")
             gdf, result_gdf = fields_syntax(
@@ -251,7 +253,7 @@ def _validator(
 
         # do logical validation: append result to layers_summary
         result_summary.status = "logical validation"
-        logger.info(f"start (topo)logical-validation")
+        logger.info("start (topo)logical-validation")
         layers_summary, result_summary = logical_validation.execute(
             datamodel,
             validation_rules_sets,
@@ -271,7 +273,9 @@ def _validator(
         ]
         result_summary.syntax_result = syntax_result
         result_summary.validation_result = [
-            i["object"] for i in validation_rules_sets["objects"] if i["object"] in result_layers
+            i["object"]
+            for i in validation_rules_sets["objects"]
+            if i["object"] in result_layers
         ]
         result_summary.success = True
         result_summary.status = "finished"
@@ -285,9 +289,11 @@ def _validator(
         e_str = str(e).replace("\n", " ")
         e_str = " ".join(e_str.split())
         if result_summary.error is not None:
-            result_summary.error = fr"{result_summary.error} Python Exception: '{e_str}'"
+            result_summary.error = (
+                rf"{result_summary.error} Python Exception: '{e_str}'"
+            )
         else:
-            result_summary.error = fr"Python Exception: '{e_str}'"
+            result_summary.error = rf"Python Exception: '{e_str}'"
         if results_path is not None:
             result_summary.to_json(results_path)
             result_layers = layers_summary.export(results_path, output_types)
@@ -295,3 +301,5 @@ def _validator(
             raise e
         else:
             result_summary.to_dict()
+
+        return None
