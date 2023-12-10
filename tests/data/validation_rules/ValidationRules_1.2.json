@@ -886,6 +886,21 @@
 							"right": 0
 						}
 					}
+				},
+				{
+					"id": 8,
+					"name": "Een stuw zal geen overlap met een andere stuw hebben",
+					"type": "topologic",
+					"validation_rule_set": "basic",
+					"error_type": "critical",
+					"result_variable": "geen_overlap",
+					"error_message": "overlapping",
+					"active": true,
+					"function": {
+						"not_overlapping": {
+							"tolerance": 1
+						}
+					}
 				}
 			]
 		},
@@ -1097,6 +1112,21 @@
 						"GT": {
 							"left": "pomp_capaciteit",
 							"right": 0
+						}
+					}
+				},
+				{
+					"id": 2,
+					"name": "Een gemaal zal geen overlap met een ander gemaal hebben",
+					"type": "topologic",
+					"validation_rule_set": "basic",
+					"error_type": "critical",
+					"result_variable": "geen_overlap",
+					"error_message": "overlapping",
+					"active": true,
+					"function": {
+						"not_overlapping": {
+							"tolerance": 1
 						}
 					}
 				}
