@@ -79,7 +79,7 @@ def _line_not_overlapping_line(line, other_line, tolerance):
 
 def _not_overlapping_line(row, gdf, sindex, tolerance, exclude_row=True):
     geometry = row["geometry"]
-    indices = list(sindex.intersection(geometry.bounds))
+    indices = list(sindex.intersection(geometry.buffer(tolerance).bounds))
     if exclude_row:
         indices = [i for i in indices if i != gdf.index.get_loc(row.name)]
     if indices:
@@ -94,6 +94,21 @@ def _not_overlapping_line(row, gdf, sindex, tolerance, exclude_row=True):
                 _point_not_overlapping_line(geometry, i, tolerance)
                 for i in gdf_select["geometry"]
             )
+    else:
+        not_overlapping = True
+    return not_overlapping
+
+
+def _not_overlapping_point(row, gdf, sindex, tolerance, exclude_row=True):
+    geometry = row["geometry"]
+    indices = list(sindex.intersection(geometry.buffer(tolerance).bounds))
+    if exclude_row:
+        indices = [i for i in indices if i != gdf.index.get_loc(row.name)]
+    if indices:
+        gdf_select = gdf.iloc[indices]
+        not_overlapping = all(
+            geometry.distance(i) > tolerance for i in gdf_select["geometry"]
+        )
     else:
         not_overlapping = True
     return not_overlapping
@@ -403,7 +418,18 @@ def not_overlapping(gdf, datamodel, tolerance):
 
     """
     sindex = gdf.sindex
-    return gdf.apply(lambda x: _not_overlapping_line(x, gdf, sindex, tolerance), axis=1)
+    if (gdf.geom_type == "LineString").all():
+        return gdf.apply(
+            lambda x: _not_overlapping_line(x, gdf, sindex, tolerance), axis=1
+        )
+    elif (gdf.geom_type == "Point").all():
+        return gdf.apply(
+            lambda x: _not_overlapping_point(x, gdf, sindex, tolerance), axis=1
+        )
+    else:
+        raise TypeError(
+            f"GeoDataFrame has invalid geometry types: {gdf.geom_type.unique()}. Implemented for this function: [Point, LineString]"
+        )
 
 
 def splitted_at_junction(gdf, datamodel, tolerance):
