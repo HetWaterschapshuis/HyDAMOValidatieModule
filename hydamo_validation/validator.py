@@ -27,8 +27,8 @@ INCLUDE_COLUMNS = ["code"]
 SCHEMAS_PATH = Path(__file__).parent.joinpath(r"./schemas")
 
 
-def _read_schema(version):
-    schema_json = SCHEMAS_PATH.joinpath(rf"rules/rules_{version}.json").resolve()
+def _read_schema(version, schemas_path):
+    schema_json = schemas_path.joinpath(rf"rules/rules_{version}.json").resolve()
     with open(schema_json) as src:
         schema = json.load(src)
     return schema
@@ -53,7 +53,9 @@ def _add_log_file(logger, log_file):
 
 
 def read_validation_rules(
-    validation_rules_json: Path, result_summary: Union[ResultSummary, None] = None
+    validation_rules_json: Path,
+    schemas_path: Path = SCHEMAS_PATH,
+    result_summary: Union[ResultSummary, None] = None,
 ) -> dict:
     """_summary_
 
@@ -86,7 +88,7 @@ def read_validation_rules(
         raise e
     try:
         rules_version = validation_rules_sets["schema"]
-        schema = _read_schema(rules_version)
+        schema = _read_schema(rules_version, schemas_path)
     except FileNotFoundError as e:
         if result_summary is not None:
             result_summary.error = (
@@ -109,6 +111,7 @@ def validator(
     output_types: List[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
+    schemas_path: Path = SCHEMAS_PATH,
 ) -> Callable:
     """
 
@@ -121,6 +124,9 @@ def validator(
         Level for logger. The default is "INFO".
     coverages : dict, optional
        Location of coverages. E.g. {"AHN: path_to_ahn_dir} The default is {}.
+    schemas_path : Path, optional
+        Path to the HyDAMO and validation_rules schemas.
+        The default is Path(__file__).parent.joinpath(r"./schemas").
 
     Returns
     -------
@@ -130,7 +136,11 @@ def validator(
     """
 
     return partial(
-        _validator, output_types=output_types, log_level=log_level, coverages=coverages
+        _validator,
+        output_types=output_types,
+        log_level=log_level,
+        schemas_path=schemas_path,
+        coverages=coverages,
     )
 
 
@@ -139,6 +149,7 @@ def _validator(
     output_types: List[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
+    schemas_path: Path = SCHEMAS_PATH,
     raise_error: bool = False,
 ):
     """
@@ -153,6 +164,9 @@ def _validator(
         Level for logger. The default is "INFO".
     coverages : dict, optional
        Location of coverages. E.g. {"AHN: path_to_ahn_dir} The default is {}.
+    schemas_path : Path, optional
+        Path to the HyDAMO and validation_rules schemas.
+        The default is Path(__file__).parent.joinpath(r"./schemas").
     raise_error: bool, optional
         Will raise an error (or not) when Exception is raised. The default is False
 
@@ -198,7 +212,9 @@ def _validator(
             result_summary.error = f'missing_paths: {",".join(missing_paths)}'
             raise FileNotFoundError(f'missing_paths: {",".join(missing_paths)}')
         else:
-            validation_rules_sets = read_validation_rules(validation_rules_json)
+            validation_rules_sets = read_validation_rules(
+                validation_rules_json, schemas_path
+            )
 
         # check if output-files are supported
         unsupported_output_types = [
