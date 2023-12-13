@@ -237,7 +237,7 @@ def _validator(
         result_summary.status = "define data-model"
         try:
             hydamo_version = validation_rules_sets["hydamo_version"]
-            datamodel = HyDAMO(version=hydamo_version)
+            datamodel = HyDAMO(version=hydamo_version, schemas_path=schemas_path)
         except Exception as e:
             result_summary.error = "datamodel cannot be defined (see exception)"
             raise e
