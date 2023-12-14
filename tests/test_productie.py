@@ -90,8 +90,9 @@ def execute_task_by_id_and_format(
 
 
 def test_run_productie():
-    if not SCHEMAS_TO_PATH.exists():
-        shutil.copytree(SCHEMAS_PATH, f"{TaskHelper.data_folder}/schemas")
+    if SCHEMAS_TO_PATH.exists():
+        shutil.rmtree(SCHEMAS_TO_PATH)
+    shutil.copytree(SCHEMAS_PATH, f"{TaskHelper.data_folder}/schemas")
     user = User()
     task = Task(1877)
 

@@ -60,3 +60,4 @@ tests/data/tasks/test_dommelerwaard/mask.gpkg
 *.log
 tests/data/result_layers.gpkg
 
+tests/data/schemas/*
