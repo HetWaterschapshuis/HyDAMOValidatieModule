@@ -2,16 +2,17 @@ from pathlib import Path
 import fiona
 from hydamo_validation.utils import normalize_fiona_schema, read_geopackage
 from hydamo_validation.summaries import ResultSummary
+from typing import Union, Dict
 import numpy as np
 
 
 class DataSets:
     """ValidationResult to be dumped as json."""
 
-    def __init__(self, dataset_dir: str):
+    def __init__(self, dataset_dir: Union[str, Path]):
         """Initialie datasets."""
         self.path = Path(dataset_dir)
-        self.properties = {}
+        self.properties: Dict = {}
 
         self._set_properties()
 

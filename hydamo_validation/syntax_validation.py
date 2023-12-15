@@ -250,11 +250,15 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
         validation_gdf[result_col] = ""
 
         bool_series = ~(
-            result_gdf["geometry"].is_valid
-            | (result_gdf["geometry"].type.isin(geotype))
-        )
-        validation_gdf.loc[bool_series, result_col] = f"{geotype} -> NULL (7)"
-        result_gdf.loc[bool_series, "geometry"] = None
+            ~result_gdf["geometry"].is_valid | result_gdf["geometry"].type.isin(geotype)
+            )
+        validation_gdf.loc[
+            bool_series,
+            result_col
+            ] = result_gdf[bool_series].geometry.apply(
+                lambda x: f"{x.type} -> NULL (7)"
+                )
+        result_gdf = result_gdf.loc[~bool_series]
         valid_series.loc[bool_series] = False
         valid_summary.loc[bool_series] = False
 

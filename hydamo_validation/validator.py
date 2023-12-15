@@ -1,6 +1,6 @@
 """Function to be picked up by the api."""
 
-from typing import List, Callable, Literal
+from typing import List, Callable, Literal, Union
 from pathlib import Path
 import pandas as pd
 from functools import partial
@@ -8,6 +8,7 @@ import json
 import shutil
 import logging
 from jsonschema import validate, ValidationError
+from json import JSONDecodeError
 from hydamo_validation import logical_validation
 from hydamo_validation.utils import Timer
 from hydamo_validation.summaries import LayersSummary, ResultSummary
@@ -23,21 +24,95 @@ OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 LOG_LEVELS = Literal["INFO", "DEBUG"]
 INDEX = "nen3610id"
 INCLUDE_COLUMNS = ["code"]
+SCHEMAS_PATH = Path(__file__).parent.joinpath(r"./schemas")
 
 
-def _read_schema(version, schema_path=Path(__file__).parent.joinpath(r"./schemas")):
-    schema_json = schema_path.joinpath(fr"rules/rules_{version}.json").resolve()
+def _read_schema(version, schemas_path):
+    schema_json = schemas_path.joinpath(rf"rules/rules_{version}.json").resolve()
     with open(schema_json) as src:
         schema = json.load(src)
     return schema
+
+
+def _init_logger(log_level):
+    """Init logger for validator."""
+    logger = logging.getLogger(__name__)
+    logger.setLevel(getattr(logging, log_level))
+    return logger
+
+
+def _add_log_file(logger, log_file):
+    """Add log-file to existing logger"""
+    fh = logging.FileHandler(log_file)
+    fh.setFormatter(
+        logging.Formatter("%(asctime)s %(name)s %(levelname)s - %(message)s")
+    )
+    fh.setLevel(logging.DEBUG)
+    logger.addHandler(fh)
+    return logger
+
+
+def read_validation_rules(
+    validation_rules_json: Path,
+    schemas_path: Path = SCHEMAS_PATH,
+    result_summary: Union[ResultSummary, None] = None,
+) -> dict:
+    """_summary_
+
+    Parameters
+    ----------
+    validation_rules_json : Path
+        Path to ValidationRules.json()
+    result_summary : Union[ResultSummary, None]
+        ResultSummary to write exceptions to if specified. Default is None.
+
+    Returns
+    -------
+    dict
+        Validated validationrules
+
+    Raises
+    ------
+    Exceptions
+        - the file with validationrules is not a valid JSON (see exception)
+        - schema version cannot be read from validation rules (see exception)
+        - validation rules invalid according to json-schema (see exception)
+    """
+    try:
+        validation_rules_sets = json.loads(validation_rules_json.read_text())
+    except JSONDecodeError as e:
+        if result_summary is not None:
+            result_summary.error = (
+                "the file with validationrules is not a valid JSON (see exception)"
+            )
+        raise e
+    try:
+        rules_version = validation_rules_sets["schema"]
+        schema = _read_schema(rules_version, schemas_path)
+    except FileNotFoundError as e:
+        if result_summary is not None:
+            result_summary.error = (
+                "schema version cannot be read from validation rules (see exception)"
+            )
+        raise e
+    try:
+        validate(validation_rules_sets, schema)
+    except ValidationError as e:
+        if result_summary is not None:
+            result_summary.error = (
+                "validation rules invalid according to json-schema (see exception)"
+            )
+        raise e
+
+    return validation_rules_sets
 
 
 def validator(
     output_types: List[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
-    schemas_path: Path = Path(__file__).parent.joinpath(r"./schemas"),
-) -> Callable[[str], dict]:
+    schemas_path: Path = SCHEMAS_PATH,
+) -> Callable:
     """
 
     Parameters
@@ -64,8 +139,8 @@ def validator(
         _validator,
         output_types=output_types,
         log_level=log_level,
-        coverages=coverages,
         schemas_path=schemas_path,
+        coverages=coverages,
     )
 
 
@@ -74,11 +149,10 @@ def _validator(
     output_types: List[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
-    schemas_path: Path = Path(__file__).parent.joinpath(r"./schemas"),
+    schemas_path: Path = SCHEMAS_PATH,
     raise_error: bool = False,
-) -> dict:
+):
     """
-
     Parameters
     ----------
     directory : str
@@ -105,13 +179,16 @@ def _validator(
     timer = Timer()
     try:
         results_path = None
-        logger = logging.getLogger(__name__)
-        logger.setLevel(getattr(logging, log_level))
+        dir_path = Path(directory)
+        logger = _init_logger(
+            log_level=log_level,
+        )
+
+        logger.info("validator start")
         date_check = pd.Timestamp.now().isoformat()
         result_summary = ResultSummary(date_check=date_check)
         layers_summary = LayersSummary(date_check=date_check)
         # check if all files are present
-        dir_path = Path(directory)
         # create a results_path
         if dir_path.exists():
             results_path = dir_path.joinpath("results")
@@ -124,6 +201,7 @@ def _validator(
         else:
             raise FileNotFoundError(f"{dir_path.absolute().resolve()} does not exist")
 
+        logger = _add_log_file(logger, log_file=dir_path.joinpath("validator.log"))
         dataset_path = dir_path.joinpath("datasets")
         validation_rules_json = dir_path.joinpath("validationrules.json")
         missing_paths = []
@@ -134,24 +212,9 @@ def _validator(
             result_summary.error = f'missing_paths: {",".join(missing_paths)}'
             raise FileNotFoundError(f'missing_paths: {",".join(missing_paths)}')
         else:
-            try:
-                validation_rules_sets = json.loads(validation_rules_json.read_text())
-            except Exception as e:
-                result_summary.error = "the file with validationrules is not a valid JSON (see exception)"
-                raise e
-            try:
-                rules_version = validation_rules_sets["schema"]
-                schema = _read_schema(rules_version, schemas_path)
-            except Exception as e:
-                result_summary.error = "schema version cannot be read from validation rules (see exception)"
-                raise e
-            try:
-                validate(validation_rules_sets, schema)
-            except ValidationError as e:
-                result_summary.error = (
-                    f"validation rules invalid according to json-schema (see exception)"
-                )
-                raise e
+            validation_rules_sets = read_validation_rules(
+                validation_rules_json, schemas_path
+            )
 
         # check if output-files are supported
         unsupported_output_types = [
@@ -174,7 +237,7 @@ def _validator(
         result_summary.status = "define data-model"
         try:
             hydamo_version = validation_rules_sets["hydamo_version"]
-            datamodel = HyDAMO(version=hydamo_version)
+            datamodel = HyDAMO(version=hydamo_version, schemas_path=schemas_path)
         except Exception as e:
             result_summary.error = "datamodel cannot be defined (see exception)"
             raise e
@@ -186,7 +249,7 @@ def _validator(
         result_summary.dataset_layers = datasets.layers
 
         ## validate syntax of datasets on layers-level and append to result
-        logger.info("syntax-validation of object-layers")
+        logger.info("start syntax-validation of object-layers")
         valid_layers = datamodel_layers(datamodel.layers, datasets.layers)
         result_summary.missing_layers = missing_layers(
             datamodel.layers, datasets.layers
@@ -202,16 +265,16 @@ def _validator(
             status_object = validation_rules_sets["status_object"]
 
         for layer in valid_layers:
-            logger.info(f"syntax-validation of fields in {layer}")
+            logger.info(f"start syntax-validation of fields in {layer}")
             gdf, schema = datasets.read_layer(
                 layer, result_summary=result_summary, status_object=status_object
             )
             layer = layer.lower()
             for col in INCLUDE_COLUMNS:
-                if not col in gdf.columns:
+                if col not in gdf.columns:
                     gdf[col] = None
                     schema["properties"][col] = "str"
-            if not INDEX in gdf.columns:
+            if INDEX not in gdf.columns:
                 result_summary.error = f"Index-column '{INDEX}' is compulsory and not defined for layer '{layer}'."
                 raise KeyError(f"{INDEX} not in columns")
             gdf, result_gdf = fields_syntax(
@@ -230,12 +293,13 @@ def _validator(
 
         # do logical validation: append result to layers_summary
         result_summary.status = "logical validation"
+        logger.info("start (topo)logical-validation")
         layers_summary, result_summary = logical_validation.execute(
             datamodel,
             validation_rules_sets,
             layers_summary,
             result_summary,
-            log_level,
+            logger,
             raise_error,
         )
 
@@ -249,7 +313,9 @@ def _validator(
         ]
         result_summary.syntax_result = syntax_result
         result_summary.validation_result = [
-            i["object"] for i in validation_rules_sets["objects"] if i["object"] in result_layers
+            i["object"]
+            for i in validation_rules_sets["objects"]
+            if i["object"] in result_layers
         ]
         result_summary.success = True
         result_summary.status = "finished"
@@ -263,12 +329,17 @@ def _validator(
         e_str = str(e).replace("\n", " ")
         e_str = " ".join(e_str.split())
         if result_summary.error is not None:
-            result_summary.error = fr"{result_summary.error} Python Exception: '{e_str}'"
+            result_summary.error = (
+                rf"{result_summary.error} Python Exception: '{e_str}'"
+            )
         else:
-            result_summary.error = fr"Python Exception: '{e_str}'"
+            result_summary.error = rf"Python Exception: '{e_str}'"
         if results_path is not None:
             result_summary.to_json(results_path)
+            result_layers = layers_summary.export(results_path, output_types)
         if raise_error:
             raise e
         else:
             result_summary.to_dict()
+
+        return None

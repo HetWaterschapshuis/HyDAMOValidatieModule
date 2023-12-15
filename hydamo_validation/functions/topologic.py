@@ -19,17 +19,25 @@ def _layers_from_datamodel(layers, datamodel):
         series = getattr(datamodel, layers[0])["geometry"]
     return series.loc[series.index.notna()]
 
+
 def _lines_snap_at_boundaries(line, other_line, tolerance):
-    snaps_start = any(line.boundary[0].distance(i) < tolerance for i in other_line.boundary)
-    snaps_end = any(line.boundary[-1].distance(i) < tolerance for i in other_line.boundary)
-    return sum([snaps_start, snaps_end])
+    snaps_start = any(
+        line.boundary[0].distance(i) < tolerance for i in other_line.boundary
+    )
+    snaps_end = any(
+        line.boundary[-1].distance(i) < tolerance for i in other_line.boundary
+    )
+    return snaps_start, snaps_end
+
 
 def _point_not_overlapping_line(point, line, tolerance):
     if line.boundary:
         snaps_start = line.boundary[0].distance(point) < tolerance
         snaps_end = line.boundary[-1].distance(point) < tolerance
     else:
-        snaps_start = snaps_end = Point(list(line.coords)[0]).distance(point) < tolerance
+        snaps_start = snaps_end = (
+            Point(list(line.coords)[0]).distance(point) < tolerance
+        )
     if not any([snaps_start, snaps_end]):
         not_overlapping = line.distance(point) > tolerance
     else:
@@ -38,34 +46,40 @@ def _point_not_overlapping_line(point, line, tolerance):
 
 
 def _line_not_overlapping_line(line, other_line, tolerance):
-    snapping_boundaries = _lines_snap_at_boundaries(line, other_line, tolerance)
-    
-    if snapping_boundaries == 2:
-        not_overlapping = False
-    elif snapping_boundaries == 1:
-        not_overlapping = True
+    # check if lines snap at boundaries
+    snaps_start, snaps_end = _lines_snap_at_boundaries(line, other_line, tolerance)
+
+    # in the case we have two lines with only and-points and all end-points overlap, these are overlapping lines
+    if (
+        (snaps_start and snaps_end)
+        and (len(line.coords) == 2)
+        and (len(other_line.coords) == 2)
+    ):
+        return False
+
+    # compare the shortest line with the longest line
+    # if ends snap, we check all coordinates in between, else we check all.
+    if line.length < other_line.length:
+        not_overlapping = all(
+            (
+                _point_not_overlapping_line(Point(i), other_line, tolerance)
+                for i in line.coords
+            )
+        )
     else:
-        if line.length < other_line.length:
-            not_overlapping = all(
-                [
-                    _point_not_overlapping_line(line.boundary[0], other_line, tolerance),
-                    _point_not_overlapping_line(line.boundary[-1], other_line, tolerance),
-                ]
+        not_overlapping = all(
+            (
+                _point_not_overlapping_line(Point(i), line, tolerance)
+                for i in other_line.coords
             )
-        else:
-            not_overlapping = all(
-                [
-                    _point_not_overlapping_line(other_line.boundary[0], line, tolerance),
-                    _point_not_overlapping_line(other_line.boundary[-1], line, tolerance),
-                ]
-            )
+        )
 
     return not_overlapping
 
 
 def _not_overlapping_line(row, gdf, sindex, tolerance, exclude_row=True):
     geometry = row["geometry"]
-    indices = list(sindex.intersection(geometry.bounds))
+    indices = list(sindex.intersection(geometry.buffer(tolerance).bounds))
     if exclude_row:
         indices = [i for i in indices if i != gdf.index.get_loc(row.name)]
     if indices:
@@ -80,6 +94,21 @@ def _not_overlapping_line(row, gdf, sindex, tolerance, exclude_row=True):
                 _point_not_overlapping_line(geometry, i, tolerance)
                 for i in gdf_select["geometry"]
             )
+    else:
+        not_overlapping = True
+    return not_overlapping
+
+
+def _not_overlapping_point(row, gdf, sindex, tolerance, exclude_row=True):
+    geometry = row["geometry"]
+    indices = list(sindex.intersection(geometry.buffer(tolerance).bounds))
+    if exclude_row:
+        indices = [i for i in indices if i != gdf.index.get_loc(row.name)]
+    if indices:
+        gdf_select = gdf.iloc[indices]
+        not_overlapping = all(
+            geometry.distance(i) > tolerance for i in gdf_select["geometry"]
+        )
     else:
         not_overlapping = True
     return not_overlapping
@@ -264,12 +293,9 @@ def _no_struc_on_line(geometry, struc_series, sindex, tolerance):
     return no_struc_on_line
 
 
-def _compare_longitudinal(row,
-                          parameter,
-                          compare_gdf,
-                          compare_parameter,
-                          direction,
-                          logical_operator):
+def _compare_longitudinal(
+    row, parameter, compare_gdf, compare_parameter, direction, logical_operator
+):
     branch_id = row["branch_id"]
     select_gdf = compare_gdf.loc[compare_gdf["branch_id"] == branch_id]
     right = None
@@ -279,21 +305,23 @@ def _compare_longitudinal(row,
         if direction == "downstream":
             # select downstream objects
             select_gdf = select_gdf[
-                        select_gdf["branch_offset"].gt(row["branch_offset"])
-                        ]
+                select_gdf["branch_offset"].gt(row["branch_offset"])
+            ]
             # if any, select value from closest object
             if not select_gdf.empty:
-                right = select_gdf.loc[
-                    select_gdf["branch_offset"].idxmin()][compare_parameter]
+                right = select_gdf.loc[select_gdf["branch_offset"].idxmin()][
+                    compare_parameter
+                ]
         elif direction == "upstream":
             # select downstream objects
             select_gdf = select_gdf[
-                        select_gdf["branch_offset"].lt(row["branch_offset"])
-                        ]
+                select_gdf["branch_offset"].lt(row["branch_offset"])
+            ]
             # if any, select value from closest object
             if not select_gdf.empty:
-                right = select_gdf.loc[
-                    select_gdf["branch_offset"].idxmax()][compare_parameter]
+                right = select_gdf.loc[select_gdf["branch_offset"].idxmax()][
+                    compare_parameter
+                ]
 
     # if there is a right, there is something to compare
     if right is not None:
@@ -390,7 +418,18 @@ def not_overlapping(gdf, datamodel, tolerance):
 
     """
     sindex = gdf.sindex
-    return gdf.apply(lambda x: _not_overlapping_line(x, gdf, sindex, tolerance), axis=1)
+    if (gdf.geom_type == "LineString").all():
+        return gdf.apply(
+            lambda x: _not_overlapping_line(x, gdf, sindex, tolerance), axis=1
+        )
+    elif (gdf.geom_type == "Point").all():
+        return gdf.apply(
+            lambda x: _not_overlapping_point(x, gdf, sindex, tolerance), axis=1
+        )
+    else:
+        raise TypeError(
+            f"GeoDataFrame has invalid geometry types: {gdf.geom_type.unique()}. Implemented for this function: [Point, LineString]"
+        )
 
 
 def splitted_at_junction(gdf, datamodel, tolerance):
@@ -417,9 +456,9 @@ def splitted_at_junction(gdf, datamodel, tolerance):
     # check for lines if there are nodes on segment outside tolerance of
     # the start-node and end-node.
     sindex = nodes_series.sindex
-    return gdf.apply((
-        lambda x: _only_end_nodes(x, nodes_series, sindex, tolerance)
-    ), axis = 1)
+    return gdf.apply(
+        (lambda x: _only_end_nodes(x, nodes_series, sindex, tolerance)), axis=1
+    )
 
 
 def structures_at_intersections(gdf, datamodel, structures, tolerance):
@@ -579,13 +618,15 @@ def structures_at_nodes(gdf, datamodel, structures, tolerance):
     )
 
 
-def compare_longitudinal(gdf,
-                         datamodel,
-                         parameter,
-                         compare_object,
-                         compare_parameter,
-                         direction,
-                         logical_operator):
+def compare_longitudinal(
+    gdf,
+    datamodel,
+    parameter,
+    compare_object,
+    compare_parameter,
+    direction,
+    logical_operator,
+):
     """
     Check if the value of a parameter in an object is lower/greater than an
     upstream/downstream value of another parameter from another object-layer.
@@ -610,10 +651,8 @@ def compare_longitudinal(gdf,
     """
     compare_gdf = getattr(datamodel, compare_object)
     return gdf.apply(
-        lambda x: _compare_longitudinal(x,
-                                        parameter,
-                                        compare_gdf,
-                                        compare_parameter,
-                                        direction,
-                                        logical_operator),
-        axis=1).astype(bool)
+        lambda x: _compare_longitudinal(
+            x, parameter, compare_gdf, compare_parameter, direction, logical_operator
+        ),
+        axis=1,
+    ).astype(bool)

@@ -122,7 +122,7 @@ def test_distance_to_others():
     assert result == expected_result
 
 def test_structures_at_boundaries():
-    expected_result = [True, True, True, True, False, False, True, True, False, False]
+    expected_result = [True, True, True, True, False, False, True, True, True, True]
     result = topologic_functions.structures_at_boundaries(datamodel.hydroobject,
                                                           datamodel=datamodel,
                                                           areas="afvoergebiedaanvoergebied",

@@ -4,12 +4,16 @@ import geopandas as gpd
 from typing import Literal
 import numpy as np
 from pathlib import Path
-import rasterio
 from rasterstats import zonal_stats
 import logging
 import pandas as pd
 from hydamo_validation.datamodel import HyDAMO
 import geopandas as gpd
+try:
+    import rasterio
+except ImportError:
+    import gdal # noqa to avoid rasterio.version error: https://github.com/conda-forge/rasterio-feedstock/issues/240
+    import rasterio
 
 COVERAGES = {}
 # DATA_MODEL = None
