@@ -652,6 +652,11 @@ def compare_longitudinal(
 
     """
     compare_gdf = getattr(datamodel, compare_object)
+
+    # snap layers to to branches
+    compare_gdf.snap_to_branch(datamodel.hydroobject, snap_method="overall")
+    gdf.snap_to_branch(datamodel.hydroobject, snap_method="overall")
+
     return gdf.apply(
         lambda x: _compare_longitudinal(
             x, parameter, compare_gdf, compare_parameter, direction, logical_operator

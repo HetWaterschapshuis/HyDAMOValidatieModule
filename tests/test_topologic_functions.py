@@ -152,3 +152,6 @@ def test_structures_at_nodes():
         datamodel.hydroobject, datamodel=datamodel, structures=["stuw"], tolerance=1
     )[:12].to_list()
     assert result == expected_result
+
+
+# %%
