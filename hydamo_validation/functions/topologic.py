@@ -22,18 +22,20 @@ def _layers_from_datamodel(layers, datamodel):
 
 def _lines_snap_at_boundaries(line, other_line, tolerance):
     snaps_start = any(
-        line.boundary[0].distance(i) < tolerance for i in other_line.boundary
+        line.boundary.geoms[0].distance(i) < tolerance
+        for i in other_line.boundary.geoms
     )
     snaps_end = any(
-        line.boundary[-1].distance(i) < tolerance for i in other_line.boundary
+        line.boundary.geoms[-1].distance(i) < tolerance
+        for i in other_line.boundary.geoms
     )
     return snaps_start, snaps_end
 
 
 def _point_not_overlapping_line(point, line, tolerance):
     if line.boundary:
-        snaps_start = line.boundary[0].distance(point) < tolerance
-        snaps_end = line.boundary[-1].distance(point) < tolerance
+        snaps_start = line.boundary.geoms[0].distance(point) < tolerance
+        snaps_end = line.boundary.geoms[-1].distance(point) < tolerance
     else:
         snaps_start = snaps_end = (
             Point(list(line.coords)[0]).distance(point) < tolerance
@@ -84,12 +86,12 @@ def _not_overlapping_line(row, gdf, sindex, tolerance, exclude_row=True):
         indices = [i for i in indices if i != gdf.index.get_loc(row.name)]
     if indices:
         gdf_select = gdf.iloc[indices]
-        if geometry.type == "LineString":
+        if geometry.geom_type == "LineString":
             not_overlapping = all(
                 _line_not_overlapping_line(geometry, i, tolerance)
                 for i in gdf_select["geometry"]
             )
-        elif geometry.type == "Point":
+        elif geometry.geom_type == "Point":
             not_overlapping = all(
                 _point_not_overlapping_line(geometry, i, tolerance)
                 for i in gdf_select["geometry"]
@@ -133,8 +135,8 @@ def _snap_nodes(row, series, tolerance):
 def _get_nodes(gdf, tolerance):
     # start and end-nodes to GeoSeries
     nodes_series = gdf["geometry"].apply(lambda x: Point(x.coords[0]))
-    nodes_series = nodes_series.append(
-        gdf["geometry"].apply(lambda x: Point(x.coords[-1]))
+    nodes_series = pd.concat(
+        [nodes_series, gdf["geometry"].apply(lambda x: Point(x.coords[-1]))]
     ).reset_index(drop=True)
 
     # snap nodes within tolerance: nodes within tolerance get the coordinate

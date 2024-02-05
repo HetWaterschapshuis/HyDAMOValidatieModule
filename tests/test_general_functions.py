@@ -30,8 +30,7 @@ def test_coverage_not_found():
 def test_sum_function_int():
     _gdf = gdf.loc[gdf["kruinbreedte"].notna()].copy()
     expected_result = [13.200000047683716, 10.1, 13.0]
-    result = general_functions.sum(_gdf,
-                                   ["kruinbreedte", 10]).to_list()
+    result = general_functions.sum(_gdf, ["kruinbreedte", 10]).to_list()
     assert result == expected_result
 
 
@@ -39,27 +38,23 @@ def test_sum_function_attr():
     _gdf = gdf.loc[gdf["kruinbreedte"].notna()].copy()
     _gdf["add"] = 10
     expected_result = [13.200000047683716, 10.1, 13.0]
-    result = general_functions.sum(_gdf,
-                                   ["kruinbreedte", "add"]).to_list()
+    result = general_functions.sum(_gdf, ["kruinbreedte", "add"]).to_list()
     assert result == expected_result
 
 
 def test_difference_function_int():
     _gdf = gdf.loc[gdf["kruinbreedte"].notna()].copy()
     expected_result = [-6.799999952316284, -9.9, -7.0]
-    result = general_functions.difference(_gdf,
-                                          left="kruinbreedte",
-                                          right=10).to_list()
+    result = general_functions.difference(_gdf, left="kruinbreedte", right=10).to_list()
     assert result == expected_result
 
 
 def test_difference_function_int_abs():
     _gdf = gdf.loc[gdf["kruinbreedte"].notna()].copy()
     expected_result = [6.799999952316284, 9.9, 7.0]
-    result = general_functions.difference(_gdf,
-                                          left="kruinbreedte",
-                                          right=10,
-                                          absolute=True).to_list()
+    result = general_functions.difference(
+        _gdf, left="kruinbreedte", right=10, absolute=True
+    ).to_list()
     assert result == expected_result
 
 
@@ -67,18 +62,16 @@ def test_devide_function_attr():
     _gdf = gdf.loc[gdf["kruinbreedte"].notna()].copy()
     _gdf["devide"] = 10
     expected_result = [0.3200000047683716, 0.01, 0.3]
-    result = general_functions.divide(_gdf,
-                                      left="kruinbreedte",
-                                      right="devide").to_list()
+    result = general_functions.divide(
+        _gdf, left="kruinbreedte", right="devide"
+    ).to_list()
     assert result == expected_result
 
 
 def test_devide_function_int():
     _gdf = gdf.loc[gdf["kruinbreedte"].notna()].copy()
     expected_result = [0.3200000047683716, 0.01, 0.3]
-    result = general_functions.divide(_gdf,
-                                      left="kruinbreedte",
-                                      right=10).to_list()
+    result = general_functions.divide(_gdf, left="kruinbreedte", right=10).to_list()
     assert result == expected_result
 
 
@@ -86,9 +79,9 @@ def test_difference_function_attr():
     _gdf = gdf.loc[gdf["kruinbreedte"].notna()].copy()
     _gdf["subtract"] = 10
     expected_result = [-6.799999952316284, -9.9, -7.0]
-    result = general_functions.difference(_gdf,
-                                          left="kruinbreedte",
-                                          right="subtract").to_list()
+    result = general_functions.difference(
+        _gdf, left="kruinbreedte", right="subtract"
+    ).to_list()
     assert result == expected_result
 
 
@@ -96,10 +89,7 @@ def test_buffer_function_int():
     radius = 30
     percentile = 95
     expected_result = [32.17, 32.1, 35.12, 32.1, 32.23]
-    result = general_functions.buffer(gdf,
-                                      radius,
-                                      percentile,
-                                      coverage="ahn").to_list()
+    result = general_functions.buffer(gdf, radius, percentile, coverage="ahn").to_list()
     assert result == expected_result
 
 
@@ -109,10 +99,9 @@ def test_buffer_function_attr():
     _gdf = gdf.copy()
     _gdf.loc[:, "buffer_radius"] = _gdf.loc[:, "kruinbreedte"] + 10
     expected_result = [31.26, 32.1, 34.78]
-    result = general_functions.buffer(_gdf.loc[_gdf["buffer_radius"].notna()],
-                                      radius,
-                                      percentile,
-                                      coverage="ahn").to_list()
+    result = general_functions.buffer(
+        _gdf.loc[_gdf["buffer_radius"].notna()], radius, percentile, coverage="ahn"
+    ).to_list()
     assert result == expected_result
 
 
@@ -120,39 +109,45 @@ def test_buffer_function_fill():
     radius = 2
     percentile = 95
     expected_result = [50.0, 31.34, 50.0, 31.34, 50.0]
-    result = general_functions.buffer(gdf,
-                                      radius,
-                                      percentile,
-                                      coverage="ahn",
-                                      fill_value=50).to_list()
+    result = general_functions.buffer(
+        gdf, radius, percentile, coverage="ahn", fill_value=50
+    ).to_list()
     assert result == expected_result
 
 
 def test_object_relation_count():
     expected_result = [0.0, 1.0, 0.0, 0.0, 0.0]
-    result = general_functions.object_relation(gdf,
-                                               related_gdf=opening_gdf,
-                                               code_relation="stuwid",
-                                               statistic="count",
-                                               related_parameter=None,
-                                               fill_value=0).to_list()
+    result = general_functions.object_relation(
+        gdf,
+        related_gdf=opening_gdf,
+        code_relation="stuwid",
+        statistic="count",
+        related_parameter=None,
+        fill_value=0,
+    ).to_list()
     assert result == expected_result
 
 
 def test_object_relation_majority():
-    expected_result = [0, 'Onbekend', 0, 0, 0]
-    result = general_functions.object_relation(gdf,
-                                               related_gdf=opening_gdf,
-                                               code_relation="stuwid",
-                                               statistic="majority",
-                                               related_parameter="vormopening",
-                                               fill_value=0).to_list()
+    expected_result = [0, "Onbekend", 0, 0, 0]
+    result = general_functions.object_relation(
+        gdf,
+        related_gdf=opening_gdf,
+        code_relation="stuwid",
+        statistic="majority",
+        related_parameter="vormopening",
+        fill_value=0,
+    ).to_list()
     assert result == expected_result
 
+
 def test_multiply():
-    _gdf = gpd.GeoDataFrame(data={"left": [1, 2, 3],
-                                  "right": [4, 5, 6],
-                                  "geometry": [None, None, None]})
+    _gdf = gpd.GeoDataFrame(
+        data={"left": [1, 2, 3], "right": [4, 5, 6], "geometry": [None, None, None]}
+    )
     expected_result = [4, 10, 18]
     result = general_functions.multiply(_gdf, left="left", right="right").to_list()
     assert result == expected_result
+
+
+# %%

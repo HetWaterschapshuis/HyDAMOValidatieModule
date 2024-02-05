@@ -1,8 +1,7 @@
 import fiona
-from shapely.geometry import LineString, Point, Polygon, shape
+from shapely.geometry import shape
 import time
 import logging
-import sys
 import geopandas as gpd
 import pandas as pd
 from inspect import getmembers, isfunction
