@@ -25,6 +25,8 @@ LOG_LEVELS = Literal["INFO", "DEBUG"]
 INDEX = "nen3610id"
 INCLUDE_COLUMNS = ["code"]
 SCHEMAS_PATH = Path(__file__).parent.joinpath(r"./schemas")
+HYDAMO_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("hydamo")
+RULES_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("rules")
 
 
 def _read_schema(version, schemas_path):
@@ -237,7 +239,7 @@ def _validator(
         result_summary.status = "define data-model"
         try:
             hydamo_version = validation_rules_sets["hydamo_version"]
-            datamodel = HyDAMO(version=hydamo_version, schemas_path=schemas_path)
+            datamodel = HyDAMO(version=hydamo_version, schemas_path=HYDAMO_SCHEMAS_PATH)
         except Exception as e:
             result_summary.error = "datamodel cannot be defined (see exception)"
             raise e

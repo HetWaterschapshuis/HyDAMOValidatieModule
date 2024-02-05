@@ -13,60 +13,65 @@ except ImportError:
     from config import DATA_DIR
 
 hydamo_version = "2.2"
-object_layers = ['admingrenswaterschap',
-                 'afsluitmiddel',
-                 'afvoergebiedaanvoergebied',
-                 'aquaduct',
-                 'beheergrenswaterschap',
-                 'bijzonderhydraulischobject',
-                 'bodemval',
-                 'brug',
-                 'doorstroomopening',
-                 'duikersifonhevel',
-                 'gemaal',
-                 'grondwaterinfolijn',
-                 'grondwaterinfopunt',
-                 'grondwaterkoppellijn',
-                 'grondwaterkoppelpunt',
-                 'hydrologischerandvoorwaarde',
-                 'hydroobject',
-                 'hydroobject_normgp',
-                 'kunstwerkopening',
-                 'lateraleknoop',
-                 'meetlocatie',
-                 'meetwaardeactiewaarde',
-                 'normgeparamprofiel',
-                 'normgeparamprofielwaarde',
-                 'peilafwijkinggebied',
-                 'peilbesluitgebied',
-                 'peilgebiedpraktijk',
-                 'peilgebiedvigerend',
-                 'pomp',
-                 'profielgroep',
-                 'profiellijn',
-                 'profielpunt',
-                 'regelmiddel',
-                 'reglementgrenswaterschap',
-                 'ruwheidprofiel',
-                 'streefpeil',
-                 'sturing',
-                 'stuw',
-                 'vispassage',
-                 'vispassagevlak',
-                 'vuilvang',
-                 'zandvang']
+object_layers = [
+    "admingrenswaterschap",
+    "afsluitmiddel",
+    "afvoergebiedaanvoergebied",
+    "aquaduct",
+    "beheergrenswaterschap",
+    "bijzonderhydraulischobject",
+    "bodemval",
+    "brug",
+    "doorstroomopening",
+    "duikersifonhevel",
+    "gemaal",
+    "grondwaterinfolijn",
+    "grondwaterinfopunt",
+    "grondwaterkoppellijn",
+    "grondwaterkoppelpunt",
+    "hydrologischerandvoorwaarde",
+    "hydroobject",
+    "hydroobject_normgp",
+    "kunstwerkopening",
+    "lateraleknoop",
+    "meetlocatie",
+    "meetwaardeactiewaarde",
+    "normgeparamprofiel",
+    "normgeparamprofielwaarde",
+    "peilafwijkinggebied",
+    "peilbesluitgebied",
+    "peilgebiedpraktijk",
+    "peilgebiedvigerend",
+    "pomp",
+    "profielgroep",
+    "profiellijn",
+    "profielpunt",
+    "regelmiddel",
+    "reglementgrenswaterschap",
+    "ruwheidprofiel",
+    "streefpeil",
+    "sturing",
+    "stuw",
+    "vispassage",
+    "vispassagevlak",
+    "vuilvang",
+    "zandvang",
+]
 
-ignored_layers = ['afvoeraanvoergebied',
-                  'imwa_geoobject',
-                  'leggerwatersysteem',
-                  'leggerwaterveiligheid',
-                  'waterbeheergebied']
+ignored_layers = [
+    "afvoeraanvoergebied",
+    "imwa_geoobject",
+    "leggerwatersysteem",
+    "leggerwaterveiligheid",
+    "waterbeheergebied",
+]
 
 dataset_gpkg = DATA_DIR / "tasks" / "test_wrij" / "datasets" / "HyDAMO.gpkg"
 hydroobject_gdf = gpd.read_file(dataset_gpkg, layer="Hydroobject")
-hydroobject_gdf.rename(columns={"ruwheidswaardehoog": "ruwheidhoog",
-                                "ruwheidswaardelaag": "ruwheidlaag"},
-                       inplace=True)
+hydroobject_gdf.rename(
+    columns={"ruwheidswaardehoog": "ruwheidhoog", "ruwheidswaardelaag": "ruwheidlaag"},
+    inplace=True,
+)
 
 stuw_gdf = gpd.read_file(dataset_gpkg, layer="Stuw")
 
@@ -120,17 +125,11 @@ def test_snapping_data():
     assert "branch_id" in datamodel.stuw.columns
 
 
-def test_exporting_data():
+def test_exporting_data(tmp_path):
     datamodel.set_data(hydroobject_gdf, "hydroobject", index_col="nen3610id")
-    result = exports_dir / "result.gpkg"
-    if result.exists():
-        result.unlink()
+    result = tmp_path.joinpath("datamodel_no_schema.gpkg")
     datamodel.to_geopackage(result)
     assert result.exists()
-    if result.exists():
-        result.unlink()
+    result = tmp_path.joinpath("datamodel_schema.gpkg")
     datamodel.to_geopackage(result, use_schema=False)
     assert result.exists()
-    if result.exists():
-        result.unlink()
-
