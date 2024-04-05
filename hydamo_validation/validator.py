@@ -19,6 +19,7 @@ from hydamo_validation.syntax_validation import (
     missing_layers,
     fields_syntax,
 )
+import traceback
 
 OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 LOG_LEVELS = Literal["INFO", "DEBUG"]
@@ -274,16 +275,25 @@ def _validator(
             status_object = validation_rules_sets["status_object"]
 
         for layer in valid_layers:
-            logger.info(f"start syntax-validation of fields in {layer}")
+            logger.info(f"read layer {layer}")
+
+            # read layer
             gdf, schema = datasets.read_layer(
                 layer, result_summary=result_summary, status_object=status_object
             )
+            if gdf.empty:  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
+                logger.warning(
+                    f"layer {layer} is empty. Be aware only values of {status_object} in field 'statusobject' are read!"
+                )
+                continue
+
             layer = layer.lower()
             for col in INCLUDE_COLUMNS:
                 if col not in gdf.columns:
                     gdf[col] = None
                     schema["properties"][col] = "str"
 
+            logger.info(f"syntax-validation of fields in layer {layer}")
             gdf, result_gdf = fields_syntax(
                 gdf,
                 schema,
@@ -336,12 +346,11 @@ def _validator(
     except Exception as e:
         e_str = str(e).replace("\n", " ")
         e_str = " ".join(e_str.split())
+        stacktrace = rf"{traceback.format_exc(limit=2)}".split("\n")
         if result_summary.error is not None:
-            result_summary.error = (
-                rf"{result_summary.error} Python Exception: '{e_str}'"
-            )
+            result_summary.error += [stacktrace]
         else:
-            result_summary.error = rf"Python Exception: '{e_str}'"
+            result_summary.error = [stacktrace]
         if results_path is not None:
             result_layers = layers_summary.export(results_path, output_types)
             _log_to_results(log_file, result_summary)
