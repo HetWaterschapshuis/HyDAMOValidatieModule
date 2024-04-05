@@ -53,6 +53,10 @@ def _add_log_file(logger, log_file):
     return logger
 
 
+def _log_to_results(log_file, result_summary):
+    result_summary.log = log_file.read_text().split("\n")
+
+
 def read_validation_rules(
     validation_rules_json: Path,
     schemas_path: Path = SCHEMAS_PATH,
@@ -197,12 +201,16 @@ def _validator(
                 try:
                     shutil.rmtree(results_path)
                 except PermissionError:
+                    logger.warning(
+                        f"Cannot remove {results_path}. This may lead to write-issues later!"
+                    )
                     pass
             results_path.mkdir(parents=True, exist_ok=True)
         else:
             raise FileNotFoundError(f"{dir_path.absolute().resolve()} does not exist")
 
-        logger = _add_log_file(logger, log_file=dir_path.joinpath("validator.log"))
+        log_file = results_path.joinpath("validator.log")
+        logger = _add_log_file(logger, log_file=log_file)
         dataset_path = dir_path.joinpath("datasets")
         validation_rules_json = dir_path.joinpath("validationrules.json")
         missing_paths = []
@@ -318,8 +326,10 @@ def _validator(
         result_summary.success = True
         result_summary.status = "finished"
         result_summary.duration = timer.report()
-        result_summary.to_json(results_path)
         logger.info(f"finished in {result_summary.duration:.2f} seconds")
+
+        _log_to_results(log_file, result_summary)
+        result_summary.to_json(results_path)
 
         return datamodel, layers_summary, result_summary
 
@@ -333,8 +343,9 @@ def _validator(
         else:
             result_summary.error = rf"Python Exception: '{e_str}'"
         if results_path is not None:
-            result_summary.to_json(results_path)
             result_layers = layers_summary.export(results_path, output_types)
+            _log_to_results(log_file, result_summary)
+            result_summary.to_json(results_path)
         if raise_error:
             raise e
         else:
