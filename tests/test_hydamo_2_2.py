@@ -119,14 +119,14 @@ def test_keyerror_missing_column():
 
 
 def test_snapping_data():
-    datamodel.set_data(hydroobject_gdf, "hydroobject", index_col="nen3610id")
-    datamodel.set_data(stuw_gdf, "stuw", index_col="nen3610id")
+    datamodel.set_data(hydroobject_gdf, "hydroobject", index_col=None)
+    datamodel.set_data(stuw_gdf, "stuw", index_col=None)
     datamodel.stuw.snap_to_branch(datamodel.hydroobject, snap_method="overall")
     assert "branch_id" in datamodel.stuw.columns
 
 
 def test_exporting_data(tmp_path):
-    datamodel.set_data(hydroobject_gdf, "hydroobject", index_col="nen3610id")
+    datamodel.set_data(hydroobject_gdf, "hydroobject", index_col=None)
     result = tmp_path.joinpath("datamodel_no_schema.gpkg")
     datamodel.to_geopackage(result)
     assert result.exists()

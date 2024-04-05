@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-from fiona.schema import FIELD_TYPES_MAP, normalize_field_type
+from fiona.schema import normalize_field_type
 
 
 # %% validation functions applied on datasets
@@ -70,7 +70,7 @@ def _convertable_dtype(x, dtype):
                 return False
             result = pd.to_numeric(x)
             if dtype in ["int", "int64"]:
-                return not "." in str(result)
+                return "." not in str(result)
         return True
     except ValueError:
         return False
@@ -85,13 +85,17 @@ def _get_constant_series(gdf, value=True, dtype=bool):
     return pd.Series([value] * len(gdf), index=gdf.index, dtype=dtype)
 
 
-#%% to execute it all
+# %% to execute it all
+
 
 # all fields syntax validation
-def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
+def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
     """Validate fields in a gdf to a validation-schema."""
     # initialize results
-    columns_tuple = tuple([index] + keep_columns + ["geometry"])
+    if "geometry" in gdf.columns:
+        columns_tuple = tuple(keep_columns + ["geometry"])
+    else:
+        columns_tuple = tuple(keep_columns)
     validation_gdf = gdf.loc[:, columns_tuple].copy()
     result_gdf = gdf.copy()
     valid_summary = _get_constant_series(result_gdf)
@@ -159,10 +163,10 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
                 convertable_rows = _get_constant_series(result_gdf)
                 if normalize_field_type(dtype) == "float":
                     result_gdf[col["id"]] = result_gdf[col["id"]].astype(float)
-                elif normalize_field_type(dtype) == 'int64':
+                elif normalize_field_type(dtype) == "int64":
                     result_gdf[col["id"]] = result_gdf[col["id"]].astype(
                         pd.Int64Dtype()
-                        )
+                    )
 
             if dtype_fixed:
                 # only unique values if specified
@@ -216,12 +220,12 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
                         lambda x: x.append(6)
                     )
                     valid_series.loc[bool_series] = False
-        
+
         valid_summary.loc[~valid_series] = False
-        #%%
+        # %%
         # set all invalid data from original gdf to Null
         if col_exists:
-            #valid_series[~convertable_rows] = True
+            # valid_series[~convertable_rows] = True
             replace_series.loc[~valid_series] = result_gdf.loc[
                 ~valid_series, col["id"]
             ].apply(lambda x: f"{x} -> NULL ")
@@ -251,18 +255,14 @@ def fields_syntax(gdf, schema, validation_schema, index, keep_columns=[]):
 
         bool_series = ~(
             ~result_gdf["geometry"].is_valid | result_gdf["geometry"].type.isin(geotype)
-            )
-        validation_gdf.loc[
-            bool_series,
-            result_col
-            ] = result_gdf[bool_series].geometry.apply(
-                lambda x: f"{x.type} -> NULL (7)"
-                )
+        )
+        validation_gdf.loc[bool_series, result_col] = result_gdf[
+            bool_series
+        ].geometry.apply(lambda x: f"{x.type} -> NULL (7)")
         result_gdf = result_gdf.loc[~bool_series]
         valid_series.loc[bool_series] = False
         valid_summary.loc[bool_series] = False
 
-    
     # report if any validation error occured
     validation_gdf.loc[:, "syntax_oordeel"] = valid_summary.astype(bool)
 

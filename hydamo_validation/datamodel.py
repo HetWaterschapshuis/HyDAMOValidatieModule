@@ -453,7 +453,7 @@ class HyDAMO:
                         file_path,
                         layer=layer,
                         driver="GPKG",
-                        schema=schema,
+                        engine="pyogrio",
                     )
                 else:
                     # write gdf to geopackage as is
