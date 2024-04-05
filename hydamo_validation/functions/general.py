@@ -7,12 +7,11 @@ from pathlib import Path
 from rasterstats import zonal_stats
 import logging
 import pandas as pd
-from hydamo_validation.datamodel import HyDAMO
-import geopandas as gpd
+
 try:
     import rasterio
 except ImportError:
-    import gdal # noqa to avoid rasterio.version error: https://github.com/conda-forge/rasterio-feedstock/issues/240
+    import gdal  # noqa to avoid rasterio.version error: https://github.com/conda-forge/rasterio-feedstock/issues/240
     import rasterio
 
 COVERAGES = {}
@@ -43,9 +42,11 @@ def _buffer_row(row, column):
     radius = max(row[column], 0.5)
     return row.geometry.buffer(radius)
 
+
 def _get_geometric_attribute(gdf, geom_parameter):
     geometry, method = geom_parameter.split(".")
     return getattr(gdf[geometry], method)
+
 
 def sum(gdf, array: list):
     """Return a sum expression."""
@@ -223,6 +224,7 @@ def buffer(gdf, radius, percentile, coverage="ahn", fill_value: float = None):
 
     return gdf_out["result"]
 
+
 def join_parameter(
     gdf,
     join_object: str,
@@ -237,15 +239,14 @@ def join_parameter(
     _join_gdf.set_index("globalid", inplace=True)
     series = _join_gdf[join_parameter]
     series.name = "result"
-    _gdf = _gdf.merge(
-        series, how="left", left_on=f"{join_object}id", right_index=True
-    ).set_index("nen3610id")
+    _gdf = _gdf.merge(series, how="left", left_on=f"{join_object}id", right_index=True)
 
     # fill series if if provided
     if fill_value is not None:
         _gdf.loc[_gdf["result"].isna(), "result"] = fill_value
-    
+
     return _gdf["result"]
+
 
 def object_relation(
     gdf,
@@ -286,12 +287,10 @@ def object_relation(
     # remove NaN values in from related_gdf[related_parameter]
     if related_parameter:
         if "geometry" in related_parameter:
-           related_gdf[related_parameter] = _get_geometric_attribute(
-               related_gdf,
-               related_parameter
-               ) 
+            related_gdf[related_parameter] = _get_geometric_attribute(
+                related_gdf, related_parameter
+            )
         related_gdf = related_gdf.loc[related_gdf[related_parameter].notna()]
-
 
     # compute statistic
     if statistic == "count":
@@ -312,7 +311,7 @@ def object_relation(
     series = pd.DataFrame(series.loc[series.index.isin(gdf["globalid"])]).reset_index()
     gdf_out = gdf_out.merge(
         series, how="left", left_on="globalid", right_on=code_relation
-    ).set_index("nen3610id")
+    )
 
     # fill series if if provided
     if fill_value is not None:

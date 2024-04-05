@@ -1,5 +1,4 @@
 import fiona
-from shapely.geometry import shape
 import time
 import logging
 import geopandas as gpd
@@ -37,25 +36,19 @@ def get_functions(module):
 
 def read_geopackage(file_path, layer):
     """Read file as GeoDataFrame."""
-    src = fiona.open(file_path, "r", layer=layer)
-    rows = []
-    columns = list(src.schema["properties"].keys()) + ["geometry"]
-    dtypes = normalize_fiona_schema(src.schema)["properties"]
-    crs = src.crs
-    for feature in src:
-        # load geometry
-        if hasattr(feature, "__geo_interface__"):
-            feature = feature.__geo_interface__
-        row = {"geometry": shape(feature["geometry"]) if feature["geometry"] else None}
-        # load properties
-        row.update(feature["properties"])
-        rows.append(row)
-    src.close()
-    gdf = gpd.GeoDataFrame(rows, columns=columns, crs=crs)
-    # fix integers with None
+    gdf = gpd.read_file(file_path, layer=layer, engine="pyogrio", use_fid_as_index=True)
+
+    if type(gdf) == pd.DataFrame:
+        gdf = gpd.GeoDataFrame(gdf, geometry=gpd.GeoSeries())
+
+    # fix integers to nullable type
+    with fiona.open(file_path, "r", layer=layer) as src:
+        dtypes = normalize_fiona_schema(src.schema)["properties"]
+
     for k, v in dtypes.items():
         if v == "int64":
             gdf[k] = gdf[k].astype(pd.Int64Dtype())
+
     return gdf
 
 

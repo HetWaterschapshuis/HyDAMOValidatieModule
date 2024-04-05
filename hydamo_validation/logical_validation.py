@@ -18,6 +18,7 @@ SUMMARY_COLUMNS = [
 ]
 LIST_SEPARATOR = ";"
 NOTNA_COL_IGNORE = ["related_parameter"]
+EXCEPTION_COL = "nen3610id"
 
 
 def _process_general_function(gdf, function, input_variables):
@@ -33,7 +34,7 @@ def _process_topologic_function(gdf, datamodel, function, input_variables):
 
 
 def _notna_indices(gdf, input_variables):
-    cols = ["nen3610id"]
+    cols = []
     for k, v in input_variables.items():
         if k not in NOTNA_COL_IGNORE:
             if type(v) is not list:
@@ -101,9 +102,9 @@ def gdf_add_summary(
     if critical:
         gdf.loc[gdf[variable] == False, "invalid_critical"] += f"{rule_id}{separator}"
     else:
-        gdf.loc[
-            gdf[variable] == False, "invalid_non_critical"
-        ] += f"{rule_id}{separator}"
+        gdf.loc[gdf[variable] == False, "invalid_non_critical"] += (
+            f"{rule_id}{separator}"
+        )
     if tags is not None:
         gdf.loc[tags_indices, ("tags_assigned")] += f"{tags}{separator}"
         gdf.loc[gdf[variable] == False, "tags_invalid"] += f"{tags}{separator}"
@@ -229,8 +230,7 @@ def execute(
                 if "exceptions" in rule.keys():
                     exceptions = rule["exceptions"]
                     indices = object_gdf.loc[
-                        ~object_gdf.index.isin(exceptions)
-                        & ~object_gdf["nen3610id"].isna()
+                        ~object_gdf[EXCEPTION_COL].isin(exceptions)
                     ].index
                 else:
                     indices = object_gdf.index
@@ -267,10 +267,10 @@ def execute(
                 if object_gdf.loc[indices].empty:
                     object_gdf[result_variable] = None
                 elif rule["type"] == "logic":
-                    object_gdf.loc[
-                        indices, (result_variable)
-                    ] = _process_logic_function(
-                        object_gdf.loc[indices], function, input_variables
+                    object_gdf.loc[indices, (result_variable)] = (
+                        _process_logic_function(
+                            object_gdf.loc[indices], function, input_variables
+                        )
                     )
                 elif (rule["type"] == "topologic") and (
                     hasattr(datamodel, "hydroobject")
