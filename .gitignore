@@ -62,3 +62,4 @@ tests/data/result_layers.gpkg
 
 tests/data/schemas/*
 debug/*
+test_coverage.cmd

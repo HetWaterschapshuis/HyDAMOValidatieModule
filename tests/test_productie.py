@@ -52,12 +52,9 @@ def execute_task_by_id_and_format(
 
         directory = f"{TaskHelper.data_folder}/{task.id}"
         covarage = f"{TaskHelper.data_folder}/dtm"
-        schemas = f"{TaskHelper.data_folder}/schemas"
 
         hydamo_validator = validator(
             output_types=task.format.split(","),
-            coverages={"AHN": covarage},
-            schemas_path=Path(schemas),
         )
 
         # start validate
@@ -101,3 +98,6 @@ def test_run_productie():
     )
 
     assert result["success"]
+
+
+# %%
