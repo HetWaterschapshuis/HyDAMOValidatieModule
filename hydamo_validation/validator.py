@@ -60,7 +60,6 @@ def _log_to_results(log_file, result_summary):
 
 def read_validation_rules(
     validation_rules_json: Path,
-    schemas_path: Path = SCHEMAS_PATH,
     result_summary: Union[ResultSummary, None] = None,
 ) -> dict:
     """_summary_
@@ -88,26 +87,26 @@ def read_validation_rules(
         validation_rules_sets = json.loads(validation_rules_json.read_text())
     except JSONDecodeError as e:
         if result_summary is not None:
-            result_summary.error = (
+            result_summary.error = [
                 "the file with validationrules is not a valid JSON (see exception)"
-            )
+            ]
         raise e
     try:
         rules_version = validation_rules_sets["schema"]
-        schema = _read_schema(rules_version, schemas_path)
+        schema = _read_schema(rules_version, SCHEMAS_PATH)
     except FileNotFoundError as e:
         if result_summary is not None:
-            result_summary.error = (
+            result_summary.error = [
                 "schema version cannot be read from validation rules (see exception)"
-            )
+            ]
         raise e
     try:
         validate(validation_rules_sets, schema)
     except ValidationError as e:
         if result_summary is not None:
-            result_summary.error = (
+            result_summary.error = [
                 "validation rules invalid according to json-schema (see exception)"
-            )
+            ]
         raise e
 
     return validation_rules_sets
@@ -117,7 +116,6 @@ def validator(
     output_types: List[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
-    schemas_path: Path = SCHEMAS_PATH,
 ) -> Callable:
     """
 
@@ -130,9 +128,6 @@ def validator(
         Level for logger. The default is "INFO".
     coverages : dict, optional
        Location of coverages. E.g. {"AHN: path_to_ahn_dir} The default is {}.
-    schemas_path : Path, optional
-        Path to the HyDAMO and validation_rules schemas.
-        The default is Path(__file__).parent.joinpath(r"./schemas").
 
     Returns
     -------
@@ -145,7 +140,6 @@ def validator(
         _validator,
         output_types=output_types,
         log_level=log_level,
-        schemas_path=schemas_path,
         coverages=coverages,
     )
 
@@ -155,7 +149,6 @@ def _validator(
     output_types: List[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
-    schemas_path: Path = SCHEMAS_PATH,
     raise_error: bool = False,
 ):
     """
@@ -170,9 +163,6 @@ def _validator(
         Level for logger. The default is "INFO".
     coverages : dict, optional
        Location of coverages. E.g. {"AHN: path_to_ahn_dir} The default is {}.
-    schemas_path : Path, optional
-        Path to the HyDAMO and validation_rules schemas.
-        The default is Path(__file__).parent.joinpath(r"./schemas").
     raise_error: bool, optional
         Will raise an error (or not) when Exception is raised. The default is False
 
@@ -219,11 +209,11 @@ def _validator(
             if not path.exists():
                 missing_paths += [str(path)]
         if missing_paths:
-            result_summary.error = f'missing_paths: {",".join(missing_paths)}'
+            result_summary.error = [f'missing_paths: {",".join(missing_paths)}']
             raise FileNotFoundError(f'missing_paths: {",".join(missing_paths)}')
         else:
             validation_rules_sets = read_validation_rules(
-                validation_rules_json, schemas_path
+                validation_rules_json, SCHEMAS_PATH
             )
 
         # check if output-files are supported
@@ -234,7 +224,7 @@ def _validator(
             error_message = (
                 r"unsupported output types: " f'{",".join(unsupported_output_types)}'
             )
-            result_summary.error = error_message
+            result_summary.error = [error_message]
             raise TypeError(error_message)
 
         # set coverages
@@ -249,7 +239,7 @@ def _validator(
             hydamo_version = validation_rules_sets["hydamo_version"]
             datamodel = HyDAMO(version=hydamo_version, schemas_path=HYDAMO_SCHEMAS_PATH)
         except Exception as e:
-            result_summary.error = "datamodel cannot be defined (see exception)"
+            result_summary.error = ["datamodel cannot be defined (see exception)"]
             raise e
 
         # validate dataset syntax
@@ -281,7 +271,9 @@ def _validator(
             gdf, schema = datasets.read_layer(
                 layer, result_summary=result_summary, status_object=status_object
             )
-            if gdf.empty:  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
+            if (
+                gdf.empty
+            ):  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
                 logger.warning(
                     f"layer {layer} is empty. Be aware only values of {status_object} in field 'statusobject' are read!"
                 )

@@ -118,17 +118,19 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
     def __init__(
         self,
         validation_schema: list[dict[str, Any]],
-        geotype: list[
-            Literal[
-                "LineString",
-                "MultiLineString",
-                "Point",
-                "PointZ",
-                "Polygon",
-                "MultiPolygon",
+        geotype: (
+            list[
+                Literal[
+                    "LineString",
+                    "MultiLineString",
+                    "Point",
+                    "PointZ",
+                    "Polygon",
+                    "MultiPolygon",
+                ]
             ]
-        ]
-        | None,
+            | None
+        ),
         layer_name: str = "",
         required_columns: list[str] = [],
         logger=logging,

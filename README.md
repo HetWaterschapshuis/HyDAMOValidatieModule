@@ -25,6 +25,13 @@ conda activate validatietool
 ```
 
 ### Install hydamo_validation
+Simply install the module in the activated environment:
+
+```
+pip install hydamo_validation
+```
+
+### Develop-install hydamo_validation
 Download or clone the repository. Now simply install the module in the activated environment:
 
 ```

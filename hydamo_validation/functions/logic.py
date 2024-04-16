@@ -2,15 +2,22 @@
 
 import pandas as pd
 
+
 def _overlapping_period(row, df, start_date, end_date):
     _df = df[df.index != row.name]
-    return ~((row[start_date] <= _df[end_date]) & (row[end_date] >= _df[end_date])).any()
+    return ~(
+        (row[start_date] <= _df[end_date]) & (row[end_date] >= _df[end_date])
+    ).any()
+
 
 def _check_attributes(gdf, attributes):
     for i in attributes:
         if type(i) == str:
             if not i in gdf.columns:
-                raise KeyError(fr"'{i}' not in columns: {gdf.columns.to_list()}. Rule cannot be executed")
+                raise KeyError(
+                    rf"'{i}' not in columns: {gdf.columns.to_list()}. Rule cannot be executed"
+                )
+
 
 def LE(gdf, left, right, dtype=bool):
     """
@@ -267,13 +274,16 @@ def join_object_exists(gdf, join_gdf, join_object):
     _check_attributes(gdf, [f"{join_object}id"])
     return gdf[f"{join_object}id"].isin(join_gdf["globalid"])
 
-def consistent_period(gdf,
-                      max_gap=1,
-                      groupers=["pompid", "regelmiddelid"],
-                      priority="prioriteit",
-                      start_date="beginperiode",
-                      date_format = "%d%m",
-                      end_date="eindperiode"):
+
+def consistent_period(
+    gdf,
+    max_gap=1,
+    groupers=["pompid", "regelmiddelid"],
+    priority="prioriteit",
+    start_date="beginperiode",
+    date_format="%d%m",
+    end_date="eindperiode",
+):
     """Check if a periodic-based table is time-consistent
 
     Parameters
@@ -292,31 +302,37 @@ def consistent_period(gdf,
 
     # create an empty result
     _gdf = gdf.copy()
-    result = pd.Series(index = _gdf.index)
+    result = pd.Series(index=_gdf.index)
 
     # convert start_parameter and end_parameter to datetime
     _gdf[start_date] = pd.to_datetime(_gdf[start_date], format=date_format)
     _gdf[end_date] = pd.to_datetime(_gdf[end_date], format=date_format)
 
     index_select = _gdf[start_date] > _gdf[end_date]
-    _gdf.loc[index_select, end_date] = _gdf[index_select][end_date] + pd.offsets.DateOffset(years=1)
+    _gdf.loc[index_select, end_date] = _gdf[index_select][
+        end_date
+    ] + pd.offsets.DateOffset(years=1)
 
     for group in groupers:
         grouper = _gdf.groupby(by=[group, "prioriteit"])
-        
-        for _, df in _gdf.groupby(by=["pompid","prioriteit"]):
+
+        for _, df in _gdf.groupby(by=["pompid", "prioriteit"]):
             df.sort_values(by=start_date, inplace=True)
 
-            #check for overlap
-            bool_series = df.apply((lambda x:_overlapping_period(x, df, start_date, end_date)), axis=1)
+            # check for overlap
+            bool_series = df.apply(
+                (lambda x: _overlapping_period(x, df, start_date, end_date)), axis=1
+            )
 
-            #check for gaps
+            # check for gaps
             gaps_series = df[start_date] - df.shift(1)[end_date]
-            gaps_series.iloc[0] = pd.Timedelta(days=0) # due to shift we have NaT here
+            gaps_series.iloc[0] = pd.Timedelta(days=0)  # due to shift we have NaT here
 
             # add to result
             bool_series = (gaps_series <= pd.Timedelta(days=int(max_gap))) & bool_series
-            bool_series = bool_series[bool_series.index.isin(result[result.isna() | (result == True)].index)]
+            bool_series = bool_series[
+                bool_series.index.isin(result[result.isna() | (result == True)].index)
+            ]
             result.loc[result.index.isin(bool_series.index)] = bool_series
 
     return result
