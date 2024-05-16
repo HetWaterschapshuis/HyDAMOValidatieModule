@@ -102,9 +102,9 @@ def gdf_add_summary(
     if critical:
         gdf.loc[gdf[variable] == False, "invalid_critical"] += f"{rule_id}{separator}"
     else:
-        gdf.loc[gdf[variable] == False, "invalid_non_critical"] += (
-            f"{rule_id}{separator}"
-        )
+        gdf.loc[
+            gdf[variable] == False, "invalid_non_critical"
+        ] += f"{rule_id}{separator}"
     if tags is not None:
         gdf.loc[tags_indices, ("tags_assigned")] += f"{tags}{separator}"
         gdf.loc[gdf[variable] == False, "tags_invalid"] += f"{tags}{separator}"

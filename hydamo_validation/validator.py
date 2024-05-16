@@ -23,7 +23,7 @@ import traceback
 
 OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 LOG_LEVELS = Literal["INFO", "DEBUG"]
-INCLUDE_COLUMNS = ["code"]
+INCLUDE_COLUMNS = ["nen3610id", "code"]
 SCHEMAS_PATH = Path(__file__).parent.joinpath(r"./schemas")
 HYDAMO_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("hydamo")
 RULES_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("rules")
@@ -219,11 +219,11 @@ def _validator(
             if not path.exists():
                 missing_paths += [str(path)]
         if missing_paths:
-            result_summary.error = [f'missing_paths: {",".join(missing_paths)}']
+            result_summary.error += [f'missing_paths: {",".join(missing_paths)}']
             raise FileNotFoundError(f'missing_paths: {",".join(missing_paths)}')
         else:
             validation_rules_sets = read_validation_rules(
-                validation_rules_json, SCHEMAS_PATH
+                validation_rules_json, result_summary
             )
 
         # check if output-files are supported
@@ -234,7 +234,7 @@ def _validator(
             error_message = (
                 r"unsupported output types: " f'{",".join(unsupported_output_types)}'
             )
-            result_summary.error = [error_message]
+            result_summary.error += [error_message]
             raise TypeError(error_message)
 
         # set coverages
@@ -281,7 +281,9 @@ def _validator(
             gdf, schema = datasets.read_layer(
                 layer, result_summary=result_summary, status_object=status_object
             )
-            if gdf.empty:  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
+            if (
+                gdf.empty
+            ):  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
                 logger.warning(
                     f"{layer}: geen objecten ingelezen. Zorg dat alle waarden in de kolom 'status_object' voorkomen in {status_object}"
                 )
@@ -351,11 +353,11 @@ def _validator(
         return datamodel, layers_summary, result_summary
 
     except Exception as e:
-        stacktrace = traceback.print_exc()
+        stacktrace = rf"\n{traceback.format_exc(limit=0, chain=False)}".split("\n")
         if result_summary.error is not None:
-            result_summary.error += [stacktrace]
+            result_summary.error += stacktrace
         else:
-            result_summary.error = [stacktrace]
+            result_summary.error = stacktrace
         if results_path is not None:
             result_layers = layers_summary.export(results_path, output_types)
             _log_to_results(log_file, result_summary)

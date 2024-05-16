@@ -150,7 +150,7 @@ class LayersSummary:
                             output_type, f"{object_layer}.csv"
                         )
                         df = gdf.drop("geometry", axis=1)
-                        df.to_csv(file_path)
+                        df.to_csv(file_path, index=False)
 
                     # write to geopackage as is
                     elif output_type == "geopackage":
@@ -182,7 +182,7 @@ class ResultSummary:
         self.error_layers = []
         self.syntax_result = []
         self.validation_result = []
-        self.error = None
+        self.error = []
         self.errors = None
         self.warnings = None
 
