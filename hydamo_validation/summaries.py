@@ -142,7 +142,7 @@ class LayersSummary:
                         gdf_out = gdf.copy()
                         if gdf_out.crs:
                             gdf_out.to_crs("epsg:4326", inplace=True)
-                        gdf_out.to_file(file_path, driver="GeoJSON")
+                        gdf_out.to_file(file_path, driver="GeoJSON", engine="pyogrio")
 
                     # drop geometry for writing to csv
                     elif output_type == "csv":

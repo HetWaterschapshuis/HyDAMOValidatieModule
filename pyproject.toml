@@ -37,7 +37,10 @@ zip-safe = true
 version = { attr = "hydamo_validation.__version__" }
 
 [tool.setuptools.packages.find]
-include = ["hydamo_validation"]
+include = ["hydamo_validation", "hydamo_validation.*"]
+
+[tool.setuptools.package-data]
+hydamo_validation = ["schemas/hydamo/*.json","schemas/rules/*.json", "styles/*.*"]
 
 [project.urls]
 Source = "https://github.com/HetWaterschapshuis/HyDAMOValidatieModule"

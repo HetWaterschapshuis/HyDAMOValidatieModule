@@ -54,6 +54,12 @@ def _add_log_file(logger, log_file):
     return logger
 
 
+def _remove_log_file(logger):
+    """Remove log-file from existing logger"""
+    for h in logger.handlers:
+        logger.removeHandler(h)
+
+
 def _log_to_results(log_file, result_summary):
     result_summary.log = log_file.read_text().split("\n")
 
@@ -180,7 +186,7 @@ def _validator(
             log_level=log_level,
         )
 
-        logger.info("validator start")
+        logger.info("init validatie")
         date_check = pd.Timestamp.now().isoformat()
         result_summary = ResultSummary(date_check=date_check)
         layers_summary = LayersSummary(date_check=date_check)
@@ -191,17 +197,20 @@ def _validator(
             if results_path.exists():
                 try:
                     shutil.rmtree(results_path)
+                    permission_error = False
                 except PermissionError:
-                    logger.warning(
-                        f"Cannot remove {results_path}. This may lead to write-issues later!"
-                    )
-                    pass
+                    permission_error = True
             results_path.mkdir(parents=True, exist_ok=True)
         else:
             raise FileNotFoundError(f"{dir_path.absolute().resolve()} does not exist")
 
         log_file = results_path.joinpath("validator.log")
         logger = _add_log_file(logger, log_file=log_file)
+        logger.info("start validatie")
+        if permission_error:
+            logger.warning(
+                f"Kan pad {results_path} niet verwijderen. Dit kan later tot problemen leiden!"
+            )
         dataset_path = dir_path.joinpath("datasets")
         validation_rules_json = dir_path.joinpath("validationrules.json")
         missing_paths = []
@@ -249,7 +258,7 @@ def _validator(
         result_summary.dataset_layers = datasets.layers
 
         ## validate syntax of datasets on layers-level and append to result
-        logger.info("start syntax-validation of object-layers")
+        logger.info("start syntax-validatie van object-lagen")
         valid_layers = datamodel_layers(datamodel.layers, datasets.layers)
         result_summary.missing_layers = missing_layers(
             datamodel.layers, datasets.layers
@@ -265,17 +274,15 @@ def _validator(
             status_object = validation_rules_sets["status_object"]
 
         for layer in valid_layers:
-            logger.info(f"read layer {layer}")
+            logger.info(f"{layer}: inlezen")
 
             # read layer
             gdf, schema = datasets.read_layer(
                 layer, result_summary=result_summary, status_object=status_object
             )
-            if (
-                gdf.empty
-            ):  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
+            if gdf.empty:  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
                 logger.warning(
-                    f"layer {layer} is empty. Be aware only values of {status_object} in field 'statusobject' are read!"
+                    f"{layer}: geen objecten ingelezen. Zorg dat alle waarden in de kolom 'status_object' voorkomen in {status_object}"
                 )
                 continue
 
@@ -285,23 +292,28 @@ def _validator(
                     gdf[col] = None
                     schema["properties"][col] = "str"
 
-            logger.info(f"syntax-validation of fields in layer {layer}")
+            logger.info(f"{layer}: syntax-validatie")
             gdf, result_gdf = fields_syntax(
                 gdf,
-                schema,
-                datamodel.validation_schemas[layer],
+                schema=schema,
+                validation_schema=datamodel.validation_schemas[layer],
                 keep_columns=INCLUDE_COLUMNS,
             )
 
             # Add the syntax-validation result to the results_summary
             layers_summary.set_data(result_gdf, layer, schema["geometry"])
             # Add the corrected datasets_layer data to the datamodel.
-            datamodel.set_data(gdf, layer, index_col=None)
+            if gdf.empty:
+                logger.warning(
+                    f"{layer}: geen valide objecten na syntax-validatie. Inspecteer 'syntax_oordeel' in de resultaten; deze is false voor alle objecten. De laag zal genegeerd worden in de (topo)logische validatie."
+                )
+            else:
+                datamodel.set_data(gdf, layer, index_col=None)
             syntax_result += [layer]
 
         # do logical validation: append result to layers_summary
         result_summary.status = "logical validation"
-        logger.info("start (topo)logical-validation")
+        logger.info("start (topo)logische validatie van object-lagen")
         layers_summary, result_summary = logical_validation.execute(
             datamodel,
             validation_rules_sets,
@@ -312,7 +324,7 @@ def _validator(
         )
 
         # finish validation and export results
-        logger.info("exporting results")
+        logger.info("exporteren resultaten")
         result_summary.status = "export results"
         result_layers = layers_summary.export(results_path, output_types)
         result_summary.result_layers = result_layers
@@ -328,10 +340,12 @@ def _validator(
         result_summary.success = True
         result_summary.status = "finished"
         result_summary.duration = timer.report()
-        logger.info(f"finished in {result_summary.duration:.2f} seconds")
+        logger.info(f"klaar in {result_summary.duration:.2f} seconden")
 
         _log_to_results(log_file, result_summary)
         result_summary.to_json(results_path)
+
+        _remove_log_file(logger)
 
         return datamodel, layers_summary, result_summary
 
@@ -351,5 +365,7 @@ def _validator(
             raise e
         else:
             result_summary.to_dict()
+
+        _remove_log_file(logger)
 
         return None

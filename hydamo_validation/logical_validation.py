@@ -102,9 +102,9 @@ def gdf_add_summary(
     if critical:
         gdf.loc[gdf[variable] == False, "invalid_critical"] += f"{rule_id}{separator}"
     else:
-        gdf.loc[
-            gdf[variable] == False, "invalid_non_critical"
-        ] += f"{rule_id}{separator}"
+        gdf.loc[gdf[variable] == False, "invalid_non_critical"] += (
+            f"{rule_id}{separator}"
+        )
     if tags is not None:
         gdf.loc[tags_indices, ("tags_assigned")] += f"{tags}{separator}"
         gdf.loc[gdf[variable] == False, "tags_invalid"] += f"{tags}{separator}"
@@ -127,11 +127,14 @@ def execute(
         for i in validation_rules_sets["objects"]
         if i["object"] in datamodel.data_layers
     )
+    logger.info(
+        f"lagen met valide objecten én regels: {[i["object"] for i in object_rules_sets]}"
+    )
     for object_rules in object_rules_sets:
         col_translation: dict = {}
 
         object_layer = object_rules["object"]
-        logger.info(f"start logical validations of layer: {object_layer}")
+        logger.info(f"{object_layer}: start")
         object_gdf = getattr(datamodel, object_layer).copy()
 
         # add summary columns
@@ -145,7 +148,7 @@ def execute(
             general_rules_sorted = sorted(general_rules, key=lambda k: k["id"])
             for rule in general_rules_sorted:
                 logger.info(
-                    f"{object_layer}: executing general-rule with id {rule['id']}"
+                    f"{object_layer}: uitvoeren general-rule met id {rule['id']}"
                 )
                 try:
                     result_variable = rule["result_variable"]
@@ -224,7 +227,7 @@ def execute(
             try:
                 rule_id = rule["id"]
                 logger.info(
-                    f"{object_layer}: executing validation-rule with id {rule_id} ({rule['name']})"
+                    f"{object_layer}: uitvoeren validatieregel met id {rule_id} ({rule['name']})"
                 )
                 result_variable = rule["result_variable"]
                 if "exceptions" in rule.keys():
