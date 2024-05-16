@@ -128,7 +128,7 @@ def execute(
         if i["object"] in datamodel.data_layers
     )
     logger.info(
-        f"lagen met valide objecten én regels: {[i["object"] for i in object_rules_sets]}"
+        rf"lagen met valide objecten én regels: {[i["object"] for i in object_rules_sets]}"
     )
     for object_rules in object_rules_sets:
         col_translation: dict = {}

@@ -54,9 +54,10 @@ def _add_log_file(logger, log_file):
     return logger
 
 
-def _remove_log_file(logger):
+def _close_log_file(logger):
     """Remove log-file from existing logger"""
     for h in logger.handlers:
+        h.close()
         logger.removeHandler(h)
 
 
@@ -192,12 +193,12 @@ def _validator(
         layers_summary = LayersSummary(date_check=date_check)
         # check if all files are present
         # create a results_path
+        permission_error = False
         if dir_path.exists():
             results_path = dir_path.joinpath("results")
             if results_path.exists():
                 try:
                     shutil.rmtree(results_path)
-                    permission_error = False
                 except PermissionError:
                     permission_error = True
             results_path.mkdir(parents=True, exist_ok=True)
@@ -345,14 +346,12 @@ def _validator(
         _log_to_results(log_file, result_summary)
         result_summary.to_json(results_path)
 
-        _remove_log_file(logger)
+        _close_log_file(logger)
 
         return datamodel, layers_summary, result_summary
 
     except Exception as e:
-        e_str = str(e).replace("\n", " ")
-        e_str = " ".join(e_str.split())
-        stacktrace = rf"{traceback.format_exc(limit=2)}".split("\n")
+        stacktrace = traceback.print_exc()
         if result_summary.error is not None:
             result_summary.error += [stacktrace]
         else:
@@ -366,6 +365,6 @@ def _validator(
         else:
             result_summary.to_dict()
 
-        _remove_log_file(logger)
+        _close_log_file(logger)
 
         return None
