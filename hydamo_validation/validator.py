@@ -281,9 +281,7 @@ def _validator(
             gdf, schema = datasets.read_layer(
                 layer, result_summary=result_summary, status_object=status_object
             )
-            if (
-                gdf.empty
-            ):  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
+            if gdf.empty:  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
                 logger.warning(
                     f"{layer}: geen objecten ingelezen. Zorg dat alle waarden in de kolom 'status_object' voorkomen in {status_object}"
                 )

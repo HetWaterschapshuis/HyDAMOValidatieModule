@@ -6,5 +6,10 @@
             "source.fixAll": "explicit"
         }
     },
-    "julia.environmentPath": "d:\\repositories\\HyDAMOValidatieModule"
+    "julia.environmentPath": "d:\\repositories\\HyDAMOValidatieModule",
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }

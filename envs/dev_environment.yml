@@ -8,6 +8,7 @@ dependencies:
   - python>=3.12
   - black
   - geopandas==0.14.3
+  - ipykernel
   - jupyter
   - mkdocs
   - mkdocstrings

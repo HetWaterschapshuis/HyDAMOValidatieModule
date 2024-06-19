@@ -161,6 +161,7 @@ class LayersSummary:
                             layer=object_layer,
                             driver="GPKG",
                             engine="pyogrio",
+                            layer_options={"OVERWRITE": "YES"},
                         )
                 layers += [object_layer]
             else:

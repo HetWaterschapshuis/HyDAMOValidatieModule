@@ -1,5 +1,6 @@
 """Logical validation."""
 
+# %%
 from hydamo_validation import general_functions, logic_functions, topologic_functions
 from shapely.geometry import LineString, Point, Polygon
 import numpy as np
@@ -102,9 +103,9 @@ def gdf_add_summary(
     if critical:
         gdf.loc[gdf[variable] == False, "invalid_critical"] += f"{rule_id}{separator}"
     else:
-        gdf.loc[
-            gdf[variable] == False, "invalid_non_critical"
-        ] += f"{rule_id}{separator}"
+        gdf.loc[gdf[variable] == False, "invalid_non_critical"] += (
+            f"{rule_id}{separator}"
+        )
     if tags is not None:
         gdf.loc[tags_indices, ("tags_assigned")] += f"{tags}{separator}"
         gdf.loc[gdf[variable] == False, "tags_invalid"] += f"{tags}{separator}"
@@ -122,13 +123,13 @@ def execute(
 ):
     """Execute the logical validation."""
 
-    object_rules_sets = (
+    object_rules_sets = [
         i
         for i in validation_rules_sets["objects"]
         if i["object"] in datamodel.data_layers
-    )
+    ]
     logger.info(
-        rf"lagen met valide objecten én regels: {[i["object"] for i in object_rules_sets]}"
+        rf"lagen met valide objecten en regels: {[i["object"] for i in object_rules_sets]}"
     )
     for object_rules in object_rules_sets:
         col_translation: dict = {}
