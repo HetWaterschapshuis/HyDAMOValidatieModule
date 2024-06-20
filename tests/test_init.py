@@ -2,13 +2,15 @@
 Test voor __init__.py
 """
 
-from hydamo_validation.__init__ import (__author__,
-                                        __copyright__,
-                                        __credits__,
-                                        __version__,
-                                        __license__,
-                                        __maintainer__,
-                                        __email__)
+from hydamo_validation.__init__ import (
+    __author__,
+    __copyright__,
+    __credits__,
+    __version__,
+    __license__,
+    __maintainer__,
+    __email__,
+)
 
 author = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
 copyright = "Copyright 2021, HyDAMO ValidatieTool"

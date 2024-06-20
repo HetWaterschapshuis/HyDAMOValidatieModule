@@ -61,3 +61,7 @@ tests/data/tasks/test_dommelerwaard/mask.gpkg
 tests/data/result_layers.gpkg
 
 tests/data/schemas/*
+debug/*
+
+# windows cmd-files
+*.cmd

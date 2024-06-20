@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hydamo_validation"
+description = "Validation module for HyDAMO data"
+readme = "README.md"
+authors = [
+    { name = "Daniel Tollenaar", email = "daniel@d2hydro.nl" },
+]
+license = { text = "MIT" }
+
+requires-python = ">=3.12"
+dependencies = [
+    "geopandas",
+    "pandas>=2",
+    "pyogrio",
+    "rasterio",
+    "shapely>=2",
+    "rasterstats",
+]
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+tests = ["pytest"]
+
+[tool.flake8]
+max-line-length = 120
+max-complexity = 10
+
+[tool.setuptools]
+zip-safe = true
+
+[tool.setuptools.dynamic]
+version = { attr = "hydamo_validation.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["hydamo_validation", "hydamo_validation.*"]
+
+[tool.setuptools.package-data]
+hydamo_validation = ["schemas/hydamo/*.json","schemas/rules/*.json", "styles/*.*"]
+
+[project.urls]
+Source = "https://github.com/HetWaterschapshuis/HyDAMOValidatieModule"

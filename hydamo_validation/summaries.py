@@ -62,8 +62,7 @@ class LayersSummary:
 
     def join_gdf(self, gdf, layer):
         """
-        Join a GeoDataFrame to an existing property in layer summary. Join will
-        be made on nen3610id index
+        Join a GeoDataFrame to an existing property in layer summary.
 
         Parameters
         ----------
@@ -81,13 +80,13 @@ class LayersSummary:
 
         if hasattr(self, layer):
             results_gdf = getattr(self, layer)
-            if ("nen3610id" in gdf.columns) and ("nen3610id" in results_gdf.columns):
-                if "geometry" in gdf.columns:
-                    gdf.drop(columns=["geometry"], inplace=True)
+            drop_cols = [i for i in ["geometry", "nen3610id"] if i in gdf.columns]
+            if drop_cols:
+                gdf.drop(columns=drop_cols, inplace=True)
             setattr(
                 self,
                 layer,
-                results_gdf.set_index("nen3610id").join(gdf.set_index("nen3610id")),
+                results_gdf.join(gdf),
             )
 
     def export(self, results_path, output_types=OUTPUT_TYPES):
@@ -121,7 +120,6 @@ class LayersSummary:
 
         # export results to files
         for object_layer, gdf in gdf_dict.items():
-
             if "rating" not in gdf.columns:
                 gdf["rating"] = 10
 
@@ -131,7 +129,7 @@ class LayersSummary:
                     "geometry": self.geo_types[object_layer],
                 }
 
-                #add date_check
+                # add date_check
                 gdf["date_check"] = self.date_check
                 schema["properties"]["date_check"] = "str"
 
@@ -144,7 +142,7 @@ class LayersSummary:
                         gdf_out = gdf.copy()
                         if gdf_out.crs:
                             gdf_out.to_crs("epsg:4326", inplace=True)
-                        gdf_out.to_file(file_path, driver="GeoJSON")
+                        gdf_out.to_file(file_path, driver="GeoJSON", engine="pyogrio")
 
                     # drop geometry for writing to csv
                     elif output_type == "csv":
@@ -152,14 +150,18 @@ class LayersSummary:
                             output_type, f"{object_layer}.csv"
                         )
                         df = gdf.drop("geometry", axis=1)
-                        df.to_csv(file_path)
+                        df.to_csv(file_path, index=False)
 
                     # write to geopackage as is
                     elif output_type == "geopackage":
                         file_path = results_path.joinpath("results.gpkg")
 
                         gdf.to_file(
-                            file_path, layer=object_layer, driver="GPKG", schema=schema
+                            file_path,
+                            layer=object_layer,
+                            driver="GPKG",
+                            engine="pyogrio",
+                            layer_options={"OVERWRITE": "YES"},
                         )
                 layers += [object_layer]
             else:
@@ -181,7 +183,7 @@ class ResultSummary:
         self.error_layers = []
         self.syntax_result = []
         self.validation_result = []
-        self.error = None
+        self.error = []
         self.errors = None
         self.warnings = None
 

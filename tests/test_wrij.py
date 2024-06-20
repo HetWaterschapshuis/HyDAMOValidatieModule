@@ -1,3 +1,4 @@
+# %%
 from hydamo_validation import validator
 from hydamo_validation import __version__
 from pathlib import Path
@@ -14,16 +15,14 @@ exports_dir = Path(__file__).parent / "exports"
 exports_dir.mkdir(exist_ok=True)
 
 
-hydamo_validator = validator(output_types=["geopackage", "csv", "geojson"],
-                             coverages=coverage,
-                             log_level="INFO"
-                             )
+hydamo_validator = validator(
+    output_types=["geopackage", "csv", "geojson"], coverages=coverage, log_level="INFO"
+)
 
 
 datamodel, layer_summary, result_summary = hydamo_validator(
-    directory=directory,
-    raise_error=True
-    )  
+    directory=directory, raise_error=True
+)
 
 
 def test_non_existing_dir():
@@ -46,10 +45,9 @@ def test_missing_data():
 
 
 def test_output_type_data():
-    _hydamo_validator = validator(output_types=["not_supported"],
-                                  coverages=coverage,
-                                  log_level="INFO"
-                                  )
+    _hydamo_validator = validator(
+        output_types=["not_supported"], coverages=coverage, log_level="INFO"
+    )
     try:
         _hydamo_validator(directory=directory, raise_error=True)
         assert False
@@ -82,78 +80,86 @@ def test_result_finished():
 
 
 def test_result_validation_results():
-    expected_result = ['duikersifonhevel',
-                       'regelmiddel',
-                       'kunstwerkopening',
-                       'stuw',
-                       'brug',
-                       'pomp',
-                       'gemaal',
-                       'hydroobject']
+    expected_result = [
+        "duikersifonhevel",
+        "regelmiddel",
+        "kunstwerkopening",
+        "stuw",
+        "brug",
+        "pomp",
+        "gemaal",
+        "hydroobject",
+    ]
     assert all([i in expected_result for i in result_summary.validation_result])
 
 
 def test_result_dataset_layers():
-    expected_result = ['Afvoergebiedaanvoergebied',
-                       'Duikersifonhevel',
-                       'Hydroobject',
-                       'Regelmiddel',
-                       'Stuw',
-                       'Brug',
-                       'Bodemval',
-                       'Gemaal',
-                       'Kunstwerkopening',
-                       'Pomp']
+    expected_result = [
+        "Afvoergebiedaanvoergebied",
+        "Duikersifonhevel",
+        "Hydroobject",
+        "Regelmiddel",
+        "Stuw",
+        "Brug",
+        "Bodemval",
+        "Gemaal",
+        "Kunstwerkopening",
+        "Pomp",
+    ]
     assert all([i in expected_result for i in result_summary.dataset_layers])
 
 
 def test_result_result_layers():
-    expected_result = ['afvoergebiedaanvoergebied',
-                       'duikersifonhevel',
-                       'hydroobject',
-                       'regelmiddel',
-                       'stuw',
-                       'brug',
-                       'bodemval',
-                       'gemaal',
-                       'kunstwerkopening',
-                       'pomp']
+    expected_result = [
+        "afvoergebiedaanvoergebied",
+        "duikersifonhevel",
+        "hydroobject",
+        "regelmiddel",
+        "stuw",
+        "brug",
+        "bodemval",
+        "gemaal",
+        "kunstwerkopening",
+        "pomp",
+    ]
     assert all([i in expected_result for i in result_summary.result_layers])
 
 
 def test_result_missing_layers():
-    expected_result = ['admingrenswaterschap',
-                       'afsluitmiddel',
-                       'aquaduct',
-                       'beheergrenswaterschap',
-                       'bijzonderhydraulischobject',
-                       'doorstroomopening',
-                       'grondwaterinfolijn',
-                       'grondwaterinfopunt',
-                       'grondwaterkoppellijn',
-                       'grondwaterkoppelpunt',
-                       'hydrologischerandvoorwaarde',
-                       'hydroobject_normgp',
-                       'lateraleknoop',
-                       'meetlocatie',
-                       'meetwaardeactiewaarde',
-                       'normgeparamprofiel',
-                       'normgeparamprofielwaarde',
-                       'peilafwijkinggebied',
-                       'peilbesluitgebied',
-                       'peilgebiedpraktijk',
-                       'peilgebiedvigerend',
-                       'profielgroep',
-                       'profiellijn',
-                       'profielpunt',
-                       'reglementgrenswaterschap',
-                       'ruwheidprofiel',
-                       'streefpeil',
-                       'sturing',
-                       'vispassage',
-                       'vispassagevlak',
-                       'vuilvang',
-                       'zandvang']
+    expected_result = [
+        "admingrenswaterschap",
+        "afsluitmiddel",
+        "aquaduct",
+        "beheergrenswaterschap",
+        "bijzonderhydraulischobject",
+        "doorstroomopening",
+        "grondwaterinfolijn",
+        "grondwaterinfopunt",
+        "grondwaterkoppellijn",
+        "grondwaterkoppelpunt",
+        "hydrologischerandvoorwaarde",
+        "hydroobject_normgp",
+        "lateraleknoop",
+        "meetlocatie",
+        "meetwaardeactiewaarde",
+        "normgeparamprofiel",
+        "normgeparamprofielwaarde",
+        "peilafwijkinggebied",
+        "peilbesluitgebied",
+        "peilgebiedpraktijk",
+        "peilgebiedvigerend",
+        "profielgroep",
+        "profiellijn",
+        "profielpunt",
+        "reglementgrenswaterschap",
+        "ruwheidprofiel",
+        "streefpeil",
+        "sturing",
+        "vispassage",
+        "vispassagevlak",
+        "vuilvang",
+        "zandvang",
+    ]
     assert all([i in expected_result for i in result_summary.missing_layers])
 
 
@@ -162,14 +168,16 @@ def test_result_error_layers():
 
 
 def test_result_syntax_layers():
-    expected_result = ['afvoergebiedaanvoergebied',
-                       'duikersifonhevel',
-                       'hydroobject',
-                       'regelmiddel',
-                       'stuw',
-                       'brug',
-                       'bodemval',
-                       'gemaal',
-                       'kunstwerkopening',
-                       'pomp']
+    expected_result = [
+        "afvoergebiedaanvoergebied",
+        "duikersifonhevel",
+        "hydroobject",
+        "regelmiddel",
+        "stuw",
+        "brug",
+        "bodemval",
+        "gemaal",
+        "kunstwerkopening",
+        "pomp",
+    ]
     assert all([i in expected_result for i in result_summary.syntax_result])

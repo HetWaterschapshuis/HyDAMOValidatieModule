@@ -11,16 +11,18 @@ datasets = DataSets(dataset_path)
 
 
 def test_layers():
-    expected_result = ["Afvoergebiedaanvoergebied",
-                       "Duikersifonhevel",
-                       "Hydroobject",
-                       "Regelmiddel",
-                       "Stuw",
-                       "Brug",
-                       "Bodemval",
-                       "Gemaal",
-                       "Kunstwerkopening",
-                       "Pomp"]
+    expected_result = [
+        "Afvoergebiedaanvoergebied",
+        "Duikersifonhevel",
+        "Hydroobject",
+        "Regelmiddel",
+        "Stuw",
+        "Brug",
+        "Bodemval",
+        "Gemaal",
+        "Kunstwerkopening",
+        "Pomp",
+    ]
     assert datasets.layers == expected_result
 
 
@@ -32,7 +34,7 @@ def test_read_layer():
 def test_read_layer_filter_status():
     gdf, schema = datasets.read_layer(
         layer="Duikersifonhevel", status_object=["planvorming", "gerealiseerd"]
-        )
+    )
     assert len(gdf) == 53
 
 
