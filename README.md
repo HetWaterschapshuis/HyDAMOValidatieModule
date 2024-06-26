@@ -55,7 +55,7 @@ hydamo_validator = validator(
 
 ```
 
-With this validator you can validate a directory that directory should have the following structure:
+With this validator you can validate a directory that directory should have the following structure. The name of `datasets` directory and `ValidatorRules.json` are mandatory. Within datasets you can put one or more geopackages with `HyDAMO` layers.
 
 ```
 your/directory/
