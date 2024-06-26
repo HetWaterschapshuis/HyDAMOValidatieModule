@@ -38,10 +38,10 @@ Download or clone the repository. Now simply install the module in the activated
 pip install .
 ```
 
-## Run local
+## Run in Python
 
 ### Specify a coverage directory
-To get the validator running you need some AHN data. You can find these in the [data directory](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule/tree/ee9ea1efed385deb692b89057e9c97114fd8c3be/tests/data/dtm) of this directory. We assume you copy this to `your/local/ahn/dir`. Now specify your coverage and init the validator:
+To get the validator running you need some AHN data. You can find these in the [data directory](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule/tree/ee9ea1efed385deb692b89057e9c97114fd8c3be/tests/data/dtm) of this directory. We assume you copy this to `your/local/ahn/dir`. Now specify your coverage and init the validator in a python-script:
 
 ```
 from hydamo_validation import validator
@@ -55,31 +55,21 @@ hydamo_validator = validator(
 
 ```
 
+With this validator you can validate a directory that directory should have the following structure:
 
+```
+your/directory/
+├─ datasets/
+│  ├─ hydamo.gpkg
+├─ ValidationRules.json
+```
 
-DATA_DIR = Path(__file__).parents[1].joinpath("tests", "data")
-ISSUES_DIR = Path(r"d:\projecten\D2401.ValidatieModule\01.Issues")
-ISSUE_CODE = "HYV-214"
+Now you can validate the `HyDAMO` layers inside `your/ directory` by:
+```
 
+directory = Path("your/directory")
 
-coverage = {"AHN": DATA_DIR.joinpath(r"dtm")}
-directory = ISSUES_DIR / ISSUE_CODE
-
-# %%
-
-hydamo_validator = validator(
-    output_types=["geopackage"], coverages=coverage, log_level="INFO"
-)
-
-# %%
 datamodel, layer_summary, result_summary = hydamo_validator(
-    directory=directory, raise_error=True
+    directory=directory, raise_error=False
 )
-
-A working example with data can be found in `notebooks/test_wrij.ipynb`. In the activated environment launch jupyter notebook by:
-
 ```
-jupyter notebook
-```
-
-Select `test_wrij.ipynb` read and run it.
