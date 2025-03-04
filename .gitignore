@@ -41,6 +41,7 @@ tests/data/tasks/test_wrij/results/*
 tests/data/tasks/test_profielen/results/*
 tests/data/tasks/test_sturing/results/*
 tests/data/tasks/test_dommelerwaard/results/*
+tests/data/tasks/test_testset/results/*
 tests/exports/*
 tests/data/1877/results/*
 

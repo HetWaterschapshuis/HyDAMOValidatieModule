@@ -249,13 +249,21 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
     geotype = next(
         (i["dtype"] for i in validation_schema if i["id"] == "geometry"), None
     )
+
+    # since shapely2.0 we can't use PointZ anymore
     if geotype:
+        has_z = any(i.endswith("Z") for i in geotype)
+        if has_z:
+            geotype = [i[:-1] if i.endswith("Z") else i for i in geotype]
         result_col = "syntax_geometry"
         validation_gdf[result_col] = ""
 
         bool_series = ~(
-            ~result_gdf["geometry"].is_valid | result_gdf["geometry"].type.isin(geotype)
+            result_gdf["geometry"].is_valid
+            & result_gdf["geometry"].geom_type.isin(geotype)
+            & (result_gdf["geometry"].has_z == has_z)
         )
+
         validation_gdf.loc[bool_series, result_col] = result_gdf[
             bool_series
         ].geometry.apply(lambda x: f"{x.type} -> NULL (7)")
