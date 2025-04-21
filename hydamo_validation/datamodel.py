@@ -5,7 +5,7 @@ import logging
 import re
 import warnings
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 
 import fiona
 import geopandas as gpd
@@ -118,7 +118,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
     def __init__(
         self,
         validation_schema: list[dict[str, Any]],
-        geotype: (
+        geotype: Optional[
             list[
                 Literal[
                     "LineString",
@@ -129,8 +129,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
                     "MultiPolygon",
                 ]
             ]
-            | None
-        ),
+        ] = None,
         layer_name: str = "",
         required_columns: list[str] = [],
         logger=logging,
