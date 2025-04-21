@@ -9,8 +9,8 @@ from typing import Any, Literal
 
 import fiona
 import geopandas as gpd
-from geopandas import GeoSeries
 import numpy as np
+from geopandas import GeoSeries
 from shapely.geometry import LineString, MultiLineString, MultiPolygon, Point, Polygon
 
 from hydamo_validation import geometry
@@ -171,10 +171,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
     def _check_geotype(self):
         """Check geometry type"""
         if self.geotype:
-            if not all(
-                any(isinstance(geo, GEOTYPE_MAPPING[i]) for i in self.geotype)
-                for geo in self.geometry
-            ):
+            if not all(any(isinstance(geo, GEOTYPE_MAPPING[i]) for i in self.geotype) for geo in self.geometry):
                 raise TypeError(
                     'Geometry-type "{}" required in layer "{}". The input feature-file has geometry type(s) {}.'.format(
                         re.findall("([A-Z].*)'", repr(self.geotype))[0],
@@ -185,9 +182,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
 
     def _get_schema(self):
         """Return fiona schema dict from validation_schema."""
-        properties = {
-            i["id"]: i["dtype"] for i in self.validation_schema if i["id"] != "geometry"
-        }
+        properties = {i["id"]: i["dtype"] for i in self.validation_schema if i["id"] != "geometry"}
         # properties = {k: (v if v != "datetime" else "str") for k, v in properties}
         geometry = next(
             (i["dtype"] for i in self.validation_schema if i["id"] == "geometry"),
@@ -287,9 +282,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
         """
 
         """Snap the geometries to the branch."""
-        geometry.find_nearest_branch(
-            branches=branches, geometries=self, method=snap_method, maxdist=maxdist
-        )
+        geometry.find_nearest_branch(branches=branches, geometries=self, method=snap_method, maxdist=maxdist)
 
 
 class HyDAMO:
@@ -325,9 +318,7 @@ class HyDAMO:
         # read schema as dict
         with open(self.schema_json) as src:
             schema = json.load(src)
-            hydamo_layers = [
-                Path(i["$ref"]).name for i in schema["properties"]["HyDAMO"]["anyOf"]
-            ]
+            hydamo_layers = [Path(i["$ref"]).name for i in schema["properties"]["HyDAMO"]["anyOf"]]
             self.layers = [i for i in hydamo_layers if i not in self.ignored_layers]
 
         for hydamo_layer in self.layers:
@@ -336,15 +327,9 @@ class HyDAMO:
             self.validation_schemas[hydamo_layer] = layer_schema
 
             # add layer to data_model
-            geotype = next(
-                (i["dtype"] for i in layer_schema if i["id"] == "geometry"), None
-            )
+            geotype = next((i["dtype"] for i in layer_schema if i["id"] == "geometry"), None)
 
-            required_columns = [
-                i["id"]
-                for i in [i for i in layer_schema if "required" in i.keys()]
-                if i["required"]
-            ]
+            required_columns = [i["id"] for i in [i for i in layer_schema if "required" in i.keys()] if i["required"]]
 
             setattr(
                 self,
@@ -442,11 +427,7 @@ class HyDAMO:
                     drop_cols = [i for i in gdf.columns if i not in schema_cols]
                     gdf.drop(columns=drop_cols, inplace=True)
 
-                    schema["properties"] = {
-                        k: v
-                        for k, v in schema["properties"].items()
-                        if k in gdf.columns
-                    }
+                    schema["properties"] = {k: v for k, v in schema["properties"].items() if k in gdf.columns}
 
                     # write gdf to geopackage, including schema
                     if gdf.index.name in gdf.columns:
@@ -466,9 +447,7 @@ class HyDAMO:
             add_styles_to_geopackage(file_path)
 
     @classmethod
-    def from_geopackage(
-        cls, file_path, version="2.2", check_columns=True, check_geotype=True
-    ):
+    def from_geopackage(cls, file_path, version="2.2", check_columns=True, check_geotype=True):
         """
         Initialize HyDAMO class from GeoPackage
 
