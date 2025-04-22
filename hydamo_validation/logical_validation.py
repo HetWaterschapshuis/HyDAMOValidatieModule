@@ -129,7 +129,7 @@ def execute(
         if i["object"] in datamodel.data_layers
     ]
     logger.info(
-        rf"lagen met valide objecten en regels: {[i["object"] for i in object_rules_sets]}"
+        rf"lagen met valide objecten en regels: {[i['object'] for i in object_rules_sets]}"
     )
     for object_rules in object_rules_sets:
         col_translation: dict = {}
@@ -280,7 +280,7 @@ def execute(
                     hasattr(datamodel, "hydroobject")
                 ):
                     result_series = _process_topologic_function(
-                        getattr(datamodel, object_layer),
+                        object_gdf,
                         datamodel,
                         function,
                         input_variables,
