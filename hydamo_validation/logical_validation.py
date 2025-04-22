@@ -280,6 +280,9 @@ def execute(
                     hasattr(datamodel, "hydroobject")
                 ):
                     result_series = _process_topologic_function(
+                        # getattr(
+                        #     datamodel, object_layer
+                        # ),  # FIXME: commented as we need to apply filter in topologic functions as well. Remove after tests pass
                         object_gdf,
                         datamodel,
                         function,
