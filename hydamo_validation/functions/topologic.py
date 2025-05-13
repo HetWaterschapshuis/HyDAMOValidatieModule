@@ -4,6 +4,7 @@ from typing import Literal
 import geopandas as gpd
 import pandas as pd
 from shapely.geometry import Point
+from hydamo_validation import geometry
 
 """ 
 In this block we define supporting functions. Supporting functions are ignored
@@ -364,7 +365,9 @@ def snaps_to_hydroobject(gdf, datamodel, method, tolerance=0.001, dtype=bool):
     """
 
     branches = datamodel.hydroobject
-    gdf.snap_to_branch(branches, snap_method=method, maxdist=tolerance)
+    geometry.find_nearest_branch(
+        branches=branches, geometries=gdf, method=method, maxdist=tolerance
+    )
     series = ~gdf.branch_offset.isna()
     return series.astype(dtype)
 
@@ -651,12 +654,15 @@ def compare_longitudinal(
         Default dtype is bool
 
     """
+    branches = datamodel.hydroobject
     compare_gdf = getattr(datamodel, compare_object)
 
     # snap layers to to branches
-    compare_gdf.snap_to_branch(datamodel.hydroobject, snap_method="overall")
-    gdf.snap_to_branch(datamodel.hydroobject, snap_method="overall")
+    geometry.find_nearest_branch(
+        branches=branches, geometries=compare_gdf, method="overall"
+    )
 
+    geometry.find_nearest_branch(branches=branches, geometries=gdf, method="overall")
     return gdf.apply(
         lambda x: _compare_longitudinal(
             x, parameter, compare_gdf, compare_parameter, direction, logical_operator

@@ -2,11 +2,17 @@
 from hydamo_validation import validator
 from pathlib import Path
 import pandas as pd
+import shutil
 
-DATA_DIR = Path(r"d:\repositories\HyDAMOValidatieModule\tests\data")
+try:
+    from .config import DATA_DIR
+except ImportError:
+    from config import DATA_DIR
 coverage = {"AHN": DATA_DIR.joinpath(r"dtm")}
 directory = DATA_DIR.joinpath(r"tasks/test_dommelerwaard")
 exports_dir = Path(__file__).parent / "exports"
+if exports_dir.exists():
+    shutil.rmtree(exports_dir)
 exports_dir.mkdir(exist_ok=True)
 
 hydamo_validator = validator(

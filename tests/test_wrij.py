@@ -3,6 +3,7 @@ from hydamo_validation import validator
 from hydamo_validation import __version__
 from pathlib import Path
 from datetime import datetime
+import shutil
 
 try:
     from .config import DATA_DIR
@@ -12,6 +13,8 @@ except ImportError:
 coverage = {"AHN": DATA_DIR.joinpath(r"dtm")}
 directory = DATA_DIR.joinpath(r"tasks/test_wrij")
 exports_dir = Path(__file__).parent / "exports"
+if exports_dir.exists():
+    shutil.rmtree(exports_dir)
 exports_dir.mkdir(exist_ok=True)
 
 
