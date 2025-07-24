@@ -174,6 +174,8 @@ def execute(
                         input_variables = _add_related_gdf(
                             input_variables, datamodel, object_layer
                         )
+                    elif "custom_function_name" in input_variables.keys():
+                        input_variables["hydamo"] = datamodel
                     elif "join_object" in input_variables.keys():
                         input_variables = _add_join_gdf(input_variables, datamodel)
 

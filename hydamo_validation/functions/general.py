@@ -4,9 +4,15 @@ import geopandas as gpd
 from typing import Literal
 import numpy as np
 from pathlib import Path
+
+from geopandas import GeoDataFrame
+from pandas import Series
 from rasterstats import zonal_stats
 import logging
 import pandas as pd
+
+from hydamo_validation.datamodel import HyDAMO
+from hydamo_validation.functions import custom as custom_functions
 
 try:
     import rasterio
@@ -317,3 +323,22 @@ def object_relation(
     if fill_value is not None:
         gdf_out.loc[gdf_out["result"].isna(), "result"] = fill_value
     return gdf_out["result"]
+
+
+def custom_hydamo(
+        gdf: GeoDataFrame,
+        hydamo: HyDAMO,
+        custom_function_name: str
+) -> Series:
+    """
+    Call ``custom_function_name``, which needs to be defined in custom.py
+
+    Parameters
+    ----------
+    gdf: GeoDataFrame
+        GeoDataFrame to which the output series should conform
+    hydamo : HyDAMO
+        Input HyDAMO object
+    custom_function_name: name of the function to be called
+    """
+    return getattr(custom_functions, custom_function_name)(gdf, hydamo)
