@@ -66,3 +66,4 @@ debug/*
 
 # windows cmd-files
 *.cmd
+/.idea
