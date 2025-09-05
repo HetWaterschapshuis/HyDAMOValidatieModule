@@ -1,7 +1,6 @@
 import geopandas as gpd
 import pandas as pd
 from geopandas import GeoDataFrame
-
 from hydamo_validation.datamodel import HyDAMO
 import numpy as np
 
@@ -296,6 +295,68 @@ def _is_linestring_straight(line) -> float:
             max_cross = abs(cross)
 
     return max_cross
+
+
+def intersected_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
+    """ "
+    Check if the peilgebieden intersect with each other.
+    """
+    # Check for intersections
+    combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
+    polder_polygon_gdf = hydamo.polder
+    print(type(polder_polygon_gdf))
+    # make a copy of the gdf
+    combinatiepeilgebied_copy = combinatiepeilgebied_gdf.copy()
+
+    # clip peilgebieden with polder polygon
+    combinatiepeilgebied_copy = combinatiepeilgebied_copy.clip(polder_polygon_gdf)
+
+    # intersect combinatiepeilgebied with itself to find overlapping areas
+    intersection = combinatiepeilgebied_copy.overlay(
+        combinatiepeilgebied_copy, how="intersection"
+    )
+    # if code 1 and code 2 are the same, drop the row
+    intersection = intersection[intersection["code_1"] != intersection["code_2"]]
+
+    # add column to combinatiepeilgebied_gdf 'intersectie_codes' with code_1 and code_2 save it as list separated by ', '
+    intersection["intersectie_codes"] = (
+        intersection["code_1"].astype(str) + ", " + intersection["code_2"].astype(str)
+    )
+
+    codes = intersection["code_1"].to_list()
+    for code in codes:
+        # select row
+        code_selection = intersection[intersection["code_1"] == code]
+        code_string = " - ".join(code_selection["intersectie_codes"].values.tolist())
+
+        # calculate the number of codes in the intersectie_codes column
+        number_of_codes = len(
+            (
+                " - ".join(
+                    str(x) for x in code_selection["intersectie_codes"].values.tolist()
+                )
+            ).split(" - ")
+        )
+
+        # add number of codes to combinatiepeilgebied_gdf in column 'aantal_intersecties'
+        combinatiepeilgebied_gdf.loc[
+            combinatiepeilgebied_gdf["code"] == code, "aantal_intersecties"
+        ] = number_of_codes
+        # add the column 'intersectie_codes' to the combinatiepeilgebied_gdf
+        combinatiepeilgebied_gdf.loc[
+            combinatiepeilgebied_gdf["code"] == code, "intersectie_codes"
+        ] = code_string
+
+    # fill empty values in aantal_intersecties with 0
+    combinatiepeilgebied_gdf["aantal_intersecties"] = combinatiepeilgebied_gdf[
+        "aantal_intersecties"
+    ].fillna(0)
+    # return combinatiepeilgebied_gdf["aantal_intersecties"], combinatiepeilgebied_gdf[
+    #     "intersectie_codes"
+    # ]
+    # save combinatiepeilgebied_gdf into hydamo
+    hydamo.combinatiepeilgebied = combinatiepeilgebied_gdf
+    return hydamo.combinatiepeilgebied
 
 
 def intersected_pump_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
