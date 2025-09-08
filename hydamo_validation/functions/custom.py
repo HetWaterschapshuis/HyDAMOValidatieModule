@@ -365,10 +365,12 @@ def intersected_pump_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
     Add this distance as a new column 'distance_to_peilgebied' in the gemaal layer.
     The distance is calculated in centimeters.
     """
-    print(dir(hydamo))
-    if "distance_to_peilgebied" not in hydamo.gemaal.columns:
+    combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
+    polder_polygon_gdf = hydamo.polder
+    gemaal_gdf = hydamo.gemaal
+    if "distance_to_peilgebied" not in gemaal_gdf:
         # make a copy of the combinatiepeilgebied.
-        gdf_peilgebiedpraktijk_linestring = hydamo.combinatiepeilgebied.copy()
+        gdf_peilgebiedpraktijk_linestring = combinatiepeilgebied_gdf.copy()
 
         # transform multiploygon to lines geom.boundary
         gdf_peilgebiedpraktijk_linestring["geometry"] = (
@@ -385,9 +387,6 @@ def intersected_pump_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
             gdf_peilgebiedpraktijk_linestring.reset_index(drop=True)
         )
 
-        # polderpolygon
-        polder_polygon = hydamo.parent / "polder_polygon.shp"
-        polder_polygon_gdf = gpd.read_file(polder_polygon)
         # clip linestrings to the polder_polygon
         gdf_peilgebiedcombinatie = gpd.clip(
             gdf_peilgebiedpraktijk_linestring, polder_polygon_gdf
@@ -395,7 +394,7 @@ def intersected_pump_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
 
         # make spatial join between gdf_gemaal and gdf_peilgebiedpraktijk_linestring distance 1000 cm
         gemaal_spatial_join = gpd.sjoin_nearest(
-            hydamo.gemaal,
+            gemaal_gdf,
             gdf_peilgebiedcombinatie,
             how="inner",
             max_distance=1000,
@@ -408,15 +407,15 @@ def intersected_pump_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
             )
 
         # Join the column 'distance_to_peilgebied' from gemaal_spatial_join into gdf_gemaal based on the 'code' column
-        gdf_gemaal = hydamo.gemaal.merge(
+        gdf_gemaal_merge = gemaal_gdf.merge(
             gemaal_spatial_join[["code", "distance_to_peilgebied"]],
             on="code",
             how="left",
         )
-        # save the layer in DAMO
-        gdf_gemaal.drop_duplicates().to_file(
-            hydamo.schemas_path, layer="GEMAAL", driver="GPKG"
-        )
+
+        gdf_gemaal = gdf_gemaal_merge
+        print(gdf_gemaal.columns)
+        return gdf_gemaal
 
     else:
         print("column distance_to_peilgebied already exists")
@@ -431,17 +430,18 @@ def gemaal_streefpeil_value(gdf: GeoDataFrame, hydamo: HyDAMO):
     The column 'gemaal_functie_value' is determined based on the uniqueness of the summer target levels.
 
     """
+    gemaal_hydamo = hydamo.gemaal
+    combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
     # Make a buffer using the gemaal point shapefile to be intersected with the combinatiepeilgebied
-    buffer_gemaal = hydamo.gemaal.buffer(distance=1)
+    buffer_gemaal = gemaal_hydamo.buffer(distance=1)
 
     # Intersect buffer_gemaal with combinatiepeilgebied
     buffer_gemaal_gdf = gpd.GeoDataFrame(
-        hydamo.gemaal.copy(), geometry=buffer_gemaal, crs=hydamo.gemaal.crs
+        gemaal_hydamo.copy(), geometry=buffer_gemaal, crs=gemaal_hydamo.crs
     )
-    print(hydamo.keys())
     # intersect gemaaal buffer with the combined peilgebied
     gemaal_intersect_peilgebied = gpd.overlay(
-        buffer_gemaal_gdf, hydamo.combinatiepeilgebied, how="intersection"
+        buffer_gemaal_gdf, combinatiepeilgebied_gdf, how="intersection"
     )
 
     # Rename all the columns, removing the "_1" if they have it
@@ -460,8 +460,8 @@ def gemaal_streefpeil_value(gdf: GeoDataFrame, hydamo: HyDAMO):
     ]
 
     # gather all the columns to be used
-    columns_to_keep = hydamo.gemaal.columns.to_list() + columns_to_join
-
+    columns_to_keep = gemaal_hydamo.columns.to_list() + columns_to_join
+    print(columns_to_keep)
     # create a subset using the desired columns, and drop duplicates from the intersection between gemaal and the combined peilgebied
     gemaal = gemaal_intersect_peilgebied[columns_to_keep].drop_duplicates()
 
@@ -521,12 +521,13 @@ def gemaal_streefpeil_value(gdf: GeoDataFrame, hydamo: HyDAMO):
     gemaal_buffer_subset = gemaal_disolve.reset_index(drop=False)[columns_to_merge]
 
     # Merge the dataframes on the 'code' column using the gemaal buffer subet
-    gemaal_point = hydamo.gemaal.drop_duplicates().merge(
+    gemaal_point = gemaal_hydamo.drop_duplicates().merge(
         gemaal_buffer_subset, on="code", how="left"
     )
 
     # Add the column 'gemaal_functie_value' based on the 'soort_streefpeilom_comb' column, use the list gemaal_functie_test to store the values
     gemaal_functie_test = []
+    print(gemaal_point.columns)
     for zomer_values in gemaal_point["streefpeil_peilgebide_zomer"]:
         diff = np.diff([float(zomer_value) for zomer_value in zomer_values.split(",")])
         if len(diff) <= 1 and (not (diff.tolist()) or diff.tolist()[0] == 0):
@@ -550,6 +551,6 @@ def gemaal_streefpeil_value(gdf: GeoDataFrame, hydamo: HyDAMO):
             gemaal_point.loc[
                 gemaal_point["pgd_codes"] == count_peilgebieden, "aantal_peilgebieden"
             ] = 999
-
-    # save the layer in DAMO
-    gemaal_point.to_file(hydamo.schemas_path, layer="GEMAAL", driver="GPKG")
+    # save the gemaal_point into hydamo
+    hydamo.gemaal = gemaal_point
+    return hydamo.gemaal
