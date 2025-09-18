@@ -1027,8 +1027,7 @@
 								"peilafwijkinggebied",
 								"peilbesluitgebied",
 								"peilgebiedpraktijk",
-								"peilgebiedvigerend",
-								"combinatiepeilgebied"
+								"peilgebiedvigerend"
 							]
 						}
 					}
@@ -1108,7 +1107,6 @@
 				"bijzonderhydraulischobject",
 				"bodemval",
 				"brug",
-				"combinatiepeilgebied",
 				"doorstroomopening",
 				"duikersifonhevel",
 				"gemaal",
