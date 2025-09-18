@@ -38,7 +38,6 @@
 				{ "$ref": "#/definitions/peilbesluitgebied" },
 				{ "$ref": "#/definitions/peilgebiedpraktijk" },
 				{ "$ref": "#/definitions/peilgebiedvigerend" },
-				{ "$ref": "#/definitions/polder" },
 				{ "$ref": "#/definitions/pomp" },
 				{ "$ref": "#/definitions/profielgroep" },
 				{ "$ref": "#/definitions/profiellijn" },
@@ -3825,31 +3824,6 @@
 				}
 			}
 		},
-		"polder" : 
-		{
-			"type": "object",
-			"properties":
-			{
-				"polder_id":
-				{
-					"type" : "integer",
-					"maxlength" : 10,
-					"minItems": 1,
-					"maxItems": 1
-				},
-				"name":
-				{
-					"type" : "string",
-					"maxlength" : 256,
-					"maxItems": 1
-				},
-				"shape":
-				{
-					"type" : ["Polygon","MultiPolygon"],
-					"maxItems": 1
-				}
-			}
-		},
 		"combinatiepeilgebied" : 
 		{
 			"type": "object",
@@ -3973,18 +3947,6 @@
 					"maxItems": 1
 				},
 				"voertafop":
-				{
-					"type" : "integer",
-					"maxlength" : 10,
-					"maxItems": 1
-				},
-				"intersectie_codes":
-				{
-					"type" : "string",
-					"maxlength" : 2000,
-					"maxItems": 1000
-				},
-				"aantal_intersecties":
 				{
 					"type" : "integer",
 					"maxlength" : 10,
