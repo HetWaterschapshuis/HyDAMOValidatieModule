@@ -627,12 +627,12 @@ def kruising_met_waterloop(gdf: GeoDataFrame, hydamo: HyDAMO):
     combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
     stuw_gdf = hydamo.stuw
 
-    # hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
-    # hydro_object_gdf = gpd.read_file(hydamo, layer="hydroobject", driver="GPKG")
-    # combinatiepeilgebied_gdf = gpd.read_file(
-    #     hydamo, layer="combinatiepeilgebied", driver="GPKG"
-    # )
-    # stuw_gdf = gpd.read_file(hydamo, layer="stuw", driver="GPKG")
+    hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
+    hydro_object_gdf = gpd.read_file(hydamo, layer="hydroobject", driver="GPKG")
+    combinatiepeilgebied_gdf = gpd.read_file(
+        hydamo, layer="combinatiepeilgebied", driver="GPKG"
+    )
+    stuw_gdf = gpd.read_file(hydamo, layer="stuw", driver="GPKG")
 
     # get lines from peilegebied-> Peilgrens
     peilgrens_lines = combinatiepeilgebied_gdf.copy()
@@ -674,48 +674,30 @@ def kruising_met_waterloop(gdf: GeoDataFrame, hydamo: HyDAMO):
         watergang_peilgrens_stuw["distance_to_stuw"] == 0
     ]
 
-    # group gdf per stuw code, and get unique values for each row.
-    grouped_peilgebiede = (
-        distance_to_stuw_0.groupby("code")
-        .agg(
-            {
-                "code_right": lambda x: list(x.unique()),
-                "streefpeil_winter": lambda x: list(x.unique())[0],
-                "streefpeil_zomer": lambda x: list(x.unique())[0],
-                "streefpeil_zomer_bovengrens": lambda x: list(x.unique())[0],
-                "hoogstedoorstroomhoogte": lambda x: list(x.unique()),
-                "distance_to_stuw": lambda x: list(x.unique()),
-                "geometry": "first",
-            }
-        )
+    distance_to_stuw_0["stuw_fout"] = (
+        distance_to_stuw_0["hoogstedoorstroomhoogte"]
+        <= distance_to_stuw_0["streefpeil_zomer_bovengrens"]
+    )
+
+    # Agrupar por código de peilgebied y contar cuántos stuw están "errados"
+    stuw_fout_count = (
+        distance_to_stuw_0.groupby("code")["stuw_fout"]
+        .sum()  # True cuenta como 1
         .reset_index()
-    )
-    # initialice list. this list will contain the min hoogstedoorstroomhoogte from each stuw
-    # that touches each peilgebiede
-    hoogstedoorstroomhoogte_min = []
-
-    # loop over the column hoogstedoorstroomhoogte and select the min from that each row list
-    # if the result give a nan, then a -999 will be place there, which means that there is a stuw
-    # in the peilgrens with no hoogstedoorstroomhoogte
-
-    for hoogstedoorstroomhoogte in grouped_peilgebiede["hoogstedoorstroomhoogte"]:
-        # if there is a list with in the row that has nan it will return -999.
-        # it will be use in the validation rule, highlighting that there is a mistake.
-        if any(pd.isna(v) for v in hoogstedoorstroomhoogte):
-            hoogstedoorstroomhoogte_min.append(-10)
-        else:
-            hoogstedoorstroomhoogte_min.append(min(hoogstedoorstroomhoogte))
-
-    # assing the value to the colum hoogstedoorstroomhoogte_min
-    grouped_peilgebiede["hoogstedoorstroomhoogte_min"] = hoogstedoorstroomhoogte_min
-    grouped_peilgebiede["stuw_hoger_dan_peil_flag"] = np.where(
-        grouped_peilgebiede["hoogstedoorstroomhoogte_min"]
-        > grouped_peilgebiede["streefpeil_zomer_bovengrens"],
-        10,
-        0,
+        .rename(columns={"stuw_fout": "stuw_fout_count"})
     )
 
-    return grouped_peilgebiede
+    # Merge con la GDF original para tener la info por peilgebied
+    combinatiepeilgebied_gdf = combinatiepeilgebied_gdf.merge(
+        stuw_fout_count, on="code", how="left"
+    )
+
+    # Opcional: rellenar con 0 si algún peilgebied no tiene stuw
+    combinatiepeilgebied_gdf["stuw_fout_count"] = combinatiepeilgebied_gdf[
+        "stuw_fout_count"
+    ].fillna(10)
+
+    return combinatiepeilgebied_gdf
 
 
 def peil_basic_properties(gdf: GeoDataFrame, hydamo: HyDAMO):
