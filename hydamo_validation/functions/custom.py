@@ -627,12 +627,12 @@ def kruising_met_waterloop(gdf: GeoDataFrame, hydamo: HyDAMO):
     combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
     stuw_gdf = hydamo.stuw
 
-    hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
-    hydro_object_gdf = gpd.read_file(hydamo, layer="hydroobject", driver="GPKG")
-    combinatiepeilgebied_gdf = gpd.read_file(
-        hydamo, layer="combinatiepeilgebied", driver="GPKG"
-    )
-    stuw_gdf = gpd.read_file(hydamo, layer="stuw", driver="GPKG")
+    # hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
+    # hydro_object_gdf = gpd.read_file(hydamo, layer="hydroobject", driver="GPKG")
+    # combinatiepeilgebied_gdf = gpd.read_file(
+    #     hydamo, layer="combinatiepeilgebied", driver="GPKG"
+    # )
+    # stuw_gdf = gpd.read_file(hydamo, layer="stuw", driver="GPKG")
 
     # get lines from peilegebied-> Peilgrens
     peilgrens_lines = combinatiepeilgebied_gdf.copy()
@@ -674,12 +674,13 @@ def kruising_met_waterloop(gdf: GeoDataFrame, hydamo: HyDAMO):
         watergang_peilgrens_stuw["distance_to_stuw"] == 0
     ]
 
+    # creat column stuw fout
     distance_to_stuw_0["stuw_fout"] = (
         distance_to_stuw_0["hoogstedoorstroomhoogte"]
         <= distance_to_stuw_0["streefpeil_zomer_bovengrens"]
     )
 
-    # Agrupar por código de peilgebied y contar cuántos stuw están "errados"
+    # group stuw fout an dcount them
     stuw_fout_count = (
         distance_to_stuw_0.groupby("code")["stuw_fout"]
         .sum()  # True cuenta como 1
@@ -687,16 +688,15 @@ def kruising_met_waterloop(gdf: GeoDataFrame, hydamo: HyDAMO):
         .rename(columns={"stuw_fout": "stuw_fout_count"})
     )
 
-    # Merge con la GDF original para tener la info por peilgebied
+    # Merge with GDF original
     combinatiepeilgebied_gdf = combinatiepeilgebied_gdf.merge(
         stuw_fout_count, on="code", how="left"
     )
 
-    # Opcional: rellenar con 0 si algún peilgebied no tiene stuw
+    # fill stuw fount count if they are nan with 10
     combinatiepeilgebied_gdf["stuw_fout_count"] = combinatiepeilgebied_gdf[
         "stuw_fout_count"
     ].fillna(10)
-
     return combinatiepeilgebied_gdf
 
 
