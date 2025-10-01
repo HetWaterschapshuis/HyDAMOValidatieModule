@@ -8,7 +8,6 @@ __maintainer__ = "Daniel Tollenaar"
 __email__ = "daniel@d2hydro.nl"
 
 import fiona  # top-level import to avoid fiona import issue: https://github.com/conda-forge/fiona-feedstock/issues/213
-from pathlib import Path
 from hydamo_validation.functions import topologic as topologic_functions
 from hydamo_validation.functions import logic as logic_functions
 from hydamo_validation.functions import general as general_functions
