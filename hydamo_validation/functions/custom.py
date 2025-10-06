@@ -1,3 +1,4 @@
+# %%
 import geopandas as gpd
 import pandas as pd
 from geopandas import GeoDataFrame
@@ -5,6 +6,7 @@ from hydamo_validation.datamodel import HyDAMO
 import numpy as np
 from rasterstats import zonal_stats
 from shapely.geometry import LineString
+# %%
 
 
 def on_profiellijn_compute_wet_profile_distance(
@@ -568,6 +570,8 @@ def gemaal_streefpeil_value(gdf: GeoDataFrame, hydamo: HyDAMO):
     return hydamo.gemaal
 
 
+# TODO: ask: IS DISTANCE FINE? EVERY TIME I USE IT DO I GET A NEW SECTIONS, OR THEY KEPP THE SAME
+# todo: TEST THE FUNCTION: MAYBE A PYTEST?
 def split_segments_atvertex_and_distance(peilgrens, distance=100):
     """
     helper function that split the boundary of the peilgebiede, also known as peilgrens is smaller sections.
@@ -633,6 +637,9 @@ def kruising_met_waterloop(gdf: GeoDataFrame, hydamo: HyDAMO):
     #     hydamo, layer="combinatiepeilgebied", driver="GPKG"
     # )
     # stuw_gdf = gpd.read_file(hydamo, layer="stuw", driver="GPKG")
+    stuw_gdf["hoogstedoorstroomhoogte"] = stuw_gdf["hoogstedoorstroomhoogte"].fillna(
+        -10
+    )
 
     # get lines from peilegebied-> Peilgrens
     peilgrens_lines = combinatiepeilgebied_gdf.copy()
@@ -669,21 +676,23 @@ def kruising_met_waterloop(gdf: GeoDataFrame, hydamo: HyDAMO):
     ]
     watergang_peilgrens_stuw = final_gdf[colums_to_keep]
 
+    # TODO: ASK IF THE DISTANCE IS TO STRICT
     # select data which distance between stuw and peilgrens is 0
     distance_to_stuw_0 = watergang_peilgrens_stuw.loc[
         watergang_peilgrens_stuw["distance_to_stuw"] == 0
     ]
 
     # creat column stuw fout
+    # TODO ALSO HERE, IS THE RULE TO STRICT MAYBE JUST '<'
     distance_to_stuw_0["stuw_fout"] = (
         distance_to_stuw_0["hoogstedoorstroomhoogte"]
         <= distance_to_stuw_0["streefpeil_zomer_bovengrens"]
     )
 
-    # group stuw fout an dcount them
+    # group stuw fout an dcount them TRUE == ONE
     stuw_fout_count = (
         distance_to_stuw_0.groupby("code")["stuw_fout"]
-        .sum()  # True cuenta como 1
+        .sum()
         .reset_index()
         .rename(columns={"stuw_fout": "stuw_fout_count"})
     )
@@ -693,10 +702,10 @@ def kruising_met_waterloop(gdf: GeoDataFrame, hydamo: HyDAMO):
         stuw_fout_count, on="code", how="left"
     )
 
-    # fill stuw fount count if they are nan with 10
+    # fill stuw fount count if they are nan with 0 -> means no stuw in peilgebiede
     combinatiepeilgebied_gdf["stuw_fout_count"] = combinatiepeilgebied_gdf[
         "stuw_fout_count"
-    ].fillna(10)
+    ].fillna(0)
     return combinatiepeilgebied_gdf
 
 
@@ -976,3 +985,6 @@ def peilgebieded_waterstand_dm(gdf: GeoDataFrame, hydamo: HyDAMO):
 
     # path  = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\waterstand.gpkg"
     return combinatiepeilgebied_gdf
+
+
+# %%
