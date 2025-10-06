@@ -754,7 +754,7 @@ def peil_basic_properties(gdf: GeoDataFrame, hydamo: HyDAMO):
         # Check if it is polygon or multipolygon
         if geometry.type == "MultiPolygon":
             for polygon in geometry.geoms:
-                # append the number of holes per polygon
+                # append the number of holes per polygon.interirors (cool one)
                 holes.append(len(polygon.interiors))
                 # print(code, len(polygon.interiors))
 
@@ -802,7 +802,7 @@ def peil_verbonde(gdf: GeoDataFrame, hydamo: HyDAMO):
     # combinatiepeilgebied_gdf = gpd.read_file(hydamo, layer='combinatiepeilgebied', driver = 'GPKG')
     # polder_gdf = gpd.read_file(hydamo, layer='polder', driver = 'GPKG')
 
-    # clip polder
+    # clip with polder
     peil_clipped = gpd.clip(combinatiepeilgebied_gdf, polder_gdf)
 
     # initialized columns
@@ -847,9 +847,11 @@ def peil_verbonde(gdf: GeoDataFrame, hydamo: HyDAMO):
 
 def peil_versus_AHN(gdf: GeoDataFrame, hydamo: HyDAMO):
     """
-    Transform the polygon of each peilgebiede into lines. Buffer them and by using zonal statistic,
+    Transform the polygon of each peilgebiede into lines(peilgrens). Buffer them and by using zonal statistic,
     extract the median values, then aggregate them per peilgebiede into a column by selecting minimum.
     """
+    # TODO ASK: is it correct to put this path here? Or should it be passed as a parameter?
+    # Load layers
     ahn_raster = r"E:\01.basisgegevens\rasters\DEM\DEM_AHN5\ahn5_dtm_filled.vrt"
     combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
     polder_gdf = hydamo.polder
@@ -909,7 +911,7 @@ def peilgebieded_waterstand_dm(gdf: GeoDataFrame, hydamo: HyDAMO):
     # Load layers
     combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
     polder_gdf = hydamo.polder
-
+    # TODO ASK: is it correct to put this path here? Or should it be passed as a parameter?
     water_stand_punten_path = r"G:\01_Componenten\01_Beheer\03_Objectdata_HHNK\01_Watersysteem\01_Kwantiteit\01_Waterlopen\Datamining_waterpeilhoogtes_AHN.gdb"
     # hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
 
