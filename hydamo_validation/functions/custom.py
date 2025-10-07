@@ -308,12 +308,12 @@ def intersected_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
     combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
     polder_polygon_gdf = hydamo.polder
 
-    hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
-    hydro_object_gdf = gpd.read_file(hydamo, layer="hydroobject", driver="GPKG")
-    combinatiepeilgebied_gdf = gpd.read_file(
-        hydamo, layer="combinatiepeilgebied", driver="GPKG"
-    )
-    polder_polygon_gdf = gpd.read_file(hydamo, layer="polder", driver="GPKG")
+    # hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
+    # hydro_object_gdf = gpd.read_file(hydamo, layer="hydroobject", driver="GPKG")
+    # combinatiepeilgebied_gdf = gpd.read_file(
+    #     hydamo, layer="combinatiepeilgebied", driver="GPKG"
+    # )
+    # polder_polygon_gdf = gpd.read_file(hydamo, layer="polder", driver="GPKG")
 
     # print(type(polder_polygon_gdf))
     # make a copy of the gdf
