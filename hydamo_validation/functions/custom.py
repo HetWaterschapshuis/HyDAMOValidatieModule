@@ -4,7 +4,6 @@ import pandas as pd
 from geopandas import GeoDataFrame
 from hydamo_validation.datamodel import HyDAMO
 import numpy as np
-from rasterstats import zonal_stats
 from shapely.geometry import LineString
 # %%
 
@@ -308,6 +307,14 @@ def intersected_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
     # Check for intersections
     combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
     polder_polygon_gdf = hydamo.polder
+
+    hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
+    hydro_object_gdf = gpd.read_file(hydamo, layer="hydroobject", driver="GPKG")
+    combinatiepeilgebied_gdf = gpd.read_file(
+        hydamo, layer="combinatiepeilgebied", driver="GPKG"
+    )
+    polder_polygon_gdf = gpd.read_file(hydamo, layer="polder", driver="GPKG")
+
     # print(type(polder_polygon_gdf))
     # make a copy of the gdf
     combinatiepeilgebied_copy = combinatiepeilgebied_gdf.copy()
@@ -355,12 +362,10 @@ def intersected_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
     combinatiepeilgebied_gdf["aantal_intersecties"] = combinatiepeilgebied_gdf[
         "aantal_intersecties"
     ].fillna(0)
-    # return combinatiepeilgebied_gdf["aantal_intersecties"], combinatiepeilgebied_gdf[
-    #     "intersectie_codes"
-    # ]
+
     # save combinatiepeilgebied_gdf into hydamo
-    hydamo.combinatiepeilgebied = combinatiepeilgebied_gdf
-    return hydamo.combinatiepeilgebied
+
+    return combinatiepeilgebied_gdf
 
 
 def intersected_pump_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
@@ -372,56 +377,49 @@ def intersected_pump_peilgebieden(gdf: GeoDataFrame, hydamo: HyDAMO):
     combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
     polder_polygon_gdf = hydamo.polder
     gemaal_gdf = hydamo.gemaal
-    if "distance_to_peilgebied" not in gemaal_gdf:
-        # make a copy of the combinatiepeilgebied.
-        gdf_peilgebiedpraktijk_linestring = combinatiepeilgebied_gdf.copy()
 
-        # transform multiploygon to lines geom.boundary
-        gdf_peilgebiedpraktijk_linestring["geometry"] = (
-            gdf_peilgebiedpraktijk_linestring["geometry"].apply(
-                lambda geom: geom.boundary if geom.geom_type == "MultiPolygon" else geom
-            )
-        )
+    # make a copy of the combinatiepeilgebied.
+    gdf_peilgebiedpraktijk_linestring = combinatiepeilgebied_gdf.copy()
 
-        # explode lines into part and reset index
-        gdf_peilgebiedpraktijk_linestring = gdf_peilgebiedpraktijk_linestring.explode(
-            index_parts=True
-        )
-        gdf_peilgebiedpraktijk_linestring = (
-            gdf_peilgebiedpraktijk_linestring.reset_index(drop=True)
-        )
+    # transform multiploygon to lines geom.boundary
+    gdf_peilgebiedpraktijk_linestring["geometry"] = gdf_peilgebiedpraktijk_linestring[
+        "geometry"
+    ].apply(lambda geom: geom.boundary if geom.geom_type == "MultiPolygon" else geom)
 
-        # clip linestrings to the polder_polygon
-        gdf_peilgebiedcombinatie = gpd.clip(
-            gdf_peilgebiedpraktijk_linestring, polder_polygon_gdf
-        )
+    # explode lines into part and reset index
+    gdf_peilgebiedpraktijk_linestring = gdf_peilgebiedpraktijk_linestring.explode(
+        index_parts=True
+    )
+    gdf_peilgebiedpraktijk_linestring = gdf_peilgebiedpraktijk_linestring.reset_index(
+        drop=True
+    )
 
-        # make spatial join between gdf_gemaal and gdf_peilgebiedpraktijk_linestring distance 1000 cm
-        gemaal_spatial_join = gpd.sjoin_nearest(
-            gemaal_gdf,
-            gdf_peilgebiedcombinatie,
-            how="left",
-            max_distance=1000,
-            distance_col="distance_to_peilgebied",
-        )
-        # rename column code_left to code
-        if "code_left" in gemaal_spatial_join.columns:
-            gemaal_spatial_join = gemaal_spatial_join.rename(
-                columns={"code_left": "code"}
-            )
+    # clip linestrings to the polder_polygon
+    gdf_peilgebiedcombinatie = gpd.clip(
+        gdf_peilgebiedpraktijk_linestring, polder_polygon_gdf
+    )
 
-        # Join the column 'distance_to_peilgebied' from gemaal_spatial_join into gdf_gemaal based on the 'code' column
-        gdf_gemaal_merge = gemaal_gdf.merge(
-            gemaal_spatial_join[["code", "distance_to_peilgebied"]],
-            on="code",
-            how="left",
-        )
+    # make spatial join between gdf_gemaal and gdf_peilgebiedpraktijk_linestring distance 1000 cm
+    gemaal_spatial_join = gpd.sjoin_nearest(
+        gemaal_gdf,
+        gdf_peilgebiedcombinatie,
+        how="left",
+        max_distance=1000,
+        distance_col="distance_to_peilgebied",
+    )
+    # rename column code_left to code
+    if "code_left" in gemaal_spatial_join.columns:
+        gemaal_spatial_join = gemaal_spatial_join.rename(columns={"code_left": "code"})
 
-        gdf_gemaal = gdf_gemaal_merge
-        return gdf_gemaal
+    # Join the column 'distance_to_peilgebied' from gemaal_spatial_join into gdf_gemaal based on the 'code' column
+    gdf_gemaal_merge = gemaal_gdf.merge(
+        gemaal_spatial_join[["code", "distance_to_peilgebied"]],
+        on="code",
+        how="left",
+    )
 
-    else:
-        print("column distance_to_peilgebied already exists")
+    gdf_gemaal = gdf_gemaal_merge
+    return gdf_gemaal
 
 
 def gemaal_streefpeil_value(gdf: GeoDataFrame, hydamo: HyDAMO):
@@ -617,98 +615,6 @@ def split_segments_atvertex_and_distance(peilgrens, distance=100):
     return segments
 
 
-def kruising_met_waterloop(gdf: GeoDataFrame, hydamo: HyDAMO):
-    """
-    This function identifies intersections between hydro objects, peilgrenzen (boundaries
-    of combination peilgebieden). If they do, the columns from the the stuw, hoogstedoorstroomhoogte
-    and code, will be collected and grouped per peilgebiede. A new column, `hoogstedoorstroomhoogte_min`,
-    is computed as the minimum `hoogstedoorstroomhoogte` per peilgebied. This value can then
-    be compared against `streefpeil_zomer_bovengrens` as part of a validation rule.
-    """
-
-    # load layers
-    hydro_object_gdf = hydamo.hydroobject
-    combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
-    stuw_gdf = hydamo.stuw
-
-    # hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
-    # hydro_object_gdf = gpd.read_file(hydamo, layer="hydroobject", driver="GPKG")
-    # combinatiepeilgebied_gdf = gpd.read_file(
-    #     hydamo, layer="combinatiepeilgebied", driver="GPKG"
-    # )
-    # stuw_gdf = gpd.read_file(hydamo, layer="stuw", driver="GPKG")
-    stuw_gdf["hoogstedoorstroomhoogte"] = stuw_gdf["hoogstedoorstroomhoogte"].fillna(
-        -10
-    )
-
-    # get lines from peilegebied-> Peilgrens
-    peilgrens_lines = combinatiepeilgebied_gdf.copy()
-    peilgrens_lines["geometry"] = peilgrens_lines.geometry.boundary
-
-    # split segments at vertex and segments.
-    segments = split_segments_atvertex_and_distance(peilgrens_lines, distance=100)
-    peilgrens = gpd.GeoDataFrame(segments, crs=peilgrens_lines.crs)
-    # print(stuw_gdf)
-
-    # Creat copy of hydroojbect buffer and dissolve them
-    hydro_object_buffer = hydro_object_gdf.copy()
-    hydro_object_buffer["geometry"] = hydro_object_buffer.buffer(2)
-    hydro_object_dissolve = hydro_object_buffer.dissolve()
-
-    # Voor bovenstaande validatieregel hoeven we alleen de segmenten te selecteren die een watergang intersecten.
-    peilgrens_clip = GeoDataFrame.clip(peilgrens, hydro_object_dissolve)
-    peilgrens_explode = peilgrens_clip.explode()
-
-    # join de stuw that are intersected with peligrens and waterways
-    final_gdf = gpd.sjoin_nearest(
-        peilgrens_explode,
-        stuw_gdf,
-        lsuffix=None,
-        how="left",
-        distance_col="distance_to_stuw",
-    )
-
-    # select Columns to keep
-    colums_to_keep = list(peilgrens_explode.columns) + [
-        "code_right",
-        "hoogstedoorstroomhoogte",
-        "distance_to_stuw",
-    ]
-    watergang_peilgrens_stuw = final_gdf[colums_to_keep]
-
-    # TODO: ASK IF THE DISTANCE IS TO STRICT
-    # select data which distance between stuw and peilgrens is 0
-    distance_to_stuw_0 = watergang_peilgrens_stuw.loc[
-        watergang_peilgrens_stuw["distance_to_stuw"] == 0
-    ]
-
-    # creat column stuw fout
-    # TODO ALSO HERE, IS THE RULE TO STRICT MAYBE JUST '<'
-    distance_to_stuw_0["stuw_fout"] = (
-        distance_to_stuw_0["hoogstedoorstroomhoogte"]
-        <= distance_to_stuw_0["streefpeil_zomer_bovengrens"]
-    )
-
-    # group stuw fout an dcount them TRUE == ONE
-    stuw_fout_count = (
-        distance_to_stuw_0.groupby("code")["stuw_fout"]
-        .sum()
-        .reset_index()
-        .rename(columns={"stuw_fout": "stuw_fout_count"})
-    )
-
-    # Merge with GDF original
-    combinatiepeilgebied_gdf = combinatiepeilgebied_gdf.merge(
-        stuw_fout_count, on="code", how="left"
-    )
-
-    # fill stuw fount count if they are nan with 0 -> means no stuw in peilgebiede
-    combinatiepeilgebied_gdf["stuw_fout_count"] = combinatiepeilgebied_gdf[
-        "stuw_fout_count"
-    ].fillna(0)
-    return combinatiepeilgebied_gdf
-
-
 def peil_basic_properties(gdf: GeoDataFrame, hydamo: HyDAMO):
     """
     Calculate basic properties per combinatiepeilgebied:
@@ -845,63 +751,6 @@ def peil_verbonde(gdf: GeoDataFrame, hydamo: HyDAMO):
     return combinatiepeilgebied_gdf
 
 
-def peil_versus_AHN(gdf: GeoDataFrame, hydamo: HyDAMO):
-    """
-    Transform the polygon of each peilgebiede into lines(peilgrens). Buffer them and by using zonal statistic,
-    extract the median values, then aggregate them per peilgebiede into a column by selecting minimum.
-    """
-    # TODO ASK: is it correct to put this path here? Or should it be passed as a parameter?
-    # Load layers
-    ahn_raster = r"E:\01.basisgegevens\rasters\DEM\DEM_AHN5\ahn5_dtm_filled.vrt"
-    combinatiepeilgebied_gdf = hydamo.combinatiepeilgebied
-    polder_gdf = hydamo.polder
-
-    # hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
-
-    # Definir el raster AHN
-    # combinatiepeilgebied_gdf = gpd.read_file(
-    #     hydamo, layer="combinatiepeilgebied", driver="GPKG"
-    # )
-    # polder_gdf = gpd.read_file(hydamo, layer="polder", driver="GPKG")
-
-    # clip combinatie peilgebied with polder polygon
-    combinatiepeilgebied_clip_gdf = gpd.clip(combinatiepeilgebied_gdf, polder_gdf)
-    peilgrens = combinatiepeilgebied_clip_gdf.copy()
-
-    # convert polygon to polyline. Polyline will be the peilgrens
-    peilgrens["geometry"] = peilgrens.geometry.boundary
-
-    # divide the segments into smaller segments.
-    distance = 100
-    segments = split_segments_atvertex_and_distance(peilgrens, distance)
-
-    # Create a GeoDataFrame from the list
-    gdf_segments = gpd.GeoDataFrame(segments, crs=peilgrens.crs)
-
-    # buffer segments geometries
-    gdf_segments["geometry"] = gdf_segments.geometry.buffer(1)
-
-    # used zonal statistics to calculate median per segmented from AHN5
-    stats = zonal_stats(gdf_segments, ahn_raster, stats=["percentile_90"])
-
-    # Add stats to the segments.
-    gdf_segments["percentile_90"] = [s["percentile_90"] for s in stats]
-
-    # Add values to the original dataframe
-    codes = gdf_segments["code"].unique()
-    for code in codes:
-        code_group = gdf_segments.loc[gdf_segments["code"] == code]
-        ahn_min_segment = min(code_group["percentile_90"].values)
-        combinatiepeilgebied_gdf.loc[
-            combinatiepeilgebied_gdf["code"] == code, "percentile_90_min"
-        ] = ahn_min_segment
-
-    return combinatiepeilgebied_gdf
-    # gdf_segments.to_file(
-    #     r"E:\09.modellen_speeltuin\test_jk1\01_source_data\segments.gpkg", driver="GPKG"
-    # )
-
-
 def peilgebieded_waterstand_dm(gdf: GeoDataFrame, hydamo: HyDAMO):
     """
     Calculates the median water level (waterstand) for each peilgebied and compares it to the
@@ -913,8 +762,8 @@ def peilgebieded_waterstand_dm(gdf: GeoDataFrame, hydamo: HyDAMO):
     polder_gdf = hydamo.polder
     # TODO ASK: is it correct to put this path here? Or should it be passed as a parameter?
     water_stand_punten_path = r"G:\01_Componenten\01_Beheer\03_Objectdata_HHNK\01_Watersysteem\01_Kwantiteit\01_Waterlopen\Datamining_waterpeilhoogtes_AHN.gdb"
-    # hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
 
+    # hydamo = r"E:\09.modellen_speeltuin\test_jk1\01_source_data\HyDAMO.gpkg"
     # combinatiepeilgebied_gdf = gpd.read_file(
     #     hydamo, layer="combinatiepeilgebied", driver="GPKG", engine="pyogrio"
     # )
