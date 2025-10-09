@@ -133,7 +133,7 @@ def _snap_nodes(row, series, tolerance):
     return geom
 
 
-def _get_nodes(gdf, tolerance):
+def _get_nodes(gdf, tolerance: float | None = None):
     # start and end-nodes to GeoSeries
     nodes_series = gdf["geometry"].apply(lambda x: Point(x.coords[0]))
     nodes_series = pd.concat(
@@ -142,11 +142,12 @@ def _get_nodes(gdf, tolerance):
 
     # snap nodes within tolerance: nodes within tolerance get the coordinate
     # of the first node.
-    nodes_series = gpd.GeoSeries(
-        gpd.GeoDataFrame(nodes_series, columns=["geometry"]).apply(
-            lambda x: _snap_nodes(x, nodes_series, tolerance), axis=1
+    if tolerance is not None:
+        nodes_series = gpd.GeoSeries(
+            gpd.GeoDataFrame(nodes_series, columns=["geometry"]).apply(
+                lambda x: _snap_nodes(x, nodes_series, tolerance), axis=1
+            )
         )
-    )
 
     # as all is snapped we can filter unique points
     nodes_series = gpd.GeoSeries(nodes_series.unique())
@@ -456,10 +457,10 @@ def splitted_at_junction(gdf, datamodel, tolerance):
 
     """
     # get the nodes of the hydroobjects within tolerance
-    nodes_series = _get_nodes(gdf, tolerance)
+    nodes_series = _get_nodes(gdf, tolerance=None)
 
     # check for lines if there are nodes on segment outside tolerance of
-    # the start-node and end-node.
+    # the lines start-node and end-node.
     sindex = nodes_series.sindex
     return gdf.apply(
         (lambda x: _only_end_nodes(x, nodes_series, sindex, tolerance)), axis=1
