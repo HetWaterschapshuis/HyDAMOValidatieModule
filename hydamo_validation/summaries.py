@@ -1,4 +1,3 @@
-import logging
 import geopandas as gpd
 import pandas as pd
 from pathlib import Path
@@ -10,11 +9,10 @@ OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 
 
 class LayersSummary:
-    def __init__(self, log_level="DEBUG", date_check=pd.Timestamp.now().isoformat()):
+    def __init__(self, logger, date_check=pd.Timestamp.now().isoformat()):
         self.geo_types = {}
         self.date_check = date_check
-        self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(getattr(logging, log_level))
+        self.logger = logger
 
     def _get_properties(self, gdf):
         properties = {"nen3610id": "str"}

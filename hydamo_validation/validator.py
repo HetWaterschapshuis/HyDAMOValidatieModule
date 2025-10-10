@@ -190,7 +190,7 @@ def _validator(
         logger.info("init validatie")
         date_check = pd.Timestamp.now().isoformat()
         result_summary = ResultSummary(date_check=date_check)
-        layers_summary = LayersSummary(date_check=date_check)
+        layers_summary = LayersSummary(logger=logger, date_check=date_check)
         # check if all files are present
         # create a results_path
         permission_error = False
@@ -219,8 +219,8 @@ def _validator(
             if not path.exists():
                 missing_paths += [str(path)]
         if missing_paths:
-            result_summary.error += [f'missing_paths: {",".join(missing_paths)}']
-            raise FileNotFoundError(f'missing_paths: {",".join(missing_paths)}')
+            result_summary.error += [f"missing_paths: {','.join(missing_paths)}"]
+            raise FileNotFoundError(f"missing_paths: {','.join(missing_paths)}")
         else:
             validation_rules_sets = read_validation_rules(
                 validation_rules_json, result_summary
@@ -232,7 +232,7 @@ def _validator(
         ]
         if unsupported_output_types:
             error_message = (
-                r"unsupported output types: " f'{",".join(unsupported_output_types)}'
+                r"unsupported output types: " f"{','.join(unsupported_output_types)}"
             )
             result_summary.error += [error_message]
             raise TypeError(error_message)
