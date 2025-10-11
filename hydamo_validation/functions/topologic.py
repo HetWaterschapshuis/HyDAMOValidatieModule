@@ -5,6 +5,9 @@ import geopandas as gpd
 import pandas as pd
 from shapely.geometry import Point
 from hydamo_validation import geometry
+from tqdm import tqdm
+
+tqdm.pandas(desc="Processing rows")
 
 """ 
 In this block we define supporting functions. Supporting functions are ignored
@@ -157,9 +160,10 @@ def _get_nodes(gdf, tolerance: float | None = None):
 
 def _only_end_nodes(row, series, sindex, tolerance):
     geometry = row["geometry"]
-    indices = list(sindex.intersection(geometry.bounds))
+    # indices = list(sindex.intersection(geometry.bounds))
+    indices = list(sindex.query(geometry.buffer(tolerance), predicate="within"))
     if indices:
-        series_select = series.loc[indices]
+        series_select = series.iloc[indices]
         only_end_nodes = all(
             _point_not_overlapping_line(i, geometry, tolerance) for i in series_select
         )
@@ -425,11 +429,11 @@ def not_overlapping(gdf, datamodel, tolerance):
     """
     sindex = gdf.sindex
     if (gdf.geom_type == "LineString").all():
-        return gdf.apply(
+        return gdf.progress_apply(
             lambda x: _not_overlapping_line(x, gdf, sindex, tolerance), axis=1
         )
     elif (gdf.geom_type == "Point").all():
-        return gdf.apply(
+        return gdf.progress_apply(
             lambda x: _not_overlapping_point(x, gdf, sindex, tolerance), axis=1
         )
     else:
@@ -462,7 +466,7 @@ def splitted_at_junction(gdf, datamodel, tolerance):
     # check for lines if there are nodes on segment outside tolerance of
     # the lines start-node and end-node.
     sindex = nodes_series.sindex
-    return gdf.apply(
+    return gdf.progress_apply(
         (lambda x: _only_end_nodes(x, nodes_series, sindex, tolerance)), axis=1
     )
 
@@ -494,7 +498,7 @@ def structures_at_intersections(gdf, datamodel, structures, tolerance):
     sindex = gdf.sindex
     struc_sindex = struc_series.sindex
     # return result
-    return gdf.apply(
+    return gdf.progress_apply(
         lambda x: _structures_at_intersections(
             x, gdf, sindex, struc_series, struc_sindex, tolerance
         ),
@@ -521,11 +525,11 @@ def no_dangling_node(gdf, datamodel, tolerance):
         Default dtype is bool
 
     """
-    end_nodes_series = gdf["geometry"].apply(lambda x: Point(x.coords[-1]))
-    series = gdf["geometry"].apply(lambda x: Point(x.coords[0]))
+    end_nodes_series = gdf["geometry"].progress_apply(lambda x: Point(x.coords[-1]))
+    series = gdf["geometry"].progress_apply(lambda x: Point(x.coords[0]))
     sindex = series.sindex
 
-    return end_nodes_series.apply(
+    return end_nodes_series.progress_apply(
         lambda x: _intersects_end_node(x, series, sindex, tolerance)
     )
 
@@ -562,7 +566,7 @@ def structures_at_boundaries(gdf, datamodel, areas, structures, tolerance, dista
     struc_series = _layers_from_datamodel(structures, datamodel)
     struc_sindex = struc_series.sindex
 
-    return gdf.apply(
+    return gdf.progress_apply(
         lambda x: _structures_at_boundaries(
             x, areas_gdf, areas_sindex, struc_series, struc_sindex, tolerance, distance
         ),
@@ -592,7 +596,9 @@ def distant_to_others(gdf, datamodel, distance):
 
     sindex = gdf.sindex
 
-    return gdf.apply(lambda x: _distant_to_others(x, gdf, sindex, distance), axis=1)
+    return gdf.progress_apply(
+        lambda x: _distant_to_others(x, gdf, sindex, distance), axis=1
+    )
 
 
 def structures_at_nodes(gdf, datamodel, structures, tolerance):
@@ -619,7 +625,7 @@ def structures_at_nodes(gdf, datamodel, structures, tolerance):
     struc_series = _layers_from_datamodel(structures, datamodel)
     struc_sindex = struc_series.sindex
 
-    return gdf["geometry"].apply(
+    return gdf["geometry"].progress_apply(
         lambda x: _no_struc_on_line(x, struc_series, struc_sindex, tolerance)
     )
 
@@ -664,7 +670,7 @@ def compare_longitudinal(
     )
 
     geometry.find_nearest_branch(branches=branches, geometries=gdf, method="overall")
-    return gdf.apply(
+    return gdf.progress_apply(
         lambda x: _compare_longitudinal(
             x, parameter, compare_gdf, compare_parameter, direction, logical_operator
         ),
