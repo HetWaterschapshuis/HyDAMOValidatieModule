@@ -160,8 +160,8 @@ def _get_nodes(gdf, tolerance: float | None = None):
 
 def _only_end_nodes(row, series, sindex, tolerance):
     geometry = row["geometry"]
-    # indices = list(sindex.intersection(geometry.bounds))
-    indices = list(sindex.query(geometry.buffer(tolerance), predicate="within"))
+    indices = list(sindex.intersection(geometry.bounds))
+    # indices = list(sindex.query(geometry.buffer(tolerance), predicate="within"))
     if indices:
         series_select = series.iloc[indices]
         only_end_nodes = all(
