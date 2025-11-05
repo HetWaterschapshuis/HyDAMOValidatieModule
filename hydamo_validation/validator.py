@@ -23,7 +23,7 @@ import traceback
 
 OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 LOG_LEVELS = Literal["INFO", "DEBUG"]
-INCLUDE_COLUMNS = ["nen3610id", "code"]
+INCLUDE_COLUMNS = ["nen3610id", "code", "categorieoppwaterlichaam"]
 SCHEMAS_PATH = Path(__file__).parent.joinpath(r"./schemas")
 HYDAMO_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("hydamo")
 RULES_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("rules")
@@ -219,8 +219,8 @@ def _validator(
             if not path.exists():
                 missing_paths += [str(path)]
         if missing_paths:
-            result_summary.error += [f'missing_paths: {",".join(missing_paths)}']
-            raise FileNotFoundError(f'missing_paths: {",".join(missing_paths)}')
+            result_summary.error += [f"missing_paths: {','.join(missing_paths)}"]
+            raise FileNotFoundError(f"missing_paths: {','.join(missing_paths)}")
         else:
             validation_rules_sets = read_validation_rules(
                 validation_rules_json, result_summary
@@ -232,7 +232,7 @@ def _validator(
         ]
         if unsupported_output_types:
             error_message = (
-                r"unsupported output types: " f'{",".join(unsupported_output_types)}'
+                r"unsupported output types: " f"{','.join(unsupported_output_types)}"
             )
             result_summary.error += [error_message]
             raise TypeError(error_message)
