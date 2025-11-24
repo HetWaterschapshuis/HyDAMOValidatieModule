@@ -120,37 +120,12 @@ def _not_overlapping_point(row, gdf, sindex, tolerance, exclude_row=True):
     return not_overlapping
 
 
-def _snap_nodes(row, series, tolerance):
-    series_selec = series.loc[~(series.index == row.name)]
-    indices = series_selec.loc[
-        (series_selec.distance(row["geometry"]) < tolerance)
-    ].index.to_list()
-    geom = None
-    if indices:
-        indices.sort()
-        if indices[0] < row.name:
-            geom = series.loc[indices[0]]
-    if geom is None:
-        geom = row["geometry"]
-
-    return geom
-
-
-def _get_nodes(gdf, tolerance: float | None = None):
+def _get_nodes(gdf):
     # start and end-nodes to GeoSeries
     nodes_series = gdf["geometry"].apply(lambda x: Point(x.coords[0]))
     nodes_series = pd.concat(
         [nodes_series, gdf["geometry"].apply(lambda x: Point(x.coords[-1]))]
     ).reset_index(drop=True)
-
-    # snap nodes within tolerance: nodes within tolerance get the coordinate
-    # of the first node.
-    if tolerance is not None:
-        nodes_series = gpd.GeoSeries(
-            gpd.GeoDataFrame(nodes_series, columns=["geometry"]).apply(
-                lambda x: _snap_nodes(x, nodes_series, tolerance), axis=1
-            )
-        )
 
     # as all is snapped we can filter unique points
     nodes_series = gpd.GeoSeries(nodes_series.unique())
@@ -460,7 +435,8 @@ def splitted_at_junction(gdf, datamodel, tolerance):
 
     """
     # get the nodes of the hydroobjects within tolerance
-    nodes_series = _get_nodes(gdf, tolerance=None)
+    # nodes_series = _get_nodes(gdf, tolerance=None)
+    nodes_series = _get_nodes(gdf)
 
     # check for lines if there are nodes on segment outside tolerance of
     # the lines start-node and end-node.
