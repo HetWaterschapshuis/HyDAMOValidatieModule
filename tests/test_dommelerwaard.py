@@ -30,6 +30,7 @@ def test_hydroobjects():
         [
             "nen3610id",
             "code",
+            "categorieoppwaterlichaam",
             "geometry",
             "syntax_breedte",
             "syntax_categorieoppwaterlichaam",
