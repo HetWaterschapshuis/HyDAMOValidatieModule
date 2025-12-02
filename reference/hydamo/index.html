@@ -10,8 +10,18 @@
       
         <link rel="canonical" href="https://HetWaterschapshuis.github.io/reference/hydamo/">
       
+      
+        <link rel="prev" href="../datasets/">
+      
+      
+        <link rel="next" href="../general_functions/">
+      
+      
+        
+      
+      
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.8">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
@@ -19,26 +29,28 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.6e60f8b8.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
-        
-      
-    
-    
-    
-      
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
       <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -47,14 +59,8 @@
   </head>
   
   
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+    <body dir="ltr">
   
-    
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -74,16 +80,19 @@
     
       
 
-<header class="md-header" data-md-component="header">
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="HyDAMO Validation documentation" class="md-header__button md-logo" aria-label="HyDAMO Validation documentation" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -103,39 +112,49 @@
     </div>
     
     
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
-      <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
   </div>
 </div>
+      
     
     
   </nav>
@@ -160,12 +179,13 @@
                     
 
 
+
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="HyDAMO Validation documentation" class="md-nav__button md-logo" aria-label="HyDAMO Validation documentation" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     HyDAMO Validation documentation
@@ -175,14 +195,26 @@
     
       
       
-      
-
+  
   
   
   
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        Home
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
@@ -190,132 +222,268 @@
     
       
       
-      
-
+  
   
   
   
     
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_2">
-          Guides
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Guides" data-md-level="1">
-        <label class="md-nav__title" for="__nav_2">
-          <span class="md-nav__icon md-icon"></span>
-          Guides
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
           
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../../guides/get_started/" class="md-nav__link">
-        Get Started
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Get Started
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../../guides/contribute/" class="md-nav__link">
-        Contribute
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/release/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
     
       
       
-      
-
   
   
     
   
   
+  
+    
+    
+    
+    
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3">
-          Code Reference
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          Code Reference
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
           
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Code Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../datasets/" class="md-nav__link">
-        DataSets
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DataSets
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
   
   
     
   
   
+  
     <li class="md-nav__item md-nav__item--active">
       
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
         
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          HyDAMO
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HyDAMO
+  
+
+    
+  </span>
+  
+  
+
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        HyDAMO
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HyDAMO
+  
+
+    
+  </span>
+  
+  
+
       </a>
       
         
@@ -335,36 +503,134 @@
       
         <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO" class="md-nav__link">
-    hydamo_validation.datamodel.HyDAMO
+    <span class="md-ellipsis">
+      
+        HyDAMO
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.from_geopackage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_geopackage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="from_geopackage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.from_geopackage--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.from_geopackage--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.get--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.get--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.init_datamodel" class="md-nav__link">
-    init_datamodel()
+    <span class="md-ellipsis">
+      
+        init_datamodel
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.set_data" class="md-nav__link">
-    set_data()
+    <span class="md-ellipsis">
+      
+        set_data
+      
+    </span>
   </a>
   
-    <nav class="md-nav" aria-label="set_data()">
+    <nav class="md-nav" aria-label="set_data">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.set_data--parameters" class="md-nav__link">
-    Parameters
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.set_data--returns" class="md-nav__link">
-    Returns
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
   </a>
   
 </li>
@@ -376,22 +642,34 @@
       
         <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.to_geopackage" class="md-nav__link">
-    to_geopackage()
+    <span class="md-ellipsis">
+      
+        to_geopackage
+      
+    </span>
   </a>
   
-    <nav class="md-nav" aria-label="to_geopackage()">
+    <nav class="md-nav" aria-label="to_geopackage">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.to_geopackage--parameters" class="md-nav__link">
-    Parameters
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.to_geopackage--returns" class="md-nav__link">
-    Returns
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
   </a>
   
 </li>
@@ -408,85 +686,177 @@
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     
+    
+    
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" type="checkbox" id="__nav_3_3" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_3_3">
-          Functions
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Functions" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_3">
-          <span class="md-nav__icon md-icon"></span>
-          Functions
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
           
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Functions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../general_functions/" class="md-nav__link">
-        General Functions
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    General Functions
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../logic_functions/" class="md-nav__link">
-        Logic Functions
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logic Functions
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
-            
-          
+              
             
               
+                
+  
   
   
   
     <li class="md-nav__item">
       <a href="../topologic_functions/" class="md-nav__link">
-        Topologic Functions
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topologic Functions
+  
+
+    
+  </span>
+  
+  
+
       </a>
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
     </li>
   
 
+              
             
-          
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -519,36 +889,134 @@
       
         <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO" class="md-nav__link">
-    hydamo_validation.datamodel.HyDAMO
+    <span class="md-ellipsis">
+      
+        HyDAMO
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.from_geopackage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_geopackage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="from_geopackage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.from_geopackage--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.from_geopackage--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.get" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="get">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.get--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hydamo_validation.datamodel.HyDAMO.get--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.init_datamodel" class="md-nav__link">
-    init_datamodel()
+    <span class="md-ellipsis">
+      
+        init_datamodel
+      
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.set_data" class="md-nav__link">
-    set_data()
+    <span class="md-ellipsis">
+      
+        set_data
+      
+    </span>
   </a>
   
-    <nav class="md-nav" aria-label="set_data()">
+    <nav class="md-nav" aria-label="set_data">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.set_data--parameters" class="md-nav__link">
-    Parameters
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.set_data--returns" class="md-nav__link">
-    Returns
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
   </a>
   
 </li>
@@ -560,22 +1028,34 @@
       
         <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.to_geopackage" class="md-nav__link">
-    to_geopackage()
+    <span class="md-ellipsis">
+      
+        to_geopackage
+      
+    </span>
   </a>
   
-    <nav class="md-nav" aria-label="to_geopackage()">
+    <nav class="md-nav" aria-label="to_geopackage">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.to_geopackage--parameters" class="md-nav__link">
-    Parameters
+    <span class="md-ellipsis">
+      
+        Parameters
+      
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#hydamo_validation.datamodel.HyDAMO.to_geopackage--returns" class="md-nav__link">
-    Returns
+    <span class="md-ellipsis">
+      
+        Returns
+      
+    </span>
   </a>
   
 </li>
@@ -593,31 +1073,251 @@
               </div>
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
+          
+            <div class="md-content" data-md-component="content">
               
+              <article class="md-content__inner md-typeset">
                 
+                  
+
+
 
 <h1 id="hydamo-datamodel">HyDAMO datamodel</h1>
 
 
-  <div class="doc doc-object doc-class">
+<div class="doc doc-object doc-class">
+
+
 
 <a id="hydamo_validation.datamodel.HyDAMO"></a>
     <div class="doc doc-contents first">
 
-      <p>Definition of the HyDAMO datamodel.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>hydamo_validation\datamodel.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">HyDAMO</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Definition of the HyDAMO datamodel.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <p>Definition of the HyDAMO datamodel.</p>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>hydamo_validation\datamodel.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">HyDAMO</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Definition of the HyDAMO datamodel.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;2.2&quot;</span><span class="p">,</span>
-        <span class="n">schemas_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;./schemas&quot;</span><span class="p">),</span>
-        <span class="n">ignored_layers</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">schemas_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">SCHEMAS_DIR</span><span class="p">,</span>
+        <span class="n">ignored_layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">&quot;afvoeraanvoergebied&quot;</span><span class="p">,</span>
             <span class="s2">&quot;imwa_geoobject&quot;</span><span class="p">,</span>
             <span class="s2">&quot;leggerwatersysteem&quot;</span><span class="p">,</span>
@@ -626,15 +1326,19 @@
         <span class="p">],</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">schema_json</span> <span class="o">=</span> <span class="n">schemas_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;hydamo/HyDAMO_</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema_json</span> <span class="o">=</span> <span class="n">schemas_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HyDAMO_</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignored_layers</span> <span class="o">=</span> <span class="n">ignored_layers</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">init_datamodel</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">init_datamodel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize DataModel from self.schemas_path.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">validation_schemas</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_layers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">layer</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span><span class="o">.</span><span class="n">empty</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_datamodel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize DataModel from self.schemas_path.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validation_schemas</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="c1"># read schema as dict</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schema_json</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
@@ -642,7 +1346,7 @@
             <span class="n">hydamo_layers</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">Path</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;$ref&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;HyDAMO&quot;</span><span class="p">][</span><span class="s2">&quot;anyOf&quot;</span><span class="p">]</span>
             <span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">hydamo_layers</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored_layers</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">hydamo_layers</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored_layers</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">hydamo_layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
             <span class="n">definition</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;definitions&quot;</span><span class="p">][</span><span class="n">hydamo_layer</span><span class="p">][</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span>
@@ -665,15 +1369,41 @@
                 <span class="n">hydamo_layer</span><span class="p">,</span>
                 <span class="n">ExtendedGeoDataFrame</span><span class="p">(</span>
                     <span class="n">validation_schema</span><span class="o">=</span><span class="n">layer_schema</span><span class="p">,</span>
+                    <span class="n">layer_name</span><span class="o">=</span><span class="n">hydamo_layer</span><span class="p">,</span>
                     <span class="n">geotype</span><span class="o">=</span><span class="n">geotype</span><span class="p">,</span>
                     <span class="n">required_columns</span><span class="o">=</span><span class="n">required_columns</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">layer</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_geotype</span><span class="o">=</span><span class="kc">True</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">global_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a DataFrame row (feature) providing a layer an global_id.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        layer : str</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        global_id : str</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;globalid&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">global_id</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">gdf</span><span class="p">,</span>
+        <span class="n">layer</span><span class="p">,</span>
+        <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">check_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">check_geotype</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">extra_attributes</span><span class="o">=</span><span class="p">{},</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 
 <span class="sd">        Parameters</span>
@@ -701,10 +1431,11 @@
             <span class="n">index_col</span><span class="o">=</span><span class="n">index_col</span><span class="p">,</span>
             <span class="n">check_columns</span><span class="o">=</span><span class="n">check_columns</span><span class="p">,</span>
             <span class="n">check_geotype</span><span class="o">=</span><span class="n">check_geotype</span><span class="p">,</span>
+            <span class="n">extra_attributes</span><span class="o">=</span><span class="p">{},</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">to_geopackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">use_schema</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_geopackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">use_schema</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -718,39 +1449,75 @@
 <span class="sd">        None.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-            <span class="n">gdf</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span>
+            <span class="n">gdf</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">gdf</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">use_schema</span><span class="p">:</span>
                     <span class="c1"># match fiona layer schema keys with gdf.columns</span>
                     <span class="n">schema</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span><span class="o">.</span><span class="n">_get_schema</span><span class="p">()</span>
                     <span class="n">schema_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">schema</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span>
                     <span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">schema_cols</span><span class="p">]</span>
-                    <span class="n">gdf_export</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">drop_cols</span><span class="p">)</span>
+                    <span class="n">gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">drop_cols</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
                     <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                         <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
                         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-                        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">gdf_export</span><span class="o">.</span><span class="n">columns</span>
+                        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span>
                     <span class="p">}</span>
 
                     <span class="c1"># write gdf to geopackage, including schema</span>
-                    <span class="k">if</span> <span class="n">gdf_export</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">gdf_export</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-                        <span class="n">export_gdf</span> <span class="o">=</span> <span class="n">gdf_export</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                    <span class="n">export_gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span>
+                    <span class="k">if</span> <span class="n">gdf</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                        <span class="n">gdf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span>
                         <span class="n">file_path</span><span class="p">,</span>
                         <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
                         <span class="n">driver</span><span class="o">=</span><span class="s2">&quot;GPKG&quot;</span><span class="p">,</span>
-                        <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
+                        <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;pyogrio&quot;</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># write gdf to geopackage as is</span>
                     <span class="k">if</span> <span class="n">gdf</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
                         <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                    <span class="n">gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s2">&quot;GPKG&quot;</span><span class="p">)</span>
-</code></pre></div>
-        </details>
+                    <span class="n">gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s2">&quot;GPKG&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;pyogrio&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="n">add_styles_to_geopackage</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_geopackage</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;2.2&quot;</span><span class="p">,</span> <span class="n">check_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_geotype</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize HyDAMO class from GeoPackage</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        file_path : path-string</span>
+<span class="sd">            Path-string to the hydamo GeoPackage</span>
+<span class="sd">        check_columns : bool, optional</span>
+<span class="sd">            Check if all required columns are present in the GeoDataFrame.</span>
+<span class="sd">            The default is True.</span>
+<span class="sd">        check_geotype : bool, optional</span>
+<span class="sd">            Check if the geometry is of the required type. The default is True.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        hydamo : HyDAMO</span>
+<span class="sd">            HyDAMO object initialized with content of GeoPackage</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hydamo</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">fiona</span><span class="o">.</span><span class="n">listlayers</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">hydamo</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+                <span class="n">hydamo_layer</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">hydamo</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span>
+                <span class="n">hydamo_layer</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span>
+                    <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">),</span>
+                    <span class="n">check_columns</span><span class="o">=</span><span class="n">check_columns</span><span class="p">,</span>
+                    <span class="n">check_geotype</span><span class="o">=</span><span class="n">check_geotype</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">hydamo</span>
+</code></pre></div></td></tr></table></div>
+              </details>
 
 
 
@@ -765,25 +1532,229 @@
 
 
 
-  <div class="doc doc-object doc-method">
+<div class="doc doc-object doc-function">
 
 
+<h2 id="hydamo_validation.datamodel.HyDAMO.from_geopackage" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">from_geopackage</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;2.2&#39;</span><span class="p">,</span> <span class="n">check_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_geotype</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
-<h2 id="hydamo_validation.datamodel.HyDAMO.init_datamodel" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">init_datamodel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
 
 </h2>
 
+
     <div class="doc doc-contents ">
 
-      <p>Initialize DataModel from self.schemas_path.</p>
+        <p>Initialize HyDAMO class from GeoPackage</p>
+<h4 id="hydamo_validation.datamodel.HyDAMO.from_geopackage--parameters">Parameters</h4>
+<p>file_path : path-string
+    Path-string to the hydamo GeoPackage
+check_columns : bool, optional
+    Check if all required columns are present in the GeoDataFrame.
+    The default is True.
+check_geotype : bool, optional
+    Check if the geometry is of the required type. The default is True.</p>
+<h4 id="hydamo_validation.datamodel.HyDAMO.from_geopackage--returns">Returns</h4>
+<p>hydamo : HyDAMO
+    HyDAMO object initialized with content of GeoPackage</p>
 
-        <details class="quote">
-          <summary>Source code in <code>hydamo_validation\datamodel.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">init_datamodel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Initialize DataModel from self.schemas_path.&quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">validation_schemas</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>hydamo_validation\datamodel.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_geopackage</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s2">&quot;2.2&quot;</span><span class="p">,</span> <span class="n">check_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_geotype</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize HyDAMO class from GeoPackage</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_path : path-string</span>
+<span class="sd">        Path-string to the hydamo GeoPackage</span>
+<span class="sd">    check_columns : bool, optional</span>
+<span class="sd">        Check if all required columns are present in the GeoDataFrame.</span>
+<span class="sd">        The default is True.</span>
+<span class="sd">    check_geotype : bool, optional</span>
+<span class="sd">        Check if the geometry is of the required type. The default is True.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    hydamo : HyDAMO</span>
+<span class="sd">        HyDAMO object initialized with content of GeoPackage</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hydamo</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">fiona</span><span class="o">.</span><span class="n">listlayers</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">hydamo</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
+            <span class="n">hydamo_layer</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">hydamo</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span>
+            <span class="n">hydamo_layer</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span>
+                <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">),</span>
+                <span class="n">check_columns</span><span class="o">=</span><span class="n">check_columns</span><span class="p">,</span>
+                <span class="n">check_geotype</span><span class="o">=</span><span class="n">check_geotype</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">hydamo</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="hydamo_validation.datamodel.HyDAMO.get" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">global_id</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get a DataFrame row (feature) providing a layer an global_id.</p>
+<h4 id="hydamo_validation.datamodel.HyDAMO.get--parameters">Parameters</h4>
+<p>layer : str
+    DESCRIPTION.
+global_id : str
+    DESCRIPTION.</p>
+<h4 id="hydamo_validation.datamodel.HyDAMO.get--returns">Returns</h4>
+<p>TYPE
+    DESCRIPTION.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>hydamo_validation\datamodel.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">global_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a DataFrame row (feature) providing a layer an global_id.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    layer : str</span>
+<span class="sd">        DESCRIPTION.</span>
+<span class="sd">    global_id : str</span>
+<span class="sd">        DESCRIPTION.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    TYPE</span>
+<span class="sd">        DESCRIPTION.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;globalid&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">global_id</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="hydamo_validation.datamodel.HyDAMO.init_datamodel" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">init_datamodel</span><span class="p">()</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Initialize DataModel from self.schemas_path.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>hydamo_validation\datamodel.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">init_datamodel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize DataModel from self.schemas_path.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">validation_schemas</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="c1"># read schema as dict</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schema_json</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
@@ -791,7 +1762,7 @@
         <span class="n">hydamo_layers</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">Path</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;$ref&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;HyDAMO&quot;</span><span class="p">][</span><span class="s2">&quot;anyOf&quot;</span><span class="p">]</span>
         <span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">hydamo_layers</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored_layers</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">hydamo_layers</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignored_layers</span><span class="p">]</span>
 
     <span class="k">for</span> <span class="n">hydamo_layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
         <span class="n">definition</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;definitions&quot;</span><span class="p">][</span><span class="n">hydamo_layer</span><span class="p">][</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span>
@@ -814,31 +1785,29 @@
             <span class="n">hydamo_layer</span><span class="p">,</span>
             <span class="n">ExtendedGeoDataFrame</span><span class="p">(</span>
                 <span class="n">validation_schema</span><span class="o">=</span><span class="n">layer_schema</span><span class="p">,</span>
+                <span class="n">layer_name</span><span class="o">=</span><span class="n">hydamo_layer</span><span class="p">,</span>
                 <span class="n">geotype</span><span class="o">=</span><span class="n">geotype</span><span class="p">,</span>
                 <span class="n">required_columns</span><span class="o">=</span><span class="n">required_columns</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">)</span>
-</code></pre></div>
-        </details>
+</code></pre></div></td></tr></table></div>
+            </details>
     </div>
 
-  </div>
+</div>
 
-
-
-  <div class="doc doc-object doc-method">
-
+<div class="doc doc-object doc-function">
 
 
 <h2 id="hydamo_validation.datamodel.HyDAMO.set_data" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">layer</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_geotype</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
-
+            <code class="highlight language-python"><span class="n">set_data</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">layer</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_geotype</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra_attributes</span><span class="o">=</span><span class="p">{})</span></code>
 
 </h2>
 
+
     <div class="doc doc-contents ">
 
-      <h4 id="hydamo_validation.datamodel.HyDAMO.set_data--parameters">Parameters</h4>
+        <h4 id="hydamo_validation.datamodel.HyDAMO.set_data--parameters">Parameters</h4>
 <p>gdf : GeoDataFrame
     GeoDataFrame with a HyDAMO object-layer
 layer : TYPE
@@ -853,12 +1822,57 @@ check_geotype : bool, optional
 <h4 id="hydamo_validation.datamodel.HyDAMO.set_data--returns">Returns</h4>
 <p>None.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>hydamo_validation\datamodel.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">set_data</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">gdf</span><span class="p">,</span> <span class="n">layer</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check_geotype</span><span class="o">=</span><span class="kc">True</span>
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>hydamo_validation\datamodel.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">gdf</span><span class="p">,</span>
+    <span class="n">layer</span><span class="p">,</span>
+    <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">check_columns</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">check_geotype</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">extra_attributes</span><span class="o">=</span><span class="p">{},</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 
 <span class="sd">    Parameters</span>
@@ -886,28 +1900,26 @@ check_geotype : bool, optional
         <span class="n">index_col</span><span class="o">=</span><span class="n">index_col</span><span class="p">,</span>
         <span class="n">check_columns</span><span class="o">=</span><span class="n">check_columns</span><span class="p">,</span>
         <span class="n">check_geotype</span><span class="o">=</span><span class="n">check_geotype</span><span class="p">,</span>
+        <span class="n">extra_attributes</span><span class="o">=</span><span class="p">{},</span>
     <span class="p">)</span>
-</code></pre></div>
-        </details>
+</code></pre></div></td></tr></table></div>
+            </details>
     </div>
 
-  </div>
+</div>
 
-
-
-  <div class="doc doc-object doc-method">
-
+<div class="doc doc-object doc-function">
 
 
 <h2 id="hydamo_validation.datamodel.HyDAMO.to_geopackage" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">to_geopackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">use_schema</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
-
+            <code class="highlight language-python"><span class="n">to_geopackage</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">use_schema</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 </h2>
 
+
     <div class="doc doc-contents ">
 
-      <h4 id="hydamo_validation.datamodel.HyDAMO.to_geopackage--parameters">Parameters</h4>
+        <h4 id="hydamo_validation.datamodel.HyDAMO.to_geopackage--parameters">Parameters</h4>
 <p>file_path : path-string
     Path-string where the file should be written to
 use_schema : bool, optional
@@ -915,10 +1927,58 @@ use_schema : bool, optional
 <h4 id="hydamo_validation.datamodel.HyDAMO.to_geopackage--returns">Returns</h4>
 <p>None.</p>
 
-        <details class="quote">
-          <summary>Source code in <code>hydamo_validation\datamodel.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_geopackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">use_schema</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>hydamo_validation\datamodel.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_geopackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">use_schema</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -932,44 +1992,44 @@ use_schema : bool, optional
 <span class="sd">    None.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">:</span>
-        <span class="n">gdf</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span>
+        <span class="n">gdf</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">gdf</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">use_schema</span><span class="p">:</span>
                 <span class="c1"># match fiona layer schema keys with gdf.columns</span>
                 <span class="n">schema</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layer</span><span class="p">)</span><span class="o">.</span><span class="n">_get_schema</span><span class="p">()</span>
                 <span class="n">schema_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">schema</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">]</span>
                 <span class="n">drop_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">schema_cols</span><span class="p">]</span>
-                <span class="n">gdf_export</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">drop_cols</span><span class="p">)</span>
+                <span class="n">gdf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">drop_cols</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
                 <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
                     <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
                     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-                    <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">gdf_export</span><span class="o">.</span><span class="n">columns</span>
+                    <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span>
                 <span class="p">}</span>
 
                 <span class="c1"># write gdf to geopackage, including schema</span>
-                <span class="k">if</span> <span class="n">gdf_export</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">gdf_export</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-                    <span class="n">export_gdf</span> <span class="o">=</span> <span class="n">gdf_export</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                <span class="n">export_gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span>
+                <span class="k">if</span> <span class="n">gdf</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+                    <span class="n">gdf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span>
                     <span class="n">file_path</span><span class="p">,</span>
                     <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span>
                     <span class="n">driver</span><span class="o">=</span><span class="s2">&quot;GPKG&quot;</span><span class="p">,</span>
-                    <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
+                    <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;pyogrio&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># write gdf to geopackage as is</span>
                 <span class="k">if</span> <span class="n">gdf</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
                     <span class="n">gdf</span> <span class="o">=</span> <span class="n">gdf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                <span class="n">gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s2">&quot;GPKG&quot;</span><span class="p">)</span>
-</code></pre></div>
-        </details>
+                <span class="n">gdf</span><span class="o">.</span><span class="n">to_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">layer</span><span class="o">=</span><span class="n">layer</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="s2">&quot;GPKG&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;pyogrio&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">file_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+        <span class="n">add_styles_to_geopackage</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
     </div>
 
-  </div>
-
-
+</div>
 
 
 
@@ -977,51 +2037,30 @@ use_schema : bool, optional
 
     </div>
 
-  </div>
+</div>
 
-              
-            </article>
-          </div>
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
       </main>
       
         <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href="../datasets/" class="md-footer__link md-footer__link--prev" aria-label="Previous: DataSets" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              DataSets
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../general_functions/" class="md-footer__link md-footer__link--next" aria-label="Next: General Functions" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              General Functions
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1043,10 +2082,15 @@ use_schema : bool, optional
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.22074ed6.min.js"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.960e086b.min.js"></script>
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>
