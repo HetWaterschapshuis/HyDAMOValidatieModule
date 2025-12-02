@@ -3,6 +3,7 @@ from hydamo_validation.summaries import LayersSummary, ResultSummary, OUTPUT_TYP
 from hydamo_validation.datasets import DataSets
 from pathlib import Path
 import shutil
+import logging
 
 try:
     from .config import DATA_DIR
@@ -15,7 +16,7 @@ exports_dir = Path(__file__).parent / "exports"
 exports_dir.mkdir(exist_ok=True)
 
 datasets = DataSets(dataset_path)
-layers_summary = LayersSummary()
+layers_summary = LayersSummary(logger=logging.getLogger("test_logger"))
 result_summary = ResultSummary()
 result_summary.dataset_layers = datasets.layers
 

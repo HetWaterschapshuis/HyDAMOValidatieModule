@@ -19,6 +19,7 @@ dependencies = [
     "rasterio",
     "shapely>=2",
     "rasterstats",
+    "tqdm"
 ]
 
 dynamic = ["version"]
