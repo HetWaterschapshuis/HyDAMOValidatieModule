@@ -25,7 +25,12 @@ import traceback
 
 OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 LOG_LEVELS = Literal["INFO", "DEBUG"]
-INCLUDE_COLUMNS = ["nen3610id", "code", "categorieoppwaterlichaam"]
+INCLUDE_COLUMNS = [
+    "nen3610id",
+    "code",
+    "categorieoppwaterlichaam",
+    "categorieoppervlaktewater",
+]
 SCHEMAS_PATH = Path(__file__).parent.joinpath(r"./schemas")
 HYDAMO_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("hydamo")
 RULES_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("rules")
