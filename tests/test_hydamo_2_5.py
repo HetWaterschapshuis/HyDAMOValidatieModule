@@ -47,7 +47,6 @@ object_layers = [
     "profielgroep",
     "profiellijn",
     "profielpunt",
-    "regelmiddel",
     "reglementgrenswaterschap",
     "ruwheidprofiel",
     "sluis",
@@ -68,7 +67,7 @@ ignored_layers = [
     "waterbeheergebied",
 ]
 
-dataset_gpkg = DATA_DIR / "tasks" / "test_wrij" / "datasets" / "HyDAMO.gpkg"
+dataset_gpkg = DATA_DIR / "tasks" / "test_wrij_hydamo_2_5" / "datasets" / "HyDAMO.gpkg"
 hydroobject_gdf = gpd.read_file(dataset_gpkg, layer="Hydroobject")
 hydroobject_gdf.rename(
     columns={"ruwheidswaardehoog": "ruwheidhoog", "ruwheidswaardelaag": "ruwheidlaag"},
@@ -112,7 +111,7 @@ def test_typeerror_data():
 
 def test_keyerror_missing_column():
     gdf = hydroobject_gdf.copy()
-    gdf.drop("categorieoppwaterlichaam", axis=1, inplace=True)
+    gdf.drop("categorieoppervlaktewater", axis=1, inplace=True)
     try:
         datamodel.hydroobject._check_columns(gdf)
         assert False
