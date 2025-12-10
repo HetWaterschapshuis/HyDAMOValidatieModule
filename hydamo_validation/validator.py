@@ -25,16 +25,33 @@ import traceback
 
 OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 LOG_LEVELS = Literal["INFO", "DEBUG"]
-INCLUDE_COLUMNS = [
-    "nen3610id",
-    "code",
-    "categorieoppwaterlichaam",
-    "categorieoppervlaktewater",
-]
+INCLUDE_COLUMNS = ["nen3610id", "code"]
 SCHEMAS_PATH = Path(__file__).parent.joinpath(r"./schemas")
 HYDAMO_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("hydamo")
 RULES_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("rules")
 LOGGING_FORMAT = "%(asctime)s %(levelname)s %(name)s - %(message)s"
+
+
+def _include_columns(hydamo_version: str) -> List[str]:
+    """Ensure that certain columns are always included in the syntax-validation.
+
+    Parameters
+    ----------
+    hydamo_version : str
+        Version of HyDAMO datamodel to be used for adding specific version-dependend columns
+
+    Returns
+    -------
+    List[str]
+        Updated list of columns to be included
+    """
+    include_columns = INCLUDE_COLUMNS.copy()
+    hydamo_version = float(hydamo_version)
+    if hydamo_version < 2.5:
+        include_columns.append("categorieoppwaterlichaam")
+    else:
+        include_columns.append("categorieoppervlaktewater")
+    return include_columns
 
 
 def _read_schema(version, schemas_path):
@@ -302,7 +319,8 @@ def _validator(
                 continue
 
             layer = layer.lower()
-            for col in INCLUDE_COLUMNS:
+            include_columns = _include_columns(hydamo_version=hydamo_version)
+            for col in include_columns:
                 if col not in gdf.columns:
                     gdf[col] = None
                     schema["properties"][col] = "str"
@@ -312,7 +330,7 @@ def _validator(
                 gdf,
                 schema=schema,
                 validation_schema=datamodel.validation_schemas[layer],
-                keep_columns=INCLUDE_COLUMNS,
+                keep_columns=include_columns,
             )
 
             # Add the syntax-validation result to the results_summary
