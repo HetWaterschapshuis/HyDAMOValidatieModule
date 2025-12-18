@@ -19,14 +19,17 @@ from hydamo_validation.syntax_validation import (
     missing_layers,
     fields_syntax,
 )
+import sys
 import traceback
+
 
 OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 LOG_LEVELS = Literal["INFO", "DEBUG"]
-INCLUDE_COLUMNS = ["nen3610id", "code"]
+INCLUDE_COLUMNS = ["nen3610id", "code", "categorieoppwaterlichaam"]
 SCHEMAS_PATH = Path(__file__).parent.joinpath(r"./schemas")
 HYDAMO_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("hydamo")
 RULES_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("rules")
+LOGGING_FORMAT = "%(asctime)s %(levelname)s %(name)s - %(message)s"
 
 
 def _read_schema(version, schemas_path):
@@ -38,17 +41,23 @@ def _read_schema(version, schemas_path):
 
 def _init_logger(log_level):
     """Init logger for validator."""
+
+    # Set up logging to console
+    logging.basicConfig(
+        level=getattr(logging, log_level),
+        format=LOGGING_FORMAT,
+        handlers=[logging.StreamHandler(sys.stdout)],
+        force=True,
+    )
+    # Get logger
     logger = logging.getLogger(__name__)
-    logger.setLevel(getattr(logging, log_level))
     return logger
 
 
 def _add_log_file(logger, log_file):
     """Add log-file to existing logger"""
     fh = logging.FileHandler(log_file)
-    fh.setFormatter(
-        logging.Formatter("%(asctime)s %(name)s %(levelname)s - %(message)s")
-    )
+    fh.setFormatter(logging.Formatter(LOGGING_FORMAT))
     fh.setLevel(logging.DEBUG)
     logger.addHandler(fh)
     return logger
@@ -190,7 +199,7 @@ def _validator(
         logger.info("init validatie")
         date_check = pd.Timestamp.now().isoformat()
         result_summary = ResultSummary(date_check=date_check)
-        layers_summary = LayersSummary(date_check=date_check)
+        layers_summary = LayersSummary(logger=logger, date_check=date_check)
         # check if all files are present
         # create a results_path
         permission_error = False
@@ -219,8 +228,8 @@ def _validator(
             if not path.exists():
                 missing_paths += [str(path)]
         if missing_paths:
-            result_summary.error += [f'missing_paths: {",".join(missing_paths)}']
-            raise FileNotFoundError(f'missing_paths: {",".join(missing_paths)}')
+            result_summary.error += [f"missing_paths: {','.join(missing_paths)}"]
+            raise FileNotFoundError(f"missing_paths: {','.join(missing_paths)}")
         else:
             validation_rules_sets = read_validation_rules(
                 validation_rules_json, result_summary
@@ -232,7 +241,7 @@ def _validator(
         ]
         if unsupported_output_types:
             error_message = (
-                r"unsupported output types: " f'{",".join(unsupported_output_types)}'
+                r"unsupported output types: " f"{','.join(unsupported_output_types)}"
             )
             result_summary.error += [error_message]
             raise TypeError(error_message)
