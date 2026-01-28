@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 import fiona
+import pandas as pd
 import geopandas as gpd
 from geopandas import GeoSeries
 import numpy as np
@@ -109,51 +110,49 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
 
     # ignores subclassing Any: https://github.com/geopandas/geopandas/discussions/2750
 
-    _metadata = [
-        "required_columns",
-        "geotype",
-        "layer_name",
-    ] + gpd.GeoDataFrame._metadata
+    _metadata = ["required_columns", "geotype", "layer_name"] + gpd.GeoDataFrame._metadata
 
     def __init__(
         self,
-        validation_schema: list[dict[str, Any]],
-        geotype: (
-            list[
-                Literal[
-                    "LineString",
-                    "MultiLineString",
-                    "Point",
-                    "PointZ",
-                    "Polygon",
-                    "MultiPolygon",
-                ]
-            ]
-            | None
-        ),
-        layer_name: str = "",
-        required_columns: list[str] = [],
-        logger=logging,
         *args,
+        validation_schema: list[dict[str, Any]] | None = None,
+        geotype: list[Literal["LineString","MultiLineString","Point","PointZ","Polygon","MultiPolygon"]] | None = None,
+        layer_name: str = "",
+        required_columns: list[str] | None = None,
+        logger=logging,
         **kwargs,
     ):
         # Check type
-        required_columns = [i.lower() for i in required_columns]
+        required_columns = [i.lower() for i in (required_columns or [])]
 
-        # Add required columns to column list
-        kwargs["columns"] = required_columns
-        kwargs["geometry"] = GeoSeries()
+        # Add required columns to column list   
+        kwargs.setdefault("columns", required_columns)
+        kwargs.setdefault("geometry", GeoSeries())
 
         super().__init__(*args, **kwargs)
 
+        # Store metadata
         self.validation_schema = validation_schema
         self.required_columns = required_columns
         self.layer_name = layer_name
         self.geotype = geotype
 
         if "geometry" not in self.required_columns:
-            self.required_columns += ["geometry"]
+            self.required_columns.append("geometry")
         self.crs = MODEL_CRS
+
+    @property
+    def _constructor(self):
+        return ExtendedGeoDataFrame
+
+    @property
+    def _constructor_sliced(self):
+        return pd.Series
+
+    def __finalize__(self, other, method=None, **kwargs):
+        for name in self._metadata:
+            setattr(self, name, getattr(other, name, None))
+        return self
 
     def _check_columns(self, gdf):
         """Check presence of columns in GeoDataFrame"""

@@ -284,7 +284,7 @@ def object_relation(
 
     gdf_out = gdf.copy()
 
-    # remove NaN values in from related_gdf[related_parameter]
+    # remove non-values in from related_gdf[related_parameter]
     if related_parameter:
         if "geometry" in related_parameter:
             related_gdf[related_parameter] = _get_geometric_attribute(

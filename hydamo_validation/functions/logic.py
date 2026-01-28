@@ -232,7 +232,7 @@ def NOTIN(gdf, parameter, array):
 
 
 def NOTNA(gdf, parameter):
-    """Evaluate if values in parameter ar not NaN or None
+    """Evaluate if values in parameter ar not nan or None
 
     Parameters
     ----------

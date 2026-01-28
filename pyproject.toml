@@ -19,13 +19,18 @@ dependencies = [
     "rasterio",
     "shapely>=2",
     "rasterstats",
-    "tqdm"
+    "tqdm",
+    "jsonschema"
 ]
 
 dynamic = ["version"]
 
 [project.optional-dependencies]
-tests = ["pytest"]
+tests = [
+    "pytest",
+    "pytest-cov"
+]
+
 
 [tool.flake8]
 max-line-length = 120

@@ -82,12 +82,11 @@ def convertable_dtypes(series, dtype):
 
 
 def _get_constant_series(gdf, value=True, dtype=bool):
+    "Return a pandas series for all geodataframe records with the index value and data type."
     return pd.Series([value] * len(gdf), index=gdf.index, dtype=dtype)
 
 
-# %% to execute it all
-
-
+# %% main handler function
 # all fields syntax validation
 def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
     """Validate fields in a gdf to a validation-schema."""
@@ -100,7 +99,7 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
     result_gdf = gdf.copy()
     valid_summary = _get_constant_series(result_gdf)
 
-    # check iteratively if column fails a valiation rule
+    # check iteratively if column fails a validation rule
     for col in [i for i in validation_schema if i["id"] != "geometry"]:
         valid_series = _get_constant_series(result_gdf)
 
@@ -116,7 +115,7 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
                 validation_gdf.loc[:, result_col].apply(lambda x: x.append(4))
                 valid_series.loc[:] = False
                 if col["dtype"] == "float":
-                    result_gdf.loc[:, col["id"]] = np.NaN
+                    result_gdf.loc[:, col["id"]] = np.nan
                 else:
                     result_gdf.loc[:, col["id"]] = pd.NA
 
@@ -135,7 +134,7 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
                     ~convertable_rows, col["id"]
                 ].apply(lambda x: f"{x} -> NULL ")
                 if col["dtype"] == "float":
-                    result_gdf.loc[~convertable_rows, col["id"]] = np.NaN
+                    result_gdf.loc[~convertable_rows, col["id"]] = np.nan
                 else:
                     result_gdf.loc[~convertable_rows, col["id"]] = pd.NA
 
@@ -223,14 +222,14 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
 
         valid_summary.loc[~valid_series] = False
         # %%
-        # set all invalid data from original gdf to Null
+        # set all invalid data from original gdf to no-values
         if col_exists:
             # valid_series[~convertable_rows] = True
             replace_series.loc[~valid_series] = result_gdf.loc[
                 ~valid_series, col["id"]
             ].apply(lambda x: f"{x} -> NULL ")
             if col["dtype"] == "float":
-                result_gdf.loc[~valid_series, col["id"]] = np.NaN
+                result_gdf.loc[~valid_series, col["id"]] = np.nan
             else:
                 result_gdf.loc[~valid_series, col["id"]] = pd.NA
 

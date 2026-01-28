@@ -33,6 +33,7 @@ LOGGING_FORMAT = "%(asctime)s %(levelname)s %(name)s - %(message)s"
 
 
 def _read_schema(version, schemas_path):
+    """Read json schema for provided version."""
     schema_json = schemas_path.joinpath(rf"rules/rules_{version}.json").resolve()
     with open(schema_json) as src:
         schema = json.load(src)
@@ -40,8 +41,7 @@ def _read_schema(version, schemas_path):
 
 
 def _init_logger(log_level):
-    """Init logger for validator."""
-
+    """Initisalise logger for validator."""
     # Set up logging to console
     logging.basicConfig(
         level=getattr(logging, log_level),
@@ -55,7 +55,7 @@ def _init_logger(log_level):
 
 
 def _add_log_file(logger, log_file):
-    """Add log-file to existing logger"""
+    """Add log-file to existing logger."""
     fh = logging.FileHandler(log_file)
     fh.setFormatter(logging.Formatter(LOGGING_FORMAT))
     fh.setLevel(logging.DEBUG)
@@ -64,13 +64,14 @@ def _add_log_file(logger, log_file):
 
 
 def _close_log_file(logger):
-    """Remove log-file from existing logger"""
+    """Remove log-file from existing logger."""
     for h in logger.handlers:
         h.close()
         logger.removeHandler(h)
 
 
 def _log_to_results(log_file, result_summary):
+    """Add log content to summary."""
     result_summary.log = log_file.read_text().split("\n")
 
 
@@ -78,7 +79,8 @@ def read_validation_rules(
     validation_rules_json: Path,
     result_summary: Union[ResultSummary, None] = None,
 ) -> dict:
-    """_summary_
+    """
+    Read the validation rules JSON, identify the schema version and validate the rules against the schema.
 
     Parameters
     ----------
@@ -134,7 +136,8 @@ def validator(
     coverages: dict = {},
 ) -> Callable:
     """
-
+    Return a partially configured validator that sets output types, logging level, and coverage locations.
+    
     Parameters
     ----------
     output_types : List[str], optional
@@ -168,6 +171,8 @@ def _validator(
     raise_error: bool = False,
 ):
     """
+    Execute the HyDAMO validation on the datasets in the provided directory.
+
     Parameters
     ----------
     directory : str
@@ -290,7 +295,7 @@ def _validator(
             gdf, schema = datasets.read_layer(
                 layer, result_summary=result_summary, status_object=status_object
             )
-            if gdf.empty:  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
+            if gdf.empty:  # pass if gdf is empty. Most likely due to mal-formed or ill-specifiec status_object
                 logger.warning(
                     f"{layer}: geen objecten ingelezen. Zorg dat alle waarden in de kolom 'status_object' voorkomen in {status_object}"
                 )

@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+        // Start het pakket alsof je `python -m hydamo_validation ...` runt
+        "name": "Run package as module",
+        "type": "debugpy",
+        "request": "launch",
+        "module": "hydamo_validation",
+        "args": [
+            "C:\\repos\\HyDAMOValidatieModule\\tests\\data\\tasks\\test_wrij",
+            "--log-level", "INFO",
+            "--output-types", "geopackage", "csv",
+            "--raise-error"
+        ],
+        "console": "integratedTerminal",
+        "cwd": "${workspaceFolder}",
+        "justMyCode": true,
+        // Optioneel: zet environment variabelen die je tool leest
+        "env": {
+            // "MY_SETTING": "value"
+        }
+        }
+    ]
+}

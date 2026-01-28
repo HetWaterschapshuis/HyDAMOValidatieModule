@@ -163,17 +163,12 @@ def execute(
 
                     # remove all nan indices
                     indices = _notna_indices(object_gdf, input_variables)
-                    dropped_indices = [
-                        i
-                        for i in object_gdf.index[object_gdf.index.notna()]
-                        if i not in indices
-                    ]
+                    dropped_indices = [i for i in object_gdf.index[object_gdf.index.notna()] if i not in indices]
 
                     # add object_relation
                     if "related_object" in input_variables.keys():
-                        input_variables = _add_related_gdf(
-                            input_variables, datamodel, object_layer
-                        )
+                        input_variables = _add_related_gdf(input_variables, datamodel, object_layer)
+                        
                     elif "join_object" in input_variables.keys():
                         input_variables = _add_join_gdf(input_variables, datamodel)
 
