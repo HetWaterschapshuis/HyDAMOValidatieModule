@@ -35,6 +35,8 @@ def _process_topologic_function(gdf, datamodel, function, input_variables):
 
 
 def _notna_indices(gdf, input_variables):
+    # TODO: correct function to only return indices where all input variables are not na (cols is always empty now)
+    """Filter out indicies of rows which contain no values."""
     cols = []
     for k, v in input_variables.items():
         if k not in NOTNA_COL_IGNORE:
@@ -181,8 +183,11 @@ def execute(
                                 "general_rule",
                             )
                         )
+
+                    # if empty dataframe rows for given indicies, set result column to nan
                     if object_gdf.loc[indices].empty:
                         object_gdf[result_variable] = np.nan
+                    # execute the validation function, write result back to datamodel
                     else:
                         result = _process_general_function(
                             object_gdf.loc[indices], function, input_variables
@@ -263,8 +268,10 @@ def execute(
                 else:
                     filter_indices = []
 
+                # if empty dataframe rows for given indicies, set result column to nan
                 if object_gdf.loc[indices].empty:
                     object_gdf[result_variable] = None
+                # execute the validation function, write result back to datamodel
                 elif rule["type"] == "logic":
                     object_gdf.loc[indices, (result_variable)] = (
                         _process_logic_function(
@@ -358,11 +365,14 @@ def execute(
         object_gdf = object_gdf[column_order]
 
         # finish result columns
+        # convert summary columns to string without trailing separator
         for i in SUMMARY_COLUMNS:
             if i in object_gdf.columns:
                 object_gdf.loc[:, i] = object_gdf[i].map(lambda x: str(x)[:-1])
+        # set minimum rating to 1 otherwise retain value
         if "rating" in object_gdf.columns:
             object_gdf.loc[:, "rating"] = np.maximum(1, object_gdf["rating"])
+        # convert list columns to separated string with unique values
         for i in ["tags_assigned", "tags_invalid"]:
             if i in object_gdf.columns:
                 object_gdf.loc[:, i] = object_gdf[i].map(

@@ -6,6 +6,8 @@ Startpunt voor het draaien van HyDAMO-validatie als module:
 """
 
 import argparse
+import json
+from html import parser
 from .validator import validator
 
 def main() -> None:
@@ -29,6 +31,10 @@ def main() -> None:
         default=["geopackage"],
         help="Uitvoerformaten (bijv. geopackage, csv, geojson)"
     )
+
+    parser.add_argument("--coverages", action="append",
+                        help="coverage as KEY=VALUE (repeatable)")
+
     parser.add_argument(
         "--raise-error",
         action="store_true",
@@ -37,11 +43,20 @@ def main() -> None:
 
     args = parser.parse_args()
 
+    coverages = {}
+    if args.coverages:
+        for item in args.coverages:
+            try:
+                k, v = item.split("=", 1)
+            except ValueError:
+                raise SystemExit(f"Invalid format for --coverages: {item}. Expected KEY=VALUE.")
+            coverages[k] = v
+
     # validator(...) levert een callable (partial) op naar _validator(...)
     run = validator(
         output_types=args.output_types,
         log_level=args.log_level,
-        coverages={},
+        coverages=coverages,
     )
 
     # Voer de daadwerkelijke validatie uit

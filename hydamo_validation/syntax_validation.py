@@ -13,7 +13,7 @@ def datamodel_layers(dm_layers, ds_layers):
 
 
 def missing_layers(dm_layers, ds_layers):
-    """Find missing datamodel-layers in datasets."""
+    """Identify layers from the datamodel that are missing in the input dataset."""
     layers = [i.lower() for i in ds_layers]
     layers = [i for i in dm_layers if i not in layers]
     return layers
@@ -119,7 +119,7 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
                 else:
                     result_gdf.loc[:, col["id"]] = pd.NA
 
-        # first check if a column as the correct dtype
+        # first check if a column has the correct dtype
         else:
             dtype_fixed = True
             dtype = schema["properties"][col["id"]]
@@ -244,7 +244,7 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
             validation_gdf[result_col]
         )
 
-    # check for invalid geometries and delete these geometries
+    # check for invalid geometries and delete these
     geotype = next(
         (i["dtype"] for i in validation_schema if i["id"] == "geometry"), None
     )

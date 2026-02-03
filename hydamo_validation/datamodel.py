@@ -108,9 +108,7 @@ def map_definition(definition: dict[str, Any]) -> list[dict[str, Any]]:
 class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
     """A GeoPandas GeoDataFrame with extended properties and methods."""
 
-    # ignores subclassing Any: https://github.com/geopandas/geopandas/discussions/2750
-
-    _metadata = ["required_columns", "geotype", "layer_name"] + gpd.GeoDataFrame._metadata
+    _metadata = ["required_columns", "geotype", "layer_name", "_validation_schema"] + gpd.GeoDataFrame._metadata
 
     def __init__(
         self,
@@ -122,24 +120,52 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
         logger=logging,
         **kwargs,
     ):
-        # Check type
+        # Required columns to lowercase
         required_columns = [i.lower() for i in (required_columns or [])]
+        # Retain metadata
+        object.__setattr__(self, "_validation_schema", validation_schema)
+        object.__setattr__(self, "required_columns", required_columns)
+        object.__setattr__(self, "layer_name", layer_name)
+        object.__setattr__(self, "geotype", geotype)
 
-        # Add required columns to column list   
-        kwargs.setdefault("columns", required_columns)
-        kwargs.setdefault("geometry", GeoSeries())
-
+        # (Re-)construct extended GeoDataFrame
         super().__init__(*args, **kwargs)
 
-        # Store metadata
-        self.validation_schema = validation_schema
-        self.required_columns = required_columns
-        self.layer_name = layer_name
-        self.geotype = geotype
+        # Add required columns, leave existing data intact
+        for col in self.required_columns:
+            if col not in self.columns:
+                if col == "geometry":
+                    # ceate empty geometry column
+                    self[col] = gpd.GeoSeries(index=self.index)
+                else:
+                    self[col] = pd.NA  # TODO: np.nan for floats
 
-        if "geometry" not in self.required_columns:
-            self.required_columns.append("geometry")
-        self.crs = MODEL_CRS
+        # Activate geometry if exists
+        activated_geometry = False
+        if "geometry" in self.columns:
+            try:
+                self.set_geometry("geometry", inplace=True)
+                activated_geometry = True
+            except Exception as e:
+                logger.warning("Cannot activate geometry: %s", e)
+
+        # Set CRS if necessary
+        if activated_geometry:
+            try:
+                if self.crs is None and "geometry" in self.columns:
+                    if not self.geometry.is_empty.all():
+                        self.set_crs(MODEL_CRS, inplace=True)
+            except Exception as e:
+                logger.warning("Cannot set CRS: %s", e)
+
+    @property
+    def validation_schema(self):
+        return getattr(self, "_validation_schema", None)
+
+
+    @validation_schema.setter
+    def validation_schema(self, value):
+        object.__setattr__(self, "_validation_schema", value)
 
     @property
     def _constructor(self):
@@ -151,7 +177,10 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
 
     def __finalize__(self, other, method=None, **kwargs):
         for name in self._metadata:
-            setattr(self, name, getattr(other, name, None))
+            try:
+                object.__setattr__(self, name, getattr(other, name, None))
+            except Exception:
+                pass
         return self
 
     def _check_columns(self, gdf):
@@ -184,14 +213,12 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
 
     def _get_schema(self):
         """Return fiona schema dict from validation_schema."""
-        properties = {
-            i["id"]: i["dtype"] for i in self.validation_schema if i["id"] != "geometry"
-        }
-        # properties = {k: (v if v != "datetime" else "str") for k, v in properties}
-        geometry = next(
-            (i["dtype"] for i in self.validation_schema if i["id"] == "geometry"),
-            None,
-        )
+        vs = self.validation_schema
+        if not vs:
+            return {"properties": {}, "geometry": None}
+
+        properties = {i["id"]: i["dtype"] for i in vs if i["id"] != "geometry"}
+        geometry = next((i["dtype"] for i in vs if i["id"] == "geometry"), None)
         return {"properties": properties, "geometry": geometry}
 
     def set_data(
@@ -204,6 +231,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
         extra_attributes={},
     ):
         """
+        Copy source data to ExtendedGeoDataFrame, normalize column names, reproject, validate required columns and geometry types.
 
 
         Parameters
@@ -263,8 +291,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
     def delete_all(self):
         """Empty the dataframe"""
         if not self.empty:
-            self.iloc[:, 0] = np.nan
-            self.dropna(inplace=True)
+            self.drop(self.index, inplace=True)
 
     def snap_to_branch(self, branches, snap_method, maxdist=5):
         """
@@ -321,7 +348,7 @@ class HyDAMO:
         """Initialize DataModel from self.schemas_path."""
         self.validation_schemas: dict[str, Any] = {}
 
-        # read schema as dict
+        # read schema as dict, extract layers for specified HyDAMO version
         with open(self.schema_json) as src:
             schema = json.load(src)
             hydamo_layers = [
@@ -329,12 +356,13 @@ class HyDAMO:
             ]
             self.layers = [i for i in hydamo_layers if i not in self.ignored_layers]
 
+        # extract attribute definitions per layer and write to extended geodataframe 
         for hydamo_layer in self.layers:
             definition = schema["definitions"][hydamo_layer]["properties"]
             layer_schema = map_definition(definition)
             self.validation_schemas[hydamo_layer] = layer_schema
 
-            # add layer to data_model
+            # make for every layer entry in data_model as ExtendedGeoDataFrame
             geotype = next(
                 (i["dtype"] for i in layer_schema if i["id"] == "geometry"), None
             )
@@ -433,34 +461,42 @@ class HyDAMO:
         file_path = Path(file_path)
         for layer in self.layers:
             gdf = getattr(self, layer).copy()
-            if not gdf.empty:
-                if use_schema:
-                    # match fiona layer schema keys with gdf.columns
-                    schema = getattr(self, layer)._get_schema()
-                    schema_cols = list(schema["properties"].keys()) + ["geometry"]
-                    drop_cols = [i for i in gdf.columns if i not in schema_cols]
-                    gdf.drop(columns=drop_cols, inplace=True)
+            if not gdf.empty and use_schema:
+                # match fiona layer schema keys with gdf.columns
+                schema = getattr(self, layer)._get_schema()
+                schema_props = list(schema.get("properties",{}).keys())
+                keep_cols = set(schema_props) | {"geometry"}
+                # remove onknown columns
+                unknown_cols = [c for c in gdf.columns if c not in keep_cols]
+                if unknown_cols:
+                    gdf = gdf.drop(columns=unknown_cols)
+                
+                # create columns if missing
+                missing_cols = [c for c in schema_props if c not in gdf.columns]
+                if missing_cols:
+                    for col in missing_cols:
+                        gdf[col] = pd.Series([pd.NA] * len(gdf), dtype="string")
 
-                    schema["properties"] = {
-                        k: v
-                        for k, v in schema["properties"].items()
-                        if k in gdf.columns
-                    }
+                schema["properties"] = {
+                    k: v
+                    for k, v in schema["properties"].items()
+                    if k in gdf.columns
+                }
 
-                    # write gdf to geopackage, including schema
-                    if gdf.index.name in gdf.columns:
-                        gdf.reset_index(drop=True, inplace=True)
-                    gdf.to_file(
-                        file_path,
-                        layer=layer,
-                        driver="GPKG",
-                        engine="pyogrio",
-                    )
-                else:
-                    # write gdf to geopackage as is
-                    if gdf.index.name in gdf.columns:
-                        gdf = gdf.reset_index(drop=True).copy()
-                    gdf.to_file(file_path, layer=layer, driver="GPKG", engine="pyogrio")
+                # write gdf to geopackage, including schema
+                if gdf.index.name in gdf.columns:
+                    gdf.reset_index(drop=True, inplace=True)
+                gdf.to_file(
+                    file_path,
+                    layer=layer,
+                    driver="GPKG",
+                    engine="pyogrio",
+                )
+            else:
+                # write gdf to geopackage as is
+                if gdf.index.name in gdf.columns:
+                    gdf = gdf.reset_index(drop=True).copy()
+                gdf.to_file(file_path, layer=layer, driver="GPKG", engine="pyogrio")
         if file_path.is_file():
             add_styles_to_geopackage(file_path)
 

@@ -193,6 +193,7 @@ def _validator(
         Will return a tuple with a filled HyDAMO datamodel, layers_summary and result_summary
 
     """
+    # 1. INITIALISATION
     timer = Timer()
     try:
         results_path = None
@@ -256,8 +257,7 @@ def _validator(
             for key, item in coverages.items():
                 logical_validation.general_functions._set_coverage(key, item)
 
-        # start validation
-        # read data-model
+        # 2. ESTABLISH DATA MODEL
         result_summary.status = "define data-model"
         try:
             hydamo_version = validation_rules_sets["hydamo_version"]
@@ -266,7 +266,7 @@ def _validator(
             result_summary.error = ["datamodel cannot be defined (see exception)"]
             raise e
 
-        # validate dataset syntax
+        # 3. SYNTAX VALIDATION
         result_summary.status = "syntax-validation (layers)"
         datasets = DataSets(dataset_path)
 
@@ -295,7 +295,7 @@ def _validator(
             gdf, schema = datasets.read_layer(
                 layer, result_summary=result_summary, status_object=status_object
             )
-            if gdf.empty:  # pass if gdf is empty. Most likely due to mal-formed or ill-specifiec status_object
+            if gdf.empty:  # pass if gdf is empty. Most likely due to mal-formed or ill-specified status_object
                 logger.warning(
                     f"{layer}: geen objecten ingelezen. Zorg dat alle waarden in de kolom 'status_object' voorkomen in {status_object}"
                 )
@@ -315,8 +315,9 @@ def _validator(
                 keep_columns=INCLUDE_COLUMNS,
             )
 
-            # Add the syntax-validation result to the results_summary
+            # Add the syntax-validation result to the layers_summary
             layers_summary.set_data(result_gdf, layer, schema["geometry"])
+
             # Add the corrected datasets_layer data to the datamodel.
             if gdf.empty:
                 logger.warning(
@@ -326,7 +327,8 @@ def _validator(
                 datamodel.set_data(gdf, layer, index_col=None)
             syntax_result += [layer]
 
-        # do logical validation: append result to layers_summary
+        # 4. (TOPO-)LOGICAL VALIDATION
+        # append result to layers_summary
         result_summary.status = "logical validation"
         logger.info("start (topo)logische validatie van object-lagen")
         layers_summary, result_summary = logical_validation.execute(
@@ -338,7 +340,7 @@ def _validator(
             raise_error,
         )
 
-        # finish validation and export results
+        # 5. WRAP UP VALIDATION AND EXPORT RESULTS
         logger.info("exporteren resultaten")
         result_summary.status = "export results"
         result_layers = layers_summary.export(results_path, output_types)

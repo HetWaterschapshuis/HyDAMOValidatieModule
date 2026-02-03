@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+    
         
         {
         // Start het pakket alsof je `python -m hydamo_validation ...` runt
@@ -12,6 +13,7 @@
             "C:\\repos\\HyDAMOValidatieModule\\tests\\data\\tasks\\test_wrij",
             "--log-level", "INFO",
             "--output-types", "geopackage", "csv",
+            "--coverage", "AHN=${workspaceFolder}/tests/data/dtm",
             "--raise-error"
         ],
         "console": "integratedTerminal",
