@@ -4,7 +4,7 @@
     
         
         {
-        // Start het pakket alsof je `python -m hydamo_validation ...` runt
+        // Start the module as if running `python -m hydamo_validation ...`
         "name": "Run package as module",
         "type": "debugpy",
         "request": "launch",
@@ -19,7 +19,7 @@
         "console": "integratedTerminal",
         "cwd": "${workspaceFolder}",
         "justMyCode": true,
-        // Optioneel: zet environment variabelen die je tool leest
+        // Optional: set environment variables for the tool to read
         "env": {
             // "MY_SETTING": "value"
         }

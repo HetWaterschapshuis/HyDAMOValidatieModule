@@ -197,7 +197,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
                 )
 
     def _check_geotype(self):
-        """Check geometry type"""
+        """Check if geometry is of required type"""
         if self.geotype:
             if not all(
                 any(isinstance(geo, GEOTYPE_MAPPING[i]) for i in self.geotype)
@@ -255,31 +255,30 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
         if not self.empty:
             self.delete_all()
 
-        # reproject to crs if necessary
+        # Reproject to crs if necessary
         if (gdf.crs is not None) and ("geometry" in self.required_columns):
             if f"epsg:{gdf.crs.to_epsg()}" == MODEL_CRS:
                 gdf.set_crs(MODEL_CRS, inplace=True, allow_override=True)
             else:
                 gdf.to_crs(MODEL_CRS, inplace=True)
 
-        # Check columns
+        # Colomn names to lowercase, check if required columns are present
         gdf.columns = [i.lower() for i in gdf.columns]
         if check_columns:
             self._check_columns(gdf)
 
-        # Copy content
+        # Transfer gdf-content as plain numpy array to extended dataframe object
         for col, values in gdf.items():
             self[col] = values.to_numpy()
 
         if index_col is None:
             self.index = gdf.index
             self.index.name = gdf.index.name
-
         else:
             self.index = gdf[index_col]
             self.index.name = index_col
 
-        # Check geometry types
+        # Check if geometry is of required type
         if check_geotype:
             self._check_geotype()
 
@@ -319,7 +318,7 @@ class ExtendedGeoDataFrame(gpd.GeoDataFrame):  # type: ignore
 
 
 class HyDAMO:
-    """Definition of the HyDAMO datamodel."""
+    """Utilise ExtendedGeoDataframe objects to initialise the HyDAMO datamodel according to the specified HyDAMO schema."""
 
     def __init__(
         self,
@@ -362,17 +361,19 @@ class HyDAMO:
             layer_schema = map_definition(definition)
             self.validation_schemas[hydamo_layer] = layer_schema
 
-            # make for every layer entry in data_model as ExtendedGeoDataFrame
+            # identify geometry type
             geotype = next(
                 (i["dtype"] for i in layer_schema if i["id"] == "geometry"), None
             )
 
+            # identify required columns
             required_columns = [
                 i["id"]
                 for i in [i for i in layer_schema if "required" in i.keys()]
                 if i["required"]
             ]
 
+            # generate ExtendedGeoDataFrame for the layer
             setattr(
                 self,
                 hydamo_layer,
@@ -461,6 +462,9 @@ class HyDAMO:
         file_path = Path(file_path)
         for layer in self.layers:
             gdf = getattr(self, layer).copy()
+            # avoid exporting layers without columns
+            if len(gdf.columns) == 0:
+                continue
             if not gdf.empty and use_schema:
                 # match fiona layer schema keys with gdf.columns
                 schema = getattr(self, layer)._get_schema()

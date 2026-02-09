@@ -8,6 +8,7 @@ description = "Validation module for HyDAMO data"
 readme = "README.md"
 authors = [
     { name = "Daniel Tollenaar", email = "daniel@d2hydro.nl" },
+    { name = "het Waterschapshuis", email = "hydamo-validatietool@hetwaterschapshuis.nl" },
 ]
 license = { text = "MIT" }
 

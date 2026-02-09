@@ -1,7 +1,7 @@
 
 # hydamo_validation/__main__.py
 """
-Startpunt voor het draaien van HyDAMO-validatie als module:
+Entry point voor running the HyDAMO-validation as module:
     python -m hydamo_validation <directory> [--log-level INFO|DEBUG] [--output-types ...] [--raise-error]
 """
 
@@ -52,14 +52,14 @@ def main() -> None:
                 raise SystemExit(f"Invalid format for --coverages: {item}. Expected KEY=VALUE.")
             coverages[k] = v
 
-    # validator(...) levert een callable (partial) op naar _validator(...)
+    # Create a callable (partial) to _validator(...)
     run = validator(
         output_types=args.output_types,
         log_level=args.log_level,
         coverages=coverages,
     )
 
-    # Voer de daadwerkelijke validatie uit
+    # Execute the actual validation
     result = run(directory=args.directory, raise_error=args.raise_error)
 
     print(result)
