@@ -19,10 +19,6 @@
         "console": "integratedTerminal",
         "cwd": "${workspaceFolder}",
         "justMyCode": true,
-        // Optional: set environment variables for the tool to read
-        "env": {
-            // "MY_SETTING": "value"
-        }
         }
     ]
 }
