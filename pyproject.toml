@@ -27,11 +27,11 @@ dependencies = [
 dynamic = ["version"]
 
 [project.optional-dependencies]
-tests = [
+dev = [
     "pytest",
-    "pytest-cov"
+    "pytest-cov",
+	"ipykernel"
 ]
-
 
 [tool.flake8]
 max-line-length = 120
