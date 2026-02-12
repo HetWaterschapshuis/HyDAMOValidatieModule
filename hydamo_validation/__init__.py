@@ -4,8 +4,8 @@ __credits__ = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
 __version__ = "1.4.2"
 
 __license__ = "MIT"
-__maintainer__ = "Daniel Tollenaar"
-__email__ = "daniel@d2hydro.nl"
+__maintainer__ = "Philip Hansmann"
+__email__ = "hydamo-validatietool@hetwaterschapshuis.nl"
 
 #import fiona  # top-level import to avoid fiona import issue: https://github.com/conda-forge/fiona-feedstock/issues/213
 from hydamo_validation.functions import topologic as topologic_functions
