@@ -6,7 +6,6 @@ from hydamo_validation.__init__ import (
     __author__,
     __copyright__,
     __credits__,
-    __version__,
     __license__,
     __maintainer__,
     __email__,
@@ -17,8 +16,8 @@ copyright = "Copyright 2026, HyDAMO ValidatieTool"
 credits = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
 
 license = "MIT"
-maintainer = "Daniel Tollenaar"
-email = "daniel@d2hydro.nl"
+maintainer = "Philip Hansmann"
+email = "hydamo-validatietool@hetwaterschapshuis.nl"
 
 
 def test_author():
