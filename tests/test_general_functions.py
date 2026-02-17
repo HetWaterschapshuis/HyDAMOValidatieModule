@@ -130,7 +130,7 @@ def test_object_relation_count():
 
 
 def test_object_relation_majority():
-    expected_result = [0, "Onbekend", 0, 0, 0]
+    expected_result = ["0", "Onbekend", "0", "0", "0"]
     result = general_functions.object_relation(
         gdf,
         related_gdf=opening_gdf,

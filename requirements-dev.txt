@@ -62,7 +62,7 @@ ipython-pygments-lexers==1.1.1
     # via ipython
 jedi==0.19.2
     # via ipython
-jsonschema==4.26.0
+jsonschema==4.22.0
     # via hydamo-validation (pyproject.toml)
 jsonschema-specifications==2025.9.1
     # via jsonschema
@@ -175,6 +175,8 @@ traitlets==5.14.3
     #   jupyter-client
     #   jupyter-core
     #   matplotlib-inline
+typing-extensions==4.15.0
+    # via referencing
 tzdata==2025.3
     # via pandas
 wcwidth==0.6.0

@@ -302,9 +302,7 @@ def object_relation(
     elif statistic == "max":
         series = related_gdf.groupby(by=[code_relation])[related_parameter].max()
     elif statistic == "majority":
-        series = related_gdf.groupby(by=[code_relation])[related_parameter].agg(
-            pd.Series.mode
-        )
+        series = related_gdf.groupby(by=[code_relation])[related_parameter].agg(pd.Series.mode)
 
     # join series with gdf
     series.name = "result"
@@ -313,7 +311,21 @@ def object_relation(
         series, how="left", left_on="globalid", right_on=code_relation
     )
 
-    # fill series if if provided
+    res_col = gdf_out["result"]
+    numeric_version = pd.to_numeric(res_col, errors="coerce")
+    conversion_failed = res_col.notna() & numeric_version.isna()
+    if not conversion_failed.any():
+        # convert all to float64
+        gdf_out["result"] = numeric_version.astype("float64")
+    else:
+        # not all is numeric, convert to string
+        gdf_out["result"] = res_col.astype("string")
+
+
+    # fill series if provided
     if fill_value is not None:
-        gdf_out.loc[gdf_out["result"].isna(), "result"] = fill_value
+        if pd.api.types.is_string_dtype(gdf_out["result"]):
+            gdf_out.loc[gdf_out["result"].isna(), "result"] = str(fill_value)
+        else:
+            gdf_out.loc[gdf_out["result"].isna(), "result"] = float(fill_value)
     return gdf_out["result"]

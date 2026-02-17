@@ -13,8 +13,8 @@ from hydamo_validation.__init__ import (
 )
 
 author = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
-copyright = "Copyright 2021, HyDAMO ValidatieTool"
-credits = ["D2HYDRO", "HKV", "HydroConsult"]
+copyright = "Copyright 2026, HyDAMO ValidatieTool"
+credits = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
 
 license = "MIT"
 maintainer = "Daniel Tollenaar"

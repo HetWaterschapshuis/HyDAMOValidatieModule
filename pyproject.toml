@@ -21,7 +21,7 @@ dependencies = [
     "shapely>=2",
     "rasterstats",
     "tqdm",
-    "jsonschema"
+    "jsonschema<4.23" #openzetten bij upgrade naar Python 3.12+
 ]
 
 dynamic = ["version"]

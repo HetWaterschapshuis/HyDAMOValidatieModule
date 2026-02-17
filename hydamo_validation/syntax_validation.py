@@ -124,32 +124,48 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
             dtype_fixed = True
             dtype = schema["properties"][col["id"]]
             if dtype != col["dtype"]:
+
                 # try to convert it into the correct data-type
+                col_id = col["id"]
+                target_dtype = col["dtype"]
+
+                # find convertable rows for this column
                 convertable_rows = convertable_dtypes(
-                    result_gdf.loc[:, col["id"]], col["dtype"]
+                    result_gdf[col_id], target_dtype
+                )
+                
+                # find un-convertable rows and mark as invalid
+                replace_series.loc[~convertable_rows] = (
+                    result_gdf.loc[~convertable_rows, col_id]
+                    .astype("string")
+                    + "-> NULL"
                 )
 
-                # replace un-convertable rows to pd.NA so they can be converted
-                replace_series[~convertable_rows] = result_gdf.loc[
-                    ~convertable_rows, col["id"]
-                ].apply(lambda x: f"{x} -> NULL ")
-                if col["dtype"] == "float":
-                    result_gdf.loc[~convertable_rows, col["id"]] = np.nan
+                # set un-convertable rows to no-value
+                if target_dtype == "float":
+                    result_gdf.loc[~convertable_rows, col_id] = np.nan
                 else:
-                    result_gdf.loc[~convertable_rows, col["id"]] = pd.NA
+                    result_gdf.loc[~convertable_rows, col_id] = pd.NA
 
-                if col["dtype"] in ["int", "int64"]:
-                    result_gdf.loc[:, col["id"]] = pd.to_numeric(
-                        result_gdf[col["id"]]
-                    ).astype(pd.Int64Dtype())
-                elif col["dtype"] == "datetime":
-                    result_gdf.loc[:, col["id"]] = pd.to_numeric(
-                        result_gdf[col["id"]]
-                    ).astype("datetime64[ns]")
-                else:
-                    result_gdf.loc[:, col["id"]] = result_gdf[col["id"]].astype(
-                        col["dtype"]
+                # convert (entire column)
+                if target_dtype in ["int", "int64"]:
+                    result_gdf[col_id] = (
+                        pd.to_numeric(result_gdf[col_id], errors="coerce").astype("Float64")
                     )
+
+                elif target_dtype == "datetime":
+                    result_gdf[col_id] = pd.to_datetime(result_gdf[col_id], errors="coerce")
+
+                elif target_dtype in ["str","string"]:
+                    result_gdf[col_id] = (
+                        result_gdf[col_id].astype("string")
+                        )
+
+                else:
+                    result_gdf[col_id] = (
+                        result_gdf[col_id].astype(target_dtype)
+                    )
+                
                 validation_gdf.loc[convertable_rows, result_col].apply(
                     lambda x: x.append(2)
                 )
