@@ -10,8 +10,6 @@ import pandas as pd
 import rasterio
 
 COVERAGES = {}
-# DATA_MODEL = None
-# OBJECT_LAYER = None
 
 # We get a false-positive settingwithcopywarning in buffer-function that we supress
 pd.options.mode.chained_assignment = None
