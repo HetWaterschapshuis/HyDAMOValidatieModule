@@ -46,8 +46,12 @@ you can get a local copy by:
 Verify if the repository is on your local drive. 
 
 ### Setup environment
+
+#### Install UV
 For this part we assume you have UV installed. Check how-to install on https://docs.astral.sh/uv/getting-started/installation/.
 
+
+#### Build Virtual Environment
 After installation you add a virtual environment (`.venv`) in the root of your repository by from the command-line:
 
 ```
@@ -68,14 +72,31 @@ Now you build the environment with development specs by running from the command
 uv pip sync requirements-dev.txt
 ```
 
+This ensures all developpers have the exact same environment (!)
 
+#### Install and test your module
 
-### Install copy
-Install the module in the activated `validatietool` environment in develop-mode:
+Activate your environment:
 
 ```
-pip install -e .
+.venv\Scripts\activate
 ```
+
+Install the module in develop-mode:
+
+```
+uv pip install -e .
+```
+
+Now you should be able to successfully run all tests by running:
+
+```
+pytest --cov-report term-missing --cov=hydamo_validation tests/
+```
+
+This should yield a result similar to this
+![](images/test.png "Test")
+
 
 __Now you're good to go!__
 
