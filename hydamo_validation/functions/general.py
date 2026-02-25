@@ -7,12 +7,7 @@ from pathlib import Path
 from rasterstats import zonal_stats
 import logging
 import pandas as pd
-
-try:
-    import rasterio
-except ImportError:
-    import gdal  # noqa to avoid rasterio.version error: https://github.com/conda-forge/rasterio-feedstock/issues/240
-    import rasterio
+import rasterio
 
 COVERAGES = {}
 # DATA_MODEL = None
