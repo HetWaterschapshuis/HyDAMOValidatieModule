@@ -23,15 +23,6 @@ The remainder of this guide explains how to do it.
 
 ## Dev installation
 
-### Setup environment
-Use the `env/dev_environment.yml` in the repository to create the conda environment `validatietool` with all required packages
-
-```
-conda env create -f dev_environment.yml
-```
-
-After installation you can activate your environment in command prompt
-
 ### Fork repo
 Fork the respository to your own GitHub account:
 
@@ -53,6 +44,31 @@ you can get a local copy by:
 ![](images/clone.gif "Clone repository")
 
 Verify if the repository is on your local drive. 
+
+### Setup environment
+For this part we assume you have UV installed. Check how-to install on https://docs.astral.sh/uv/getting-started/installation/.
+
+After installation you add a virtual environment (`.venv`) in the root of your repository by from the command-line:
+
+```
+uv venv
+```
+
+A new folder `.venv` should be created in the repo-root:
+
+```
+HyDAMOValidatieModule
+├── .venv
+└── ....
+```
+
+Now you build the environment with development specs by running from the command-line:
+
+```
+uv pip sync requirements-dev.txt
+```
+
+
 
 ### Install copy
 Install the module in the activated `validatietool` environment in develop-mode:
