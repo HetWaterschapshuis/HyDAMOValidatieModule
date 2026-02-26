@@ -36,7 +36,7 @@ class LayersSummary:
 
     def set_data(self, gdf, layer, geo_type):
         """
-        Set a gdf as a property of results
+        Set a gdf as a property of results.
 
         Parameters
         ----------
@@ -76,16 +76,29 @@ class LayersSummary:
 
         """
 
-        if hasattr(self, layer):
-            results_gdf = getattr(self, layer)
-            drop_cols = [i for i in ["geometry", "nen3610id"] if i in gdf.columns]
-            if drop_cols:
-                gdf.drop(columns=drop_cols, inplace=True)
-            setattr(
-                self,
-                layer,
-                results_gdf.join(gdf),
-            )
+        if not hasattr(self, layer):
+            return
+            
+        results_gdf = getattr(self, layer)
+        
+        # remove conflicting columns from layer gdf
+        drop_cols = [i for i in ["geometry", "nen3610id"] if i in gdf.columns]
+        if drop_cols:
+            gdf = gdf.drop(columns=drop_cols)
+        
+        # to be sure, remove geometry activation from layer-gdf
+        if hasattr(gdf, "set_geometry"):
+            try:
+                gdf = gdf.set_geometry(None, inlplace=False)
+            except Exception:
+                pass
+                
+        joined = results_gdf.join(gdf, how="left")
+        
+        if hasattr(joined, "set_geometry") and "geometry" in joined.columns:
+            joined = joined.set_geometry("geometry")
+        
+        setattr(self, layer, joined)
 
     def export(self, results_path, output_types=OUTPUT_TYPES):
         """

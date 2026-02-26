@@ -33,6 +33,7 @@ LOGGING_FORMAT = "%(asctime)s %(levelname)s %(name)s - %(message)s"
 
 
 def _read_schema(version, schemas_path):
+    """Read json schema for provided version."""
     schema_json = schemas_path.joinpath(rf"rules/rules_{version}.json").resolve()
     with open(schema_json) as src:
         schema = json.load(src)
@@ -40,8 +41,7 @@ def _read_schema(version, schemas_path):
 
 
 def _init_logger(log_level):
-    """Init logger for validator."""
-
+    """Initisalise logger for validator."""
     # Set up logging to console
     logging.basicConfig(
         level=getattr(logging, log_level),
@@ -55,7 +55,7 @@ def _init_logger(log_level):
 
 
 def _add_log_file(logger, log_file):
-    """Add log-file to existing logger"""
+    """Add log-file to existing logger."""
     fh = logging.FileHandler(log_file)
     fh.setFormatter(logging.Formatter(LOGGING_FORMAT))
     fh.setLevel(logging.DEBUG)
@@ -64,13 +64,14 @@ def _add_log_file(logger, log_file):
 
 
 def _close_log_file(logger):
-    """Remove log-file from existing logger"""
+    """Remove log-file from existing logger."""
     for h in logger.handlers:
         h.close()
         logger.removeHandler(h)
 
 
 def _log_to_results(log_file, result_summary):
+    """Add log content to summary."""
     result_summary.log = log_file.read_text().split("\n")
 
 
@@ -78,7 +79,8 @@ def read_validation_rules(
     validation_rules_json: Path,
     result_summary: Union[ResultSummary, None] = None,
 ) -> dict:
-    """_summary_
+    """
+    Read the validation rules JSON, identify the schema version and validate the rules against the schema.
 
     Parameters
     ----------
@@ -134,7 +136,8 @@ def validator(
     coverages: dict = {},
 ) -> Callable:
     """
-
+    Return a partially configured validator that sets output types, logging level, and coverage locations.
+    
     Parameters
     ----------
     output_types : List[str], optional
@@ -168,6 +171,8 @@ def _validator(
     raise_error: bool = False,
 ):
     """
+    Execute the HyDAMO validation on the datasets in the provided directory.
+
     Parameters
     ----------
     directory : str
@@ -188,6 +193,7 @@ def _validator(
         Will return a tuple with a filled HyDAMO datamodel, layers_summary and result_summary
 
     """
+    # 1. INITIALISATION
     timer = Timer()
     try:
         results_path = None
@@ -251,8 +257,7 @@ def _validator(
             for key, item in coverages.items():
                 logical_validation.general_functions._set_coverage(key, item)
 
-        # start validation
-        # read data-model
+        # 2. ESTABLISH DATA MODEL
         result_summary.status = "define data-model"
         try:
             hydamo_version = validation_rules_sets["hydamo_version"]
@@ -261,7 +266,7 @@ def _validator(
             result_summary.error = ["datamodel cannot be defined (see exception)"]
             raise e
 
-        # validate dataset syntax
+        # 3. SYNTAX VALIDATION
         result_summary.status = "syntax-validation (layers)"
         datasets = DataSets(dataset_path)
 
@@ -290,7 +295,7 @@ def _validator(
             gdf, schema = datasets.read_layer(
                 layer, result_summary=result_summary, status_object=status_object
             )
-            if gdf.empty:  # pass if gdf is empty. Most likely due to mall-formed or ill-specifiec status_object
+            if gdf.empty:  # pass if gdf is empty. Most likely due to mal-formed or ill-specified status_object
                 logger.warning(
                     f"{layer}: geen objecten ingelezen. Zorg dat alle waarden in de kolom 'status_object' voorkomen in {status_object}"
                 )
@@ -310,8 +315,9 @@ def _validator(
                 keep_columns=INCLUDE_COLUMNS,
             )
 
-            # Add the syntax-validation result to the results_summary
+            # Add the syntax-validation result to the layers_summary
             layers_summary.set_data(result_gdf, layer, schema["geometry"])
+
             # Add the corrected datasets_layer data to the datamodel.
             if gdf.empty:
                 logger.warning(
@@ -321,7 +327,8 @@ def _validator(
                 datamodel.set_data(gdf, layer, index_col=None)
             syntax_result += [layer]
 
-        # do logical validation: append result to layers_summary
+        # 4. (TOPO-)LOGICAL VALIDATION
+        # append result to layers_summary
         result_summary.status = "logical validation"
         logger.info("start (topo)logische validatie van object-lagen")
         layers_summary, result_summary = logical_validation.execute(
@@ -333,7 +340,7 @@ def _validator(
             raise_error,
         )
 
-        # finish validation and export results
+        # 5. WRAP UP VALIDATION AND EXPORT RESULTS
         logger.info("exporteren resultaten")
         result_summary.status = "export results"
         result_layers = layers_summary.export(results_path, output_types)

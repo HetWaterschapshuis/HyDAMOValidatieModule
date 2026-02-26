@@ -13,7 +13,7 @@ def datamodel_layers(dm_layers, ds_layers):
 
 
 def missing_layers(dm_layers, ds_layers):
-    """Find missing datamodel-layers in datasets."""
+    """Identify layers from the datamodel that are missing in the input dataset."""
     layers = [i.lower() for i in ds_layers]
     layers = [i for i in dm_layers if i not in layers]
     return layers
@@ -82,12 +82,11 @@ def convertable_dtypes(series, dtype):
 
 
 def _get_constant_series(gdf, value=True, dtype=bool):
+    "Return a pandas series for all geodataframe records with the index value and data type."
     return pd.Series([value] * len(gdf), index=gdf.index, dtype=dtype)
 
 
-# %% to execute it all
-
-
+# %% main handler function
 # all fields syntax validation
 def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
     """Validate fields in a gdf to a validation-schema."""
@@ -100,7 +99,7 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
     result_gdf = gdf.copy()
     valid_summary = _get_constant_series(result_gdf)
 
-    # check iteratively if column fails a valiation rule
+    # check iteratively if column fails a validation rule
     for col in [i for i in validation_schema if i["id"] != "geometry"]:
         valid_series = _get_constant_series(result_gdf)
 
@@ -116,41 +115,57 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
                 validation_gdf.loc[:, result_col].apply(lambda x: x.append(4))
                 valid_series.loc[:] = False
                 if col["dtype"] == "float":
-                    result_gdf.loc[:, col["id"]] = np.NaN
+                    result_gdf.loc[:, col["id"]] = np.nan
                 else:
                     result_gdf.loc[:, col["id"]] = pd.NA
 
-        # first check if a column as the correct dtype
+        # first check if a column has the correct dtype
         else:
             dtype_fixed = True
             dtype = schema["properties"][col["id"]]
             if dtype != col["dtype"]:
+
                 # try to convert it into the correct data-type
+                col_id = col["id"]
+                target_dtype = col["dtype"]
+
+                # find convertable rows for this column
                 convertable_rows = convertable_dtypes(
-                    result_gdf.loc[:, col["id"]], col["dtype"]
+                    result_gdf[col_id], target_dtype
+                )
+                
+                # find un-convertable rows and mark as invalid
+                replace_series.loc[~convertable_rows] = (
+                    result_gdf.loc[~convertable_rows, col_id]
+                    .astype("string")
+                    + "-> NULL"
                 )
 
-                # replace un-convertable rows to pd.NA so they can be converted
-                replace_series[~convertable_rows] = result_gdf.loc[
-                    ~convertable_rows, col["id"]
-                ].apply(lambda x: f"{x} -> NULL ")
-                if col["dtype"] == "float":
-                    result_gdf.loc[~convertable_rows, col["id"]] = np.NaN
+                # set un-convertable rows to no-value
+                if target_dtype == "float":
+                    result_gdf.loc[~convertable_rows, col_id] = np.nan
                 else:
-                    result_gdf.loc[~convertable_rows, col["id"]] = pd.NA
+                    result_gdf.loc[~convertable_rows, col_id] = pd.NA
 
-                if col["dtype"] in ["int", "int64"]:
-                    result_gdf.loc[:, col["id"]] = pd.to_numeric(
-                        result_gdf[col["id"]]
-                    ).astype(pd.Int64Dtype())
-                elif col["dtype"] == "datetime":
-                    result_gdf.loc[:, col["id"]] = pd.to_numeric(
-                        result_gdf[col["id"]]
-                    ).astype("datetime64[ns]")
-                else:
-                    result_gdf.loc[:, col["id"]] = result_gdf[col["id"]].astype(
-                        col["dtype"]
+                # convert (entire column)
+                if target_dtype in ["int", "int64"]:
+                    result_gdf[col_id] = (
+                        pd.to_numeric(result_gdf[col_id], errors="coerce").astype("Float64")
                     )
+
+                elif target_dtype == "datetime":
+                    result_gdf[col_id] = pd.to_datetime(result_gdf[col_id], errors="coerce")
+
+                elif target_dtype in ["str","string"]:
+                    result_gdf[col_id] = (
+                        result_gdf[col_id].astype("string")
+                        )
+
+                else:
+                    result_gdf[col_id] = (
+                        result_gdf[col_id].astype(target_dtype)
+                    )
+                
                 validation_gdf.loc[convertable_rows, result_col].apply(
                     lambda x: x.append(2)
                 )
@@ -223,14 +238,14 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
 
         valid_summary.loc[~valid_series] = False
         # %%
-        # set all invalid data from original gdf to Null
+        # set all invalid data from original gdf to no-values
         if col_exists:
             # valid_series[~convertable_rows] = True
             replace_series.loc[~valid_series] = result_gdf.loc[
                 ~valid_series, col["id"]
             ].apply(lambda x: f"{x} -> NULL ")
             if col["dtype"] == "float":
-                result_gdf.loc[~valid_series, col["id"]] = np.NaN
+                result_gdf.loc[~valid_series, col["id"]] = np.nan
             else:
                 result_gdf.loc[~valid_series, col["id"]] = pd.NA
 
@@ -245,7 +260,7 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
             validation_gdf[result_col]
         )
 
-    # check for invalid geometries and delete these geometries
+    # check for invalid geometries and delete these
     geotype = next(
         (i["dtype"] for i in validation_schema if i["id"] == "geometry"), None
     )

@@ -7,16 +7,9 @@ from pathlib import Path
 from rasterstats import zonal_stats
 import logging
 import pandas as pd
-
-try:
-    import rasterio
-except ImportError:
-    import gdal  # noqa to avoid rasterio.version error: https://github.com/conda-forge/rasterio-feedstock/issues/240
-    import rasterio
+import rasterio
 
 COVERAGES = {}
-# DATA_MODEL = None
-# OBJECT_LAYER = None
 
 # We get a false-positive settingwithcopywarning in buffer-function that we supress
 pd.options.mode.chained_assignment = None
@@ -284,7 +277,7 @@ def object_relation(
 
     gdf_out = gdf.copy()
 
-    # remove NaN values in from related_gdf[related_parameter]
+    # remove non-values in from related_gdf[related_parameter]
     if related_parameter:
         if "geometry" in related_parameter:
             related_gdf[related_parameter] = _get_geometric_attribute(
@@ -302,9 +295,7 @@ def object_relation(
     elif statistic == "max":
         series = related_gdf.groupby(by=[code_relation])[related_parameter].max()
     elif statistic == "majority":
-        series = related_gdf.groupby(by=[code_relation])[related_parameter].agg(
-            pd.Series.mode
-        )
+        series = related_gdf.groupby(by=[code_relation])[related_parameter].agg(pd.Series.mode)
 
     # join series with gdf
     series.name = "result"
@@ -313,7 +304,21 @@ def object_relation(
         series, how="left", left_on="globalid", right_on=code_relation
     )
 
-    # fill series if if provided
+    res_col = gdf_out["result"]
+    numeric_version = pd.to_numeric(res_col, errors="coerce")
+    conversion_failed = res_col.notna() & numeric_version.isna()
+    if not conversion_failed.any():
+        # convert all to float64
+        gdf_out["result"] = numeric_version.astype("float64")
+    else:
+        # not all is numeric, convert to string
+        gdf_out["result"] = res_col.astype("string")
+
+
+    # fill series if provided
     if fill_value is not None:
-        gdf_out.loc[gdf_out["result"].isna(), "result"] = fill_value
+        if pd.api.types.is_string_dtype(gdf_out["result"]):
+            gdf_out.loc[gdf_out["result"].isna(), "result"] = str(fill_value)
+        else:
+            gdf_out.loc[gdf_out["result"].isna(), "result"] = float(fill_value)
     return gdf_out["result"]

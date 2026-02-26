@@ -43,6 +43,11 @@ def LE(gdf, left, right, dtype=bool):
     """
     _check_attributes(gdf, [left, right])
     expression = f"{left} <= {right}".lower()
+    if right in gdf.columns:
+        cols = [left, right]
+    else:
+        cols = [left]
+    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors='coerce').astype('float64')
     return gdf.eval(expression).astype(dtype)
 
 
@@ -70,6 +75,11 @@ def LT(gdf, left, right, dtype=bool):
     """
     _check_attributes(gdf, [left, right])
     expression = f"{left} < {right}".lower()
+    if right in gdf.columns:
+        cols = [left, right]
+    else:
+        cols = [left]
+    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors='coerce').astype('float64')
     return gdf.eval(expression).astype(dtype)
 
 
@@ -97,6 +107,11 @@ def GT(gdf, left, right, dtype=bool):
     """
     _check_attributes(gdf, [left, right])
     expression = f"{left} > {right}".lower()
+    if right in gdf.columns:
+        cols = [left, right]
+    else:
+        cols = [left]
+    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors='coerce').astype('float64')
     return gdf.eval(expression).astype(dtype)
 
 
@@ -123,6 +138,11 @@ def GE(gdf, left, right, dtype=bool):
     """
     _check_attributes(gdf, [left, right])
     expression = f"{left} >= {right}".lower()
+    if right in gdf.columns:
+        cols = [left, right]
+    else:
+        cols = [left]
+    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors='coerce').astype('float64')
     return gdf.eval(expression).astype(dtype)
 
 
@@ -232,7 +252,7 @@ def NOTIN(gdf, parameter, array):
 
 
 def NOTNA(gdf, parameter):
-    """Evaluate if values in parameter ar not NaN or None
+    """Evaluate if values in parameter ar not nan or None
 
     Parameters
     ----------

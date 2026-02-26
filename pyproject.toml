@@ -8,10 +8,11 @@ description = "Validation module for HyDAMO data"
 readme = "README.md"
 authors = [
     { name = "Daniel Tollenaar", email = "daniel@d2hydro.nl" },
+    { name = "het Waterschapshuis", email = "hydamo-validatietool@hetwaterschapshuis.nl" },
 ]
 license = { text = "MIT" }
 
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     "geopandas",
     "pandas>=2",
@@ -19,13 +20,18 @@ dependencies = [
     "rasterio",
     "shapely>=2",
     "rasterstats",
-    "tqdm"
+    "tqdm",
+    "jsonschema<4.23" #openzetten bij upgrade naar Python 3.12+
 ]
 
 dynamic = ["version"]
 
 [project.optional-dependencies]
-tests = ["pytest"]
+dev = [
+    "pytest",
+    "pytest-cov",
+	"ipykernel"
+]
 
 [tool.flake8]
 max-line-length = 120

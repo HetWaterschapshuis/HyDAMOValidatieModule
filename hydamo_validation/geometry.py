@@ -128,7 +128,7 @@ def find_nearest_branch(branches, geometries, method="overall", maxdist=5):
             # Determine nearest
             if dist.min() < maxdist:
                 branchidxmin = dist.idxmin()
-                geometries.at[geometry.Index, "branch_id"] = dist.idxmin()
+                geometries.at[geometry.Index, "branch_id"] = str(dist.idxmin())
                 if isinstance(geometry.geometry, Point):
                     geo = geometry.geometry
                 else:

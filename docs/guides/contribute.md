@@ -23,15 +23,6 @@ The remainder of this guide explains how to do it.
 
 ## Dev installation
 
-### Setup environment
-Use the `env/dev_environment.yml` in the repository to create the conda environment `validatietool` with all required packages
-
-```
-conda env create -f dev_environment.yml
-```
-
-After installation you can activate your environment in command prompt
-
 ### Fork repo
 Fork the respository to your own GitHub account:
 
@@ -54,12 +45,58 @@ you can get a local copy by:
 
 Verify if the repository is on your local drive. 
 
-### Install copy
-Install the module in the activated `validatietool` environment in develop-mode:
+### Setup environment
+
+#### Install UV
+For this part we assume you have UV installed. Check how-to install on https://docs.astral.sh/uv/getting-started/installation/.
+
+
+#### Build Virtual Environment
+After installation you add a virtual environment (`.venv`) in the root of your repository by from the command-line:
 
 ```
-pip install -e .
+uv venv
 ```
+
+A new folder `.venv` should be created in the repo-root:
+
+```
+HyDAMOValidatieModule
+├── .venv
+└── ....
+```
+
+Now you build the environment with development specs by running from the command-line:
+
+```
+uv pip sync requirements-dev.txt
+```
+
+This ensures all developpers have the exact same environment (!)
+
+#### Install and test your module
+
+Activate your environment:
+
+```
+.venv\Scripts\activate
+```
+
+Install the module in develop-mode:
+
+```
+uv pip install -e .
+```
+
+Now you should be able to successfully run all tests by running:
+
+```
+pytest --cov-report term-missing --cov=hydamo_validation tests/
+```
+
+This should yield a result similar to this
+![](images/test.png "Test")
+
 
 __Now you're good to go!__
 
