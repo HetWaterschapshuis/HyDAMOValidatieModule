@@ -45,7 +45,7 @@ Je ziet nu een nieuwe release beschikbaar in GitHub met een `afdruk` van de code
 ## 4. Publiceren op PyPi
 
 Publiceren doe je in 2 stappen:
-1. Bouw distributies met `python setup.py sdist` 
+1. Bouw lokaal de distributies met `python setup.py sdist` 
 2. Upload naar PyPI `twine upload dist/* -p jouw_eigen_twine_password`
 
 De laatste release moet nu ook beschikbaar zijn op https://pypi.org/project/hydamo-validation/ en wordt vanaf nu geinstalleerd met `pip install hydamo-validation`
