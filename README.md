@@ -4,43 +4,18 @@ Validation Module for HyDAMO data.
 
 ## Installation
 
-### Python installation
-Make sure you have an Miniconda or Anaconda installation. You can download these here:
- - https://www.anaconda.com/products/individual
- - https://docs.conda.io/en/latest/miniconda.html
-
-During installation, tick the box "Add Anaconda to PATH", ignore the red remarks
-
-### Create the `validatietool` environment
-Use the `env/environment.yml` in the repository to create the conda environment: `validatietool`
+Make sure you have Python 3.12 or 3.13 installed from the official homepage
+```
+pip install hydamo-validation
+```
+Alternatively, install with uv
 
 ```
-conda env create -f environment.yml
+uv venv
+uv pip install hydamo-validation
 ```
 
-After installation you can activate your environment in command prompt
-
-```
-conda activate validatietool
-```
-
-### Install hydamo_validation
-Simply install the module in the activated environment:
-
-```
-pip install hydamo_validation
-```
-
-### Develop-install hydamo_validation
-Download or clone the repository. Now simply install the module in the activated environment:
-
-```
-pip install .
-```
-
-## Run in Python
-
-### Specify a coverage directory
+## Specify a coverage directory
 To get the validator running you need some AHN data. You can find these in the [data directory](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule/tree/ee9ea1efed385deb692b89057e9c97114fd8c3be/tests/data/dtm) of this directory. We assume you copy this to `your/local/ahn/dir`. Now specify your coverage and init the validator in a python-script:
 
 ```
