@@ -12,25 +12,36 @@ authors = [
 ]
 license = { text = "MIT" }
 
-requires-python = ">=3.12,<3.14"
+requires-python = ">=3.12,<3.13" # numpy/pandas/geo-stack in maart 2026 alleen stabiel met 3.12, later openzetten
 dependencies = [
-    "geopandas",
+    "geopandas", 
     "pandas>=2",
     "pyogrio",
     "rasterio",
     "shapely>=2",
     "rasterstats",
     "tqdm",
-    "jsonschema<4.23" #openzetten bij upgrade naar Python 3.12+
+    "jsonschema<4.23" # openzetten bij upgrade naar Python 3.13+, te nieuwe versie gaan mis tijdens deployment
+
 ]
 
 dynamic = ["version"]
 
 [project.optional-dependencies]
+# onderstaande zijn nodig voor de ontwikkelomgeving
 dev = [
     "pytest",
     "pytest-cov",
-	"ipykernel"
+	"ipykernel",
+    "setuptools",
+    "twine"
+]
+
+# onderstaande zijn nodig voor de dockeromgeving en bevatten modules voor de helper applicatie src/run.py
+docker = [
+    "pydantic",
+    "firebase_admin",
+    "hydamo-validation==1.5.0b1"
 ]
 
 [tool.flake8]
