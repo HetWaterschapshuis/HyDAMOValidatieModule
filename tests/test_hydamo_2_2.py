@@ -75,8 +75,8 @@ hydroobject_gdf.rename(
 
 stuw_gdf = gpd.read_file(dataset_gpkg, layer="Stuw")
 
-exports_dir = Path(__file__).parent / "exports"
-exports_dir.mkdir(exist_ok=True)
+# exports_dir = Path(__file__).parent / "exports"
+# exports_dir.mkdir(exist_ok=True)
 
 datamodel = HyDAMO(version=hydamo_version)
 
@@ -100,6 +100,7 @@ def test_setting_data():
 
 def test_typeerror_data():
     gdf = hydroobject_gdf.copy()
+    # voor de eerste rij de linestring-geometrie door een punt vervangen om een type-error te provoceeren
     gdf.loc[0, "geometry"] = Point(0, 0)
     try:
         datamodel.set_data(gdf, "hydroobject")
@@ -110,6 +111,7 @@ def test_typeerror_data():
 
 def test_keyerror_missing_column():
     gdf = hydroobject_gdf.copy()
+    # vereiste kolom verwijderen om een key-error te provoceeren
     gdf.drop("categorieoppwaterlichaam", axis=1, inplace=True)
     try:
         datamodel.hydroobject._check_columns(gdf)

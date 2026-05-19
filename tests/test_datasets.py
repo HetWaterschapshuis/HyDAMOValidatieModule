@@ -1,3 +1,7 @@
+"""
+Test for the DataSets class. 
+"""
+
 from hydamo_validation.datasets import DataSets
 
 try:

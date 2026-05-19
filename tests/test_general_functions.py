@@ -59,17 +59,17 @@ def test_difference_function_int_abs():
     assert result == expected_result
 
 
-def test_devide_function_attr():
+def test_divide_function_attr():
     _gdf = gdf.loc[gdf["kruinbreedte"].notna()].copy()
-    _gdf["devide"] = 10
+    _gdf["divide"] = 10
     expected_result = [0.3200000047683716, 0.01, 0.3]
     result = general_functions.divide(
-        _gdf, left="kruinbreedte", right="devide"
+        _gdf, left="kruinbreedte", right="divide"
     ).to_list()
     assert result == expected_result
 
 
-def test_devide_function_int():
+def test_divide_function_int():
     _gdf = gdf.loc[gdf["kruinbreedte"].notna()].copy()
     expected_result = [0.3200000047683716, 0.01, 0.3]
     result = general_functions.divide(_gdf, left="kruinbreedte", right=10).to_list()
