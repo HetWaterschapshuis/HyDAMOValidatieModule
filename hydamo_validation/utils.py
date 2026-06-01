@@ -36,7 +36,7 @@ def get_functions(module):
 
 def read_geopackage(file_path, layer):
     """Read file as GeoDataFrame."""
-    gdf = gpd.read_file(file_path, layer=layer, engine="pyogrio", use_fid_as_index=True)
+    gdf = gpd.read_file(file_path, layer=layer, engine="pyogrio")
 
     if type(gdf) == pd.DataFrame:
         gdf = gpd.GeoDataFrame(gdf, geometry=gpd.GeoSeries())
