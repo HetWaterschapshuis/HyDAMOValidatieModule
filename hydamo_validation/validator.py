@@ -87,7 +87,7 @@ def _add_log_file(logger, log_file):
 
 def _close_log_file(logger):
     """Remove log-file from existing logger."""
-    for h in logger.handlers:
+    for h in list(logger.handlers):
         h.close()
         logger.removeHandler(h)
 
@@ -217,6 +217,7 @@ def _validator(
     """
     # 1. INITIALISATION
     timer = Timer()
+    logger = None
     try:
         results_path = None
         dir_path = Path(directory)
@@ -404,6 +405,7 @@ def _validator(
         else:
             result_summary.to_dict()
 
-        _close_log_file(logger)
-
         return None
+    finally:
+        if logger is not None:
+            _close_log_file(logger)

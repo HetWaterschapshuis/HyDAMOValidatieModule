@@ -2,7 +2,6 @@ from pathlib import Path
 from hydamo_validation import validator
 import pandas as pd
 import pytest
-import shutil
 
 DATA_DIR = Path(__file__).parent.joinpath("data")
 COVERAGE = {"AHN": DATA_DIR.joinpath(r"dtm")}
@@ -13,11 +12,8 @@ hydamo_validator = validator(
 )
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def result():
-    results_dir = DIRECTORY / "results"
-    if results_dir.exists():
-        shutil.rmtree(DIRECTORY / "results")
     return hydamo_validator(directory=DIRECTORY, raise_error=True)
 
 
