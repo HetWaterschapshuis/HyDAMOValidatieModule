@@ -67,7 +67,7 @@ ignored_layers = [
     "waterbeheergebied",
 ]
 
-dataset_gpkg = DATA_DIR / "tasks" / "test_wrij_hydamo_2_5" / "datasets" / "HyDAMO.gpkg"
+dataset_gpkg = DATA_DIR / "tasks" / "test_synthetischedataset_hydamo_2_5" / "datasets" / "HyDAMO.gpkg"
 hydroobject_gdf = gpd.read_file(dataset_gpkg, layer="Hydroobject")
 hydroobject_gdf.rename(
     columns={"ruwheidswaardehoog": "ruwheidhoog", "ruwheidswaardelaag": "ruwheidlaag"},
