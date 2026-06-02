@@ -3,6 +3,7 @@
 Test voor datamodel.py
 """
 
+
 from hydamo_validation.datamodel import HyDAMO
 from hydamo_validation import validator
 from pathlib import Path
@@ -75,7 +76,7 @@ dataset_gpkg = directory / "datasets" / "HyDAMO.gpkg"
 exports_dir = Path(__file__).parent / "exports"
 exports_dir.mkdir(exist_ok=True)
 
-
+# fixture: in meerdere test hergebruikbare objecten aanmaken
 @pytest.fixture
 def datamodel():
     return HyDAMO(version=hydamo_version)
