@@ -41,7 +41,7 @@ dev = [
 docker = [
     "pydantic",
     "firebase_admin",
-    "hydamo-validation==1.5.0"
+    "hydamo-validation==1.6.0b1"
 ]
 
 [tool.flake8]
