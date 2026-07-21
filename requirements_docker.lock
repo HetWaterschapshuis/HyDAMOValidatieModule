@@ -106,7 +106,7 @@ httpcore==1.0.9
     # via httpx
 httpx==0.28.1
     # via firebase-admin
-hydamo-validation==1.6.0b2
+hydamo-validation==1.6.0
     # via hydamo-validation (pyproject.toml)
 hyperframe==6.1.0
     # via h2

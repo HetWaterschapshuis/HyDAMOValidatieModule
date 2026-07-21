@@ -24,6 +24,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.venv
 
 # Unit test / coverage reports
 htmlcov/
