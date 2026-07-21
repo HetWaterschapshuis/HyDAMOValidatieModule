@@ -1,7 +1,7 @@
 __author__ = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
 __copyright__ = "Copyright 2026, HyDAMO ValidatieTool"
 __credits__ = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 
 __license__ = "MIT"
 __maintainer__ = "Philip Hansmann"
