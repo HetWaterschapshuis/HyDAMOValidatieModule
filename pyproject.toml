@@ -41,6 +41,7 @@ dev = [
 docker = [
     "pydantic",
     "firebase_admin",
+	"aiofiles>=24,<25",
     "hydamo-validation==1.6.0"
 ]
 
