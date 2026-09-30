@@ -10,7 +10,8 @@
         "request": "launch",
         "module": "hydamo_validation",
         "args": [
-            "C:\\repos\\HyDAMOValidatieModule\\tests\\data\\tasks\\test_wrij",
+            //"C:\\repos\\HyDAMOValidatieModule\\tests\\data\\tasks\\test_wrij",
+            "C:\\repos\\HyDAMOValidatieModule\\tests\\data\\tasks\\casus_test_20260827_vev",
             "--log-level", "INFO",
             "--output-types", "geopackage", "csv",
             "--coverage", "AHN=${workspaceFolder}/tests/data/dtm",

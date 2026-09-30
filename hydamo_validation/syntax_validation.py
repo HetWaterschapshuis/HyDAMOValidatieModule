@@ -124,20 +124,16 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
             dtype_fixed = True
             dtype = schema["properties"][col["id"]]
             if dtype != col["dtype"]:
-
                 # try to convert it into the correct data-type
                 col_id = col["id"]
                 target_dtype = col["dtype"]
 
                 # find convertable rows for this column
-                convertable_rows = convertable_dtypes(
-                    result_gdf[col_id], target_dtype
-                )
-                
+                convertable_rows = convertable_dtypes(result_gdf[col_id], target_dtype)
+
                 # find un-convertable rows and mark as invalid
                 replace_series.loc[~convertable_rows] = (
-                    result_gdf.loc[~convertable_rows, col_id]
-                    .astype("string")
+                    result_gdf.loc[~convertable_rows, col_id].astype("string")
                     + "-> NULL"
                 )
 
@@ -149,23 +145,21 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
 
                 # convert (entire column)
                 if target_dtype in ["int", "int64"]:
-                    result_gdf[col_id] = (
-                        pd.to_numeric(result_gdf[col_id], errors="coerce").astype("Float64")
-                    )
+                    result_gdf[col_id] = pd.to_numeric(
+                        result_gdf[col_id], errors="coerce"
+                    ).astype("Float64")
 
                 elif target_dtype == "datetime":
-                    result_gdf[col_id] = pd.to_datetime(result_gdf[col_id], errors="coerce")
+                    result_gdf[col_id] = pd.to_datetime(
+                        result_gdf[col_id], errors="coerce"
+                    )
 
-                elif target_dtype in ["str","string"]:
-                    result_gdf[col_id] = (
-                        result_gdf[col_id].astype("string")
-                        )
+                elif target_dtype in ["str", "string"]:
+                    result_gdf[col_id] = result_gdf[col_id].astype("string")
 
                 else:
-                    result_gdf[col_id] = (
-                        result_gdf[col_id].astype(target_dtype)
-                    )
-                
+                    result_gdf[col_id] = result_gdf[col_id].astype(target_dtype)
+
                 validation_gdf.loc[convertable_rows, result_col].apply(
                     lambda x: x.append(2)
                 )
@@ -251,7 +245,7 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
 
         # map list to string
         validation_gdf.loc[:, result_col] = validation_gdf[result_col].apply(
-            lambda x: f'{",".join(map(str, x))}'
+            lambda x: f"{','.join(map(str, x))}"
         )
         validation_gdf.loc[:, result_col] = validation_gdf[result_col].apply(
             lambda x: f"(fouten: {x})" if len(x) > 0 else x
@@ -269,7 +263,7 @@ def fields_syntax(gdf, schema, validation_schema, keep_columns=[]):
     if geotype:
         has_z = any(i.endswith("Z") for i in geotype)
         if has_z:
-            geotype = [i[:-1] if i.endswith("Z") else i for i in geotype]
+            geotype = [i.removesuffix("Z") for i in geotype]
         result_col = "syntax_geometry"
         validation_gdf[result_col] = ""
 

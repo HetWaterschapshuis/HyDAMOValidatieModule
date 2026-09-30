@@ -47,7 +47,7 @@ def LE(gdf, left, right, dtype=bool):
         cols = [left, right]
     else:
         cols = [left]
-    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors='coerce').astype('float64')
+    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors="coerce").astype("float64")
     return gdf.eval(expression).astype(dtype)
 
 
@@ -79,7 +79,7 @@ def LT(gdf, left, right, dtype=bool):
         cols = [left, right]
     else:
         cols = [left]
-    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors='coerce').astype('float64')
+    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors="coerce").astype("float64")
     return gdf.eval(expression).astype(dtype)
 
 
@@ -111,7 +111,7 @@ def GT(gdf, left, right, dtype=bool):
         cols = [left, right]
     else:
         cols = [left]
-    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors='coerce').astype('float64')
+    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors="coerce").astype("float64")
     return gdf.eval(expression).astype(dtype)
 
 
@@ -142,7 +142,7 @@ def GE(gdf, left, right, dtype=bool):
         cols = [left, right]
     else:
         cols = [left]
-    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors='coerce').astype('float64')
+    gdf[cols] = gdf[cols].apply(pd.to_numeric, errors="coerce").astype("float64")
     return gdf.eval(expression).astype(dtype)
 
 

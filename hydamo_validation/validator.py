@@ -1,27 +1,29 @@
 """Function to be picked up by the api."""
 
-from typing import List, Callable, Literal, Union
-from pathlib import Path
-import pandas as pd
-from functools import partial
 import json
-import shutil
 import logging
-from jsonschema import validate, ValidationError
-from json import JSONDecodeError
-from hydamo_validation import logical_validation
-from hydamo_validation.utils import Timer
-from hydamo_validation.summaries import LayersSummary, ResultSummary
-from hydamo_validation.datasets import DataSets
-from hydamo_validation.datamodel import HyDAMO
-from hydamo_validation.syntax_validation import (
-    datamodel_layers,
-    missing_layers,
-    fields_syntax,
-)
+import shutil
 import sys
 import traceback
+from collections.abc import Callable
+from functools import partial
+from json import JSONDecodeError
+from pathlib import Path
+from typing import Literal
 
+import pandas as pd
+from jsonschema import ValidationError, validate
+
+from hydamo_validation import logical_validation
+from hydamo_validation.datamodel import HyDAMO
+from hydamo_validation.datasets import DataSets
+from hydamo_validation.summaries import LayersSummary, ResultSummary
+from hydamo_validation.syntax_validation import (
+    datamodel_layers,
+    fields_syntax,
+    missing_layers,
+)
+from hydamo_validation.utils import Timer
 
 OUTPUT_TYPES = ["geopackage", "geojson", "csv"]
 LOG_LEVELS = Literal["INFO", "DEBUG"]
@@ -32,7 +34,7 @@ RULES_SCHEMAS_PATH = SCHEMAS_PATH.joinpath("rules")
 LOGGING_FORMAT = "%(asctime)s %(levelname)s %(name)s - %(message)s"
 
 
-def _include_columns(hydamo_version: str) -> List[str]:
+def _include_columns(hydamo_version: str) -> list[str]:
     """Ensure that certain columns are always included in the syntax-validation.
 
     Parameters
@@ -99,7 +101,7 @@ def _log_to_results(log_file, result_summary):
 
 def read_validation_rules(
     validation_rules_json: Path,
-    result_summary: Union[ResultSummary, None] = None,
+    result_summary: ResultSummary | None = None,
 ) -> dict:
     """
     Read the validation rules JSON, identify the schema version and validate the rules against the schema.
@@ -153,13 +155,13 @@ def read_validation_rules(
 
 
 def validator(
-    output_types: List[str] = OUTPUT_TYPES,
+    output_types: list[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
 ) -> Callable:
     """
     Return a partially configured validator that sets output types, logging level, and coverage locations.
-    
+
     Parameters
     ----------
     output_types : List[str], optional
@@ -187,7 +189,7 @@ def validator(
 
 def _validator(
     directory: str,
-    output_types: List[str] = OUTPUT_TYPES,
+    output_types: list[str] = OUTPUT_TYPES,
     log_level: Literal["INFO", "DEBUG"] = "INFO",
     coverages: dict = {},
     raise_error: bool = False,
@@ -198,7 +200,7 @@ def _validator(
     Parameters
     ----------
     directory : str
-        Directory with datasets sub-directory and validation_rules.json
+        Directory with datasets sub-directory and validationrules.json
     output_types : List[str], optional
         The types of output files that will be written. Options are
         ["geojson", "csv", "geopackage"]. By default all will be written
