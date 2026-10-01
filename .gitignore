@@ -54,8 +54,8 @@ tests/data/1877/results/*
 # Windows batch-files
 *.bat
 
-# loose scripts
-scripts/*
+# local scipts/data (not versioned in GitHub)
+local/*
 
 #
 site/*
