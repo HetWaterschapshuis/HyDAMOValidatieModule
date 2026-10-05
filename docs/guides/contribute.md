@@ -69,7 +69,7 @@ HyDAMOValidatieModule
 Now you build the environment with development specs by running from the command-line:
 
 ```
-uv pip sync requirements-dev.txt
+uv pip sync requirements-dev.lock
 ```
 
 This ensures all developpers have the exact same environment (!)
@@ -99,6 +99,47 @@ This should yield a result similar to this
 
 
 __Now you're good to go!__
+
+## Documentation
+
+The documentation is built with MkDocs. From the repository root, create an
+environment and install the locked documentation dependencies with UV:
+
+```sh
+uv venv .venv-docs --python 3.12
+uv pip sync --python .venv-docs requirements-docs.lock
+uv pip install --python .venv-docs --no-deps --editable .
+uv run --no-project --python .venv-docs mkdocs serve
+```
+
+Use `mkdocs build --strict` instead of `mkdocs serve` to check the documentation
+before submitting a PR. To update the documentation dependencies, run:
+
+```sh
+uv pip compile pyproject.toml --extra docs --python 3.12 --universal --output-file requirements-docs.lock
+```
+
+The `Publish documentation` GitHub Actions workflow publishes the documentation
+from `main` to [GitHub Pages](https://HetWaterschapshuis.github.io/HyDAMOValidatieModule/)
+when a PR targeting `main` is merged. Closing a PR without merging does not publish
+anything.
+
+To publish documentation from a specific branch manually, go to **Actions >
+Publish documentation > Run workflow**, select the branch in the **Branch**
+dropdown, and click **Run workflow**. The workflow builds the selected branch's
+commit and publishes it to the same GitHub Pages site, replacing the currently
+published documentation. The workflow must exist on the default branch to enable
+manual runs, and the selected branch must contain this version of the workflow.
+
+You can also start a manual run with the GitHub CLI:
+
+```sh
+gh workflow run docs.yml --ref your-branch
+```
+
+For the initial setup, select **GitHub Actions** under **Settings > Pages > Build
+and deployment > Source** in the repository. The `github-pages` environment must
+allow deployments from `main` and any branches you want to publish manually.
 
 ## Improve code
 Imagine we want to be able to multiply an HyDAMO attribute by a constant value or a value in an other attribute.

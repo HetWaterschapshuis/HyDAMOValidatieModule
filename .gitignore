@@ -25,6 +25,7 @@ wheels/
 .installed.cfg
 *.egg
 .venv
+.venv-docs/
 
 # Unit test / coverage reports
 htmlcov/
