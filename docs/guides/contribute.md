@@ -100,6 +100,10 @@ This should yield a result similar to this
 
 __Now you're good to go!__
 
+Before implementing support for a new datamodel, use the
+[rule comparison guide](rule_analysis.md) to check validation-rule dependencies
+and interpret the CSV reports.
+
 ## Documentation
 
 The documentation is built with MkDocs. From the repository root, create an

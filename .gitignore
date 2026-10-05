@@ -71,3 +71,7 @@ debug/*
 # windows cmd-files
 *.cmd
 uv.lock
+
+# Agentic-coding
+AGENTS.md
+issues/*.md
