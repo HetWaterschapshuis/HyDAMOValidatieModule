@@ -25,6 +25,7 @@ wheels/
 .installed.cfg
 *.egg
 .venv
+.venv-docs/
 
 # Unit test / coverage reports
 htmlcov/
@@ -54,8 +55,8 @@ tests/data/1877/results/*
 # Windows batch-files
 *.bat
 
-# loose scripts
-scripts/*
+# local scipts/data (not versioned in GitHub)
+local/*
 
 #
 site/*
@@ -70,3 +71,7 @@ debug/*
 # windows cmd-files
 *.cmd
 uv.lock
+
+# Agentic-coding
+AGENTS.md
+issues/*.md

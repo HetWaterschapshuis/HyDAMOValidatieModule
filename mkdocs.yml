@@ -1,5 +1,5 @@
 site_name: HyDAMO Validation documentation
-site_url: https://HetWaterschapshuis.github.io
+site_url: https://HetWaterschapshuis.github.io/HyDAMOValidatieModule/
 theme:
   name: "material"
   language: en
@@ -11,12 +11,14 @@ nav:
     - Guides:
         - Get Started: guides/get_started.md
         - Contribute: guides/contribute.md
+        - Rule comparison: guides/rule_analysis.md
         - Release: guides/release.md
     - Code Reference:
         - DataSets: reference/datasets.md
         - HyDAMO: reference/hydamo.md
+        - Rule analysis: reference/rule_analysis.md
         - Functions:
             - General Functions: reference/general_functions.md
             - Logic Functions: reference/logic_functions.md
             - Topologic Functions: reference/topologic_functions.md
-  - Changelog: changelog.md
+    - Changelog: changelog.md
