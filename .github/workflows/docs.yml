@@ -1,7 +1,9 @@
 name: Publish documentation
 
 on:
-  # Permit publication after merged fork PRs; PR runs only check out trusted main.
+  pull_request:
+    branches: [main]
+  # Permit publication after merged fork PRs; these runs only check out trusted main.
   pull_request_target:
     branches: [main]
     types: [closed]
@@ -11,12 +13,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: github-pages
+  group: github-pages-${{ github.event_name == 'pull_request_target' && 'refs/heads/main' || github.ref }}
   cancel-in-progress: false
 
 jobs:
   build:
     if: >-
+      github.event_name == 'pull_request' ||
       github.event.pull_request.merged == true ||
       github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
@@ -27,11 +30,11 @@ jobs:
       - name: Checkout documentation source
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || 'main' }}
+          ref: ${{ github.event_name == 'pull_request_target' && 'main' || github.sha }}
           persist-credentials: false
 
       - name: Set up UV and Python
-        uses: astral-sh/setup-uv@v9
+        uses: astral-sh/setup-uv@v10.2.0
         with:
           python-version: '3.12'
           enable-cache: true
@@ -44,6 +47,9 @@ jobs:
           uv pip install --no-deps --editable .
 
       - name: Configure GitHub Pages
+        if: >-
+          (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true) ||
+          (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
         uses: actions/configure-pages@v5
 
       - name: Build documentation
@@ -55,6 +61,9 @@ jobs:
           path: site
 
   deploy:
+    if: >-
+      (github.event_name == 'pull_request_target' && github.event.pull_request.merged == true) ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
     needs: build
     runs-on: ubuntu-latest
     permissions:
