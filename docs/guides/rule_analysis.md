@@ -25,6 +25,29 @@ This requires network access and replaces matching local rule files. Reports are
 written to `local/csv`; matching report files are replaced. Directories are created
 when needed, and relative paths are resolved from the current working directory.
 
+To download rules from another handbook branch, use `--branch`:
+
+```sh
+uv run --no-sync python scripts/overzicht_validatieregels.py --branch fix/validation-rules
+```
+
+When running from an IDE, you can also set `VALIDATION_RULES_BRANCH` near the top
+of the script. The command-line option overrides that setting. `--branch` is
+ignored when using local files with `--rules-json`.
+
+Missing layers and columns are also printed for each affected rule, including
+the rule filename, HyDAMO version, object layer, rule kind, ID and name. This
+includes general rules and inactive rules. The CSV reports retain all rules,
+including those without missing dependencies.
+
+To hide specific missing columns from console output, set `IGNORED_LOG_COLUMNS`
+in the script, for example `["regelmiddel.maximalehoogteopening"]`, or add
+`--ignore-log-column regelmiddel.maximalehoogteopening` to the command. Repeat
+the option to add more columns. Matching uses the exact `layer.column` reference.
+Other missing columns and missing layers remain visible. A rule with only hidden
+missing columns is not printed. Analysis results, CSV details and summary counts
+are unaffected.
+
 For a reproducible comparison, use the same local rule files before and after a
 change. This command uses existing files without downloading them:
 
