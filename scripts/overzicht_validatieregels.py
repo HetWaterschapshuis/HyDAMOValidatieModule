@@ -23,7 +23,9 @@ Per regelversie heet het detailrapport ``overzicht_regels_#_#.csv``; daarnaast o
 gedownload naar ``local/validation_rules`` en CSV's geschreven naar
 ``local/csv``, relatief aan de huidige werkmap. Ontbrekende mappen worden
 aangemaakt. Met ``--rules-json`` gebruikt u bestaande lokale bestanden zonder
-download. Zie ``python scripts/overzicht_validatieregels.py --help`` en de
+download. Met ``--branch`` kiest u de branch van het validatiehandboek (standaard
+``main``). Ontbrekende lagen en kolommen worden ook per regel geprint.
+Zie ``python scripts/overzicht_validatieregels.py --help`` en de
 handleiding ``docs/guides/rule_analysis.md`` voor de betekenis van de CSV-velden.
 """
 
@@ -35,6 +37,7 @@ import sys
 from pathlib import Path
 from typing import Any
 from urllib.error import URLError
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -53,9 +56,12 @@ from hydamo_validation.rule_analysis import (
 # Centrale instellingen voor de rapportage. Beschikbare versies worden ontdekt.
 VALIDATION_RULES_PATH = Path("local") / "validation_rules"
 OUTPUT_DIRECTORY = Path("local") / "csv"
+VALIDATION_RULES_BRANCH = "main"
+# Alleen verbergen in console-uitvoer, bijvoorbeeld ["regelmiddel.maximalehoogteopening"].
+IGNORED_LOG_COLUMNS: list[str] = []
 VALIDATION_RULES_API = (
     "https://api.github.com/repos/HetWaterschapshuis/"
-    "HyDAMOValidatiehandboek/contents/validation_rules?ref=main"
+    "HyDAMOValidatiehandboek/contents/validation_rules"
 )
 
 
@@ -69,9 +75,11 @@ def _download_json(url: str) -> Any:
         raise RuntimeError(f"Download mislukt: {url}: {error}") from error
 
 
-def download_validation_rules(directory: Path) -> None:
-    """Ververs alle versiebestanden uit het validatiehandboek op GitHub."""
-    entries = _download_json(VALIDATION_RULES_API)
+def download_validation_rules(
+    directory: Path, branch: str = VALIDATION_RULES_BRANCH
+) -> None:
+    """Ververs alle versiebestanden uit de gekozen branch van het handboek."""
+    entries = _download_json(f"{VALIDATION_RULES_API}?{urlencode({'ref': branch})}")
     files = [
         entry
         for entry in entries
@@ -147,8 +155,14 @@ def create_reports(
     *,
     hydamo_versions: list[str] | None = None,
     schemas_path: Path = SCHEMAS_DIR,
+    ignored_log_columns: list[str] | None = None,
 ) -> tuple[list[Path], Path, list[str]]:
-    """Rapporteer ondersteunde of expliciet gekozen HyDAMO-versies per regelbestand."""
+    """Rapporteer ondersteunde of expliciet gekozen HyDAMO-versies per regelbestand.
+
+    ``ignored_log_columns`` filtert alleen console-uitvoer, standaard IGNORED_LOG_COLUMNS.
+    """
+    if ignored_log_columns is None:
+        ignored_log_columns = IGNORED_LOG_COLUMNS
     if validation_rules_json.is_dir():
         rules_files = find_versioned_files(validation_rules_json, "ValidationRules")
     else:
@@ -190,6 +204,27 @@ def create_reports(
         version_label = rules_version.replace(".", "_")
         overview_csv = output_directory / f"overzicht_regels_{version_label}.csv"
         _write_csv(rows, overview_csv)
+        for row in rows:
+            logged_columns = [
+                column
+                for column in row["ontbrekende_kolommen"]
+                if column not in ignored_log_columns
+            ]
+            if row["ontbrekende_lagen"] or logged_columns:
+                print(
+                    f"{rules_file.name} | HyDAMO {row['hydamo_versie']} | "
+                    f"{row['laag']} | {row['regelsoort']} {row['regel_id']} | "
+                    f"{row['regelnaam']}"
+                )
+                if row["ontbrekende_lagen"]:
+                    print(
+                        "  Ontbrekende lagen: " + " | ".join(row["ontbrekende_lagen"])
+                    )
+                if logged_columns:
+                    print(
+                        "  Ontbrekende kolommen: "
+                        + " | ".join(logged_columns)
+                    )
         overviews.append(overview_csv)
         summary.extend(version_summary)
 
@@ -201,6 +236,14 @@ def create_reports(
 def _parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "--branch",
+        default=VALIDATION_RULES_BRANCH,
+        help=(
+            "Branch van het validatiehandboek op GitHub "
+            "(standaard: %(default)s); niet gebruikt met --rules-json."
+        ),
+    )
+    parser.add_argument(
         "--rules-json",
         type=Path,
         default=None,
@@ -210,6 +253,17 @@ def _parse_arguments() -> argparse.Namespace:
         ),
     )
     parser.add_argument("--output-directory", type=Path, default=OUTPUT_DIRECTORY)
+    parser.add_argument(
+        "--ignore-log-column",
+        action="append",
+        dest="ignored_log_columns",
+        default=IGNORED_LOG_COLUMNS,
+        metavar="LAAG.KOLOM",
+        help=(
+            "Verberg deze kolom in console-uitvoer (herhaalbaar), naast "
+            "IGNORED_LOG_COLUMNS in het script. Analyse en CSV blijven ongewijzigd."
+        ),
+    )
     parser.add_argument(
         "--hydamo-version",
         action="append",
@@ -231,13 +285,14 @@ def _parse_arguments() -> argparse.Namespace:
 if __name__ == "__main__":
     arguments = _parse_arguments()
     if arguments.rules_json is None:
-        download_validation_rules(VALIDATION_RULES_PATH)
+        download_validation_rules(VALIDATION_RULES_PATH, branch=arguments.branch)
         arguments.rules_json = VALIDATION_RULES_PATH
     overview_csvs, summary_csv, hydamo_versions = create_reports(
         validation_rules_json=arguments.rules_json,
         output_directory=arguments.output_directory,
         hydamo_versions=arguments.hydamo_versions,
         schemas_path=arguments.schemas_path,
+        ignored_log_columns=arguments.ignored_log_columns,
     )
     print(
         f"HyDAMO-versies geanalyseerd: {', '.join(hydamo_versions)}\n"
