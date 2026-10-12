@@ -133,6 +133,11 @@ available to subsequent rules only if its producing rule has the required
 dependencies. An unavailable intermediate result can therefore appear as a missing
 column for a later rule. No general-rule values are calculated.
 
+For `consistent_period`, the required columns follow the configured `groupers`,
+`priority`, `start_date` and `end_date`. If omitted, these default to
+`["pompid", "regelmiddelid"]`, `prioriteit`, `beginperiode` and `eindperiode`.
+Periods are checked separately for each referenced object and priority.
+
 ## Read the summary
 
 `samenvatting_regels.csv` contains one row per rule file version and analysed model

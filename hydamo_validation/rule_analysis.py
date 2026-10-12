@@ -29,13 +29,6 @@ TOPOLOGIC_FUNCTIONS = {
     "structures_at_nodes",
     "compare_longitudinal",
 }
-PERIOD_COLUMNS = [
-    "pompid",
-    "regelmiddelid",
-    "prioriteit",
-    "beginperiode",
-    "eindperiode",
-]
 
 
 def _version_key(version: str) -> tuple[int, ...]:
@@ -142,9 +135,11 @@ def _add_function_dependencies(
         dependencies.add_column(layer, f"{join_layer}id")
         dependencies.add_column(join_layer, "globalid")
     elif function == "consistent_period":
-        # De huidige functie kent geen regelconfiguratie voor deze parameters.
-        for column in PERIOD_COLUMNS:
+        for column in arguments.get("groupers", ["pompid", "regelmiddelid"]):
             dependencies.add_column(layer, column)
+        dependencies.add_column(layer, arguments.get("priority", "prioriteit"))
+        dependencies.add_column(layer, arguments.get("start_date", "beginperiode"))
+        dependencies.add_column(layer, arguments.get("end_date", "eindperiode"))
 
     if function not in TOPOLOGIC_FUNCTIONS:
         return

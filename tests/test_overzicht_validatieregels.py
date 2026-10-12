@@ -6,6 +6,7 @@ from urllib.parse import parse_qs, urlsplit
 import pytest
 
 from scripts import overzicht_validatieregels as overview
+from hydamo_validation.rule_analysis import analyse_versions
 
 
 @pytest.mark.parametrize("branch", [None, "fix/lagen&kolommen"])
@@ -138,3 +139,41 @@ def test_ignore_log_column_arguments(monkeypatch):
         "brug.onbekend", "regelmiddel.maximalehoogteopening", "stuw.onbekend",
     ]
     assert overview.IGNORED_LOG_COLUMNS == ["brug.onbekend"]
+
+
+@pytest.mark.parametrize(
+    "version, arguments, missing_columns",
+    [
+        ("2.4", {}, []),
+        ("2.5", {}, ["sturing.regelmiddelid"]),
+        ("2.5", {"groupers": ["pompid", "afsluitmiddelid"]}, []),
+        ("2.5", {"groupers": ["pompid", "onbekend"]}, ["sturing.onbekend"]),
+        (
+            "2.5",
+            {
+                "groupers": ["afsluitmiddelid"],
+                "priority": "rang",
+                "start_date": "start",
+                "end_date": "einde",
+            },
+            ["sturing.rang", "sturing.start", "sturing.einde"],
+        ),
+    ],
+)
+def test_consistent_period_dependencies(version, arguments, missing_columns):
+    rules = {
+        "schema": "1.5",
+        "objects": [
+            {
+                "object": "sturing",
+                "validation_rules": [
+                    {"id": 0, "function": {"consistent_period": arguments}}
+                ],
+            }
+        ],
+    }
+
+    row = analyse_versions(rules, "1.5", hydamo_versions=[version])[0]
+
+    assert row["ontbrekende_kolommen"] == missing_columns
+    assert row["uitvoerbaar"] == (not missing_columns)
