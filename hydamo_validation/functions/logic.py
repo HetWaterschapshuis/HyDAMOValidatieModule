@@ -312,17 +312,23 @@ def consistent_period(
         Input GeoDataFrame
     max_gap: int
         max gap in days between too adjacent periods
+    groupers : list of str
+        Object reference columns, checked separately for each object and priority.
+    priority : str
+        Column containing the priority within each object group.
+    start_date, end_date : str
+        Columns containing the start and end of each period.
 
     Returns
     -------
     result : Series
-        Pandas Series (default dtype = bool)
+        Boolean results with missing values for rows without an object group.
 
     """
 
     # create an empty result
     _gdf = gdf.copy()
-    result = pd.Series(index=_gdf.index)
+    result = pd.Series(index=_gdf.index, dtype=object)
 
     # convert start_parameter and end_parameter to datetime
     _gdf[start_date] = pd.to_datetime(_gdf[start_date], format=date_format)
@@ -334,9 +340,9 @@ def consistent_period(
     ] + pd.offsets.DateOffset(years=1)
 
     for group in groupers:
-        grouper = _gdf.groupby(by=[group, "prioriteit"])
+        grouper = _gdf.groupby(by=[group, priority])
 
-        for _, df in _gdf.groupby(by=["pompid", "prioriteit"]):
+        for _, df in grouper:
             df.sort_values(by=start_date, inplace=True)
 
             # check for overlap
