@@ -28,6 +28,9 @@ dependencies = [
 
 dynamic = ["version"]
 
+[project.scripts]
+hydamo-validate = "hydamo_validation.__main__:main"
+
 [project.optional-dependencies]
 docs = [
     "mkdocs",
