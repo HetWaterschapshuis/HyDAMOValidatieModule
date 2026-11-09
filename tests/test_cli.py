@@ -75,19 +75,19 @@ def invoke(command, *arguments):
     )
 
 
-def test_help(command):
+@pytest.mark.parametrize("encoding", ["utf-8", "cp1252"])
+def test_help(command, monkeypatch, encoding):
+    monkeypatch.setenv("PYTHONIOENCODING", encoding)
     result = invoke(command, "--help")
     assert result.returncode == 0
     for option in ["directory", "--log-level", "--output-types", "--coverages", "--raise-error"]:
         assert option in result.stdout
     assert "KEY=VALUE" in result.stdout
     assert (
-        "```text\n"
         "directory/\n"
         "|-- datasets/\n"
         "|   `-- hydamo.gpkg\n"
         "`-- validationrules.json\n"
-        "```"
     ) in result.stdout
     assert "directory/results/" in result.stdout
     assert not result.stderr

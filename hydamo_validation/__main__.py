@@ -20,9 +20,9 @@ def main() -> int:
         epilog="""Structuur van `directory`:
 
 directory/
-├── datasets/
-│   └── hydamo.gpkg
-└── validationrules.json
+|-- datasets/
+|   `-- hydamo.gpkg
+`-- validationrules.json
 
 Plaats een of meer GeoPackages in datasets/.
 De validatieresultaten worden geschreven naar directory/results/.
