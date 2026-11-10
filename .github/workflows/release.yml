@@ -1,0 +1,74 @@
+name: Test release and publish lockfile
+
+on:
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout tested source
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
+          persist-credentials: false
+
+      - name: Set up UV and Python
+        uses: astral-sh/setup-uv@v10.2.0
+        with:
+          python-version: '3.12'
+          enable-cache: true
+          cache-dependency-glob: 'requirements*.lock'
+
+      - name: Install locked dependencies and package
+        run: |
+          uv venv
+          uv pip sync requirements.lock
+          uv pip install --constraint requirements.lock --constraint requirements-dev.lock pytest
+          uv pip install --no-deps .
+          uv pip check
+
+      - name: Check release version
+        if: github.event_name == 'release'
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: >-
+          uv run --no-sync python -c
+          "import os; from hydamo_validation import __version__;
+          assert os.environ['RELEASE_TAG'] == 'v' + __version__, 'Tag and package version differ'"
+
+      - name: Test CLI and validation rules
+        run: >-
+          uv run --no-sync python -m pytest
+          tests/test_cli.py tests/test_init.py tests/test_validationrules.py
+          tests/test_logic_functions.py tests/test_overzicht_validatieregels.py
+
+  publish-lockfile:
+    if: github.event_name == 'release'
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout release tag
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          persist-credentials: false
+
+      - name: Upload tested lockfile to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$RELEASE_TAG" requirements.lock

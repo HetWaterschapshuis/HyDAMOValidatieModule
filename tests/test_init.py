@@ -3,33 +3,27 @@ Test voor __init__.py
 """
 
 from hydamo_validation.__init__ import (
-    __author__,
+    __contributors__,
     __copyright__,
-    __credits__,
     __license__,
     __maintainer__,
     __email__,
 )
 
-author = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
-copyright = "Copyright 2026, HyDAMO ValidatieTool"
-credits = ["Het Waterschapshuis", "D2HYDRO", "HKV", "HydroConsult"]
+contributors = ["Het Waterschapshuis", "D2Hydro", "HKV", "HydroConsult"]
+copyright = "Copyright (c) 2021-2026 Het Waterschapshuis"
 
 license = "MIT"
 maintainer = "Philip Hansmann"
 email = "hydamo-validatietool@hetwaterschapshuis.nl"
 
 
-def test_author():
-    assert __author__ == author
+def test_contributors():
+    assert __contributors__ == contributors
 
 
 def test_copyright():
     assert __copyright__ == copyright
-
-
-def test_credits():
-    assert __credits__ == credits
 
 
 def test_license():

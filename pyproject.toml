@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,10 +7,16 @@ name = "hydamo_validation"
 description = "Validation module for HyDAMO data"
 readme = "README.md"
 authors = [
-    { name = "Daniel Tollenaar", email = "daniel@d2hydro.nl" },
-    { name = "het Waterschapshuis", email = "hydamo-validatietool@hetwaterschapshuis.nl" },
+    { name = "Het Waterschapshuis" },
+    { name = "D2Hydro" },
+    { name = "HKV" },
+    { name = "HydroConsult" },
+]
+maintainers = [
+    { name = "Philip Hansmann", email = "hydamo-validatietool@hetwaterschapshuis.nl" },
 ]
 license = "MIT"
+license-files = ["LICENSE"]
 
 requires-python = ">=3.12,<3.13" # numpy/pandas/geo-stack in maart 2026 alleen stabiel met 3.12, later: proberen open te zetten
 dependencies = [
@@ -27,6 +33,9 @@ dependencies = [
 ]
 
 dynamic = ["version"]
+
+[project.scripts]
+hydamo-validate = "hydamo_validation.__main__:main"
 
 [project.optional-dependencies]
 docs = [
