@@ -40,22 +40,22 @@ def duplicate_layers(layers):
 
 # %% validation functions applied on dataframes
 def non_unique_values(series):
-    """Return non-unique values in series."""
+    """Return a boolean mask indicating non-unique values in series."""
     return series.duplicated(keep=False)
 
 
 def missing_values(series, fill_values=[]):
-    """Return non-unique values in series."""
+    """Return a boolean mask indicating missing or designated null values."""
     return series.isnull() | series.isin(fill_values)
 
 
 def fill_values(series, dtype, fill_values=[-999]):
-    """Return filled values in series."""
+    """Return a boolean mask indicating occurrence of filled in values (default: -999) in series."""
     return series.isin(np.array(fill_values).astype(dtype))
 
 
 def non_domain_values(series, dtype, domain_values):
-    """Return non-domain values in series."""
+    """Return a boolean mask indicating non-domain values in series."""
     bool_series = ~series.isin(np.array(domain_values).astype(dtype))
     bool_series.loc[series.isna()] = False  # for not na values
     return bool_series
