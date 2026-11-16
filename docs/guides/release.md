@@ -81,7 +81,8 @@ Gebruik hiervoor een schone checkout van dezelfde releasetag, zodat de code op
 PyPI overeenkomt met de geteste release en het gepubliceerde lockbestand.
 
 Publiceren doe je door de volgende stappen:
-1. Activeer het Pyhton-enviroment en verplaats de commandline naar de lokale repository
+
+1. Activeer het Python-environment en verplaats de commandline naar de lokale repository
 2. Leeg de distributies-map: rmdir /s /q dist
 3. Bouw lokaal de distributies met `python setup.py sdist` 
 4. Upload naar PyPI `twine upload dist/* -p jouw_eigen_twine_password`
