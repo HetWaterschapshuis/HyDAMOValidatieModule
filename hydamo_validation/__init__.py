@@ -1,6 +1,6 @@
 __contributors__ = ["Het Waterschapshuis", "D2Hydro", "HKV", "HydroConsult"]
 __copyright__ = "Copyright (c) 2021-2026 Het Waterschapshuis"
-__version__ = "1.6.0"
+__version__ = "1.7.0b0"
 
 __license__ = "MIT"
 __maintainer__ = "Philip Hansmann"
