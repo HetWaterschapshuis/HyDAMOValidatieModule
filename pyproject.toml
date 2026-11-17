@@ -59,7 +59,7 @@ docker = [
 	"fastapi>=0.115,<0.138",
     "firebase_admin",
 	"aiofiles>=24,<25",
-    "hydamo-validation==1.7.0b0"
+    "hydamo-validation==1.7.0"
 ]
 
 [tool.flake8]
