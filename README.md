@@ -1,81 +1,42 @@
-# The HyDAMO Validation Module: hydamo_validation
+# HyDAMO-validatiemodule
 
-Validation Module for HyDAMO data.
+De Python-module `hydamo_validation` valideert GeoPackages met HyDAMO-gegevens aan de hand van het datamodel en configureerbare logische en topologische regels.
 
-## Installation
+- [Documentatie van de module](https://hetwaterschapshuis.github.io/HyDAMOValidatieModule/): installatie, Python-interface, API-reference en ontwikkeling.
+- [HyDAMO Validatiehandboek](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/): de validatietool, validatieregels en interpretatie van resultaten.
 
-Python 3.12 is required (see `requires-python` in `pyproject.toml`).
-```
-pip install hydamo-validation
-```
-Alternatively, install with uv
+## Installatie en gebruik
 
-```
+De module ondersteunt Python 3.12 (`>=3.12,<3.13` in `pyproject.toml`). Voor een installatie met [uv](https://docs.astral.sh/uv/getting-started/installation/):
+
+```sh
 uv venv --python 3.12
 uv pip install hydamo-validation
-```
-
-For a reproducible installation, download `requirements.lock` from the **Assets**
-of the selected [GitHub Release](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule/releases).
-Use the lockfile from that release, rather than `main`, and replace `X.Y.Z` with
-the version of the selected tag (`vX.Y.Z`):
-
-```
-uv venv --python 3.12
-uv pip sync requirements.lock
-uv pip install --no-deps hydamo-validation==X.Y.Z
 uv pip check
 ```
 
-See the [installation guide](docs/guides/get_started.md) for download commands
-and platform requirements.
+Voor een reproduceerbare installatie kies je de packageversie en `requirements.lock` uit dezelfde GitHub Release. Volg hiervoor de [installatiehandleiding](docs/guides/get_started.md#een-release-installeren).
 
-## Command line
+Activeer de omgeving met `.venv\Scripts\activate.bat` (cmd), `.\.venv\Scripts\Activate.ps1` (PowerShell) of `source .venv/bin/activate` (Linux/macOS). Een project heeft deze structuur:
 
-Activate the environment (`.venv\Scripts\activate.bat` in Windows Command Prompt,
-or `source .venv/bin/activate` on Linux/macOS), then run:
-
-```
-hydamo-validate "your/directory" --coverages "AHN=your/local/ahn/dir"
-python -m hydamo_validation "your/directory" --coverages "AHN=your/local/ahn/dir"
+```text
+project/
+├── datasets/
+│   └── hydamo.gpkg
+└── validationrules.json
 ```
 
-Both commands validate the same project and write to its `results` directory.
-Use `--help` for options. Exit codes are `0` for a technically completed run
-(including failed validation rules), `1` for a technical failure, and `2` for
-invalid arguments. See the [CLI guide](docs/guides/get_started.md#command-line-validation)
-for details.
+Voer de validatie uit met een van beide entrypoints:
 
-## Specify a coverage directory
-To get the validator running you need some AHN data. You can find these in the [data directory](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule/tree/ee9ea1efed385deb692b89057e9c97114fd8c3be/tests/data/dtm) of this directory. We assume you copy this to `your/local/ahn/dir`. Now specify your coverage and init the validator in a python-script:
-
-```
-from hydamo_validation import validator
-from pathlib import Path
-
-coverage = {"AHN": Path("your/local/ahn/dir")}
-
-hydamo_validator = validator(
-    output_types=["geopackage", "csv", "geojson"], coverages=coverage, log_level="INFO"
-)
-
+```sh
+python -m hydamo_validation "pad/naar/project" --coverages "AHN=pad/naar/ahn"
+hydamo-validate "pad/naar/project" --coverages "AHN=pad/naar/ahn"
 ```
 
-With this validator you can validate a directory that directory should have the following structure. The name of `datasets` directory and `ValidatorRules.json` are mandatory. Within datasets you can put one or more geopackages with `HyDAMO` layers.
+De module schrijft naar `results` in de projectmap en vervangt daarbij eerdere resultaten. Exitcode `0` betekent dat de validatie technisch is afgerond; gegevens kunnen wel zijn afgekeurd. Exitcode `1` meldt een technische fout en `2` ongeldige argumenten. Zie [installatie en gebruik](docs/guides/get_started.md) voor alle opties, de Python-interface en uitvoerbestanden.
 
-```
-your/directory/
-├─ datasets/
-│  ├─ hydamo.gpkg
-├─ ValidationRules.json
-```
+## Bijdragen en credits
 
-Now you can validate the `HyDAMO` layers inside `your/ directory` by:
-```
+Bijdragen zijn welkom. Zie [ontwikkelen en bijdragen](docs/guides/contribute.md) voor de ontwikkelomgeving, tests en voorwaarden voor codebijdragen.
 
-directory = Path("your/directory")
-
-datamodel, layer_summary, result_summary = hydamo_validator(
-    directory=directory, raise_error=False
-)
-```
+De module is beschikbaar onder de [MIT-licentie](LICENSE). De geregistreerde bijdragers zijn Het Waterschapshuis, D2Hydro, HKV en HydroConsult. De maintainer is Philip Hansmann, bereikbaar via [hydamo-validatietool@hetwaterschapshuis.nl](mailto:hydamo-validatietool@hetwaterschapshuis.nl).

@@ -1,174 +1,119 @@
-# Compare validation rules with datamodels
+# Validatieregels vergelijken met datamodellen
 
-Use `scripts/overzicht_validatieregels.py` to check whether validation rules have
-the layers and columns they need in a HyDAMO datamodel. This helps developers
-assess a new or changed model before implementing support for it.
+Met `scripts/overzicht_validatieregels.py` controleer je of een HyDAMO-datamodel de lagen en kolommen bevat die validatieregels nodig hebben. Gebruik dit bij onderzoek naar een nieuw of gewijzigd datamodel.
 
-The analysis uses the same `HyDAMO` class as the validator, including its ignored
-layers. It compares dependencies; it does not read a supplied dataset or execute
-validation functions. An executable rule has the dependencies identified by the
-analysis. This does not establish that its implementation runs correctly on data.
+De analyse gebruikt dezelfde `HyDAMO`-klasse als de validator, inclusief de genegeerde lagen. Ze leest geen aangeleverde dataset en voert geen validatiefuncties uit. Een regel is hier *uitvoerbaar* wanneer de gevonden afhankelijkheden beschikbaar zijn. Dat bewijst niet dat de functie correct op gegevens werkt.
 
-## Run the script
+## Script uitvoeren
 
-Complete the [development installation](contribute.md#setup-environment) with UV,
-including `uv pip install -e .`, and run the following commands from the repository
-root. The editable installation uses the code and schemas in your checkout.
+Volg de [ontwikkelaarsinstallatie](contribute.md#ontwikkelomgeving), inclusief de editable installatie, en voer opdrachten uit vanuit de repositoryroot:
 
 ```sh
-uv run --no-sync python scripts/overzicht_validatieregels.py
+python scripts/overzicht_validatieregels.py
 ```
 
-By default, the script downloads versioned `ValidationRules_#.#.json` files from
-the `main` branch of the HyDAMO validation handbook into `local/validation_rules`.
-This requires network access and replaces matching local rule files. Reports are
-written to `local/csv`; matching report files are replaced. Directories are created
-when needed, and relative paths are resolved from the current working directory.
+Standaard downloadt het script `ValidationRules_#.#.json`-bestanden uit `main` van het validatiehandboek naar `local/validation_rules`. Dit vereist netwerktoegang en vervangt gelijknamige lokale regelbestanden. Rapporten komen in `local/csv`; gelijknamige rapporten worden vervangen. Ontbrekende mappen worden aangemaakt. Relatieve paden gelden vanaf de huidige werkmap.
 
-To download rules from another handbook branch, use `--branch`:
+Kies met `--branch` een andere branch van het handboek:
 
 ```sh
-uv run --no-sync python scripts/overzicht_validatieregels.py --branch fix/validation-rules
+python scripts/overzicht_validatieregels.py --branch fix/validation-rules
 ```
 
-When running from an IDE, you can also set `VALIDATION_RULES_BRANCH` near the top
-of the script. The command-line option overrides that setting. `--branch` is
-ignored when using local files with `--rules-json`.
+Bij uitvoering vanuit een IDE kun je ook `VALIDATION_RULES_BRANCH` bovenaan het script instellen. De CLI-optie gaat voor. Bij `--rules-json` wordt `--branch` genegeerd.
 
-Missing layers and columns are also printed for each affected rule, including
-the rule filename, HyDAMO version, object layer, rule kind, ID and name. This
-includes general rules and inactive rules. The CSV reports retain all rules,
-including those without missing dependencies.
-
-To hide specific missing columns from console output, set `IGNORED_LOG_COLUMNS`
-in the script, for example `["regelmiddel.maximalehoogteopening"]`, or add
-`--ignore-log-column regelmiddel.maximalehoogteopening` to the command. Repeat
-the option to add more columns. Matching uses the exact `layer.column` reference.
-Other missing columns and missing layers remain visible. A rule with only hidden
-missing columns is not printed. Analysis results, CSV details and summary counts
-are unaffected.
-
-For a reproducible comparison, use the same local rule files before and after a
-change. This command uses existing files without downloading them:
+Gebruik voor een reproduceerbare vergelijking dezelfde lokale regelbestanden vóór en na een wijziging. Deze opdracht downloadt niets:
 
 ```sh
-uv run --no-sync python scripts/overzicht_validatieregels.py --rules-json local/validation_rules --output-directory local/csv
+python scripts/overzicht_validatieregels.py --rules-json local/validation_rules --output-directory local/csv
 ```
 
-`--rules-json` also accepts a single file, for example
-`local/validation_rules/ValidationRules_1.5.json`. Use `--help` to list the options.
+`--rules-json` accepteert ook één bestand, zoals `local/validation_rules/ValidationRules_1.5.json`. Met `--help` bekijk je alle opties.
 
-## Select datamodel versions
+### Meldingen over afhankelijkheden
 
-Normally, each rule file is analysed against the versions listed in
-`hydamo_version.enum` of its corresponding `rules_<schema>.json` in the package.
-The rule file's `schema` field selects that rules schema. Versions are sorted
-numerically; a missing schema causes an error rather than being skipped.
+Het script toont ontbrekende lagen en kolommen per regel, met bestandsnaam, HyDAMO-versie, objectlaag, regelsoort, ID en naam. Algemene en inactieve regels tellen ook mee. De CSV-bestanden bevatten alle regels, ook zonder ontbrekende afhankelijkheden.
 
-To select versions explicitly, repeat `--hydamo-version`:
+Verberg specifieke kolommen alleen in de console met `IGNORED_LOG_COLUMNS` in het script, bijvoorbeeld `["regelmiddel.maximalehoogteopening"]`, of met de herhaalbare optie:
 
 ```sh
-uv run --no-sync python scripts/overzicht_validatieregels.py --rules-json local/validation_rules --hydamo-version 2.4 --hydamo-version 2.5
+python scripts/overzicht_validatieregels.py --rules-json local/validation_rules --ignore-log-column regelmiddel.maximalehoogteopening
 ```
 
-Duplicate versions are analysed once. The explicit selection applies to every
-selected rule file, even if its rules schema does not support that version.
+De vergelijking gebruikt de exacte verwijzing `laag.kolom`. Andere ontbrekende kolommen en ontbrekende lagen blijven zichtbaar. Een regel met uitsluitend verborgen ontbrekende kolommen wordt niet getoond. Analyse, CSV-details en tellingen blijven gelijk.
 
-For an experimental model, put its schema in a separate directory using the name
-`HyDAMO_<version>.json`. For example, with an experimental `HyDAMO_2.6.json` in
-`local/schemas`:
+## Datamodelversies kiezen
+
+Standaard analyseert het script elke regelset tegen de versies uit `hydamo_version.enum` van het bijbehorende `rules_<schema>.json`. Het veld `schema` in de regelset bepaalt welk regelschema wordt gebruikt. Versies worden numeriek gesorteerd; een ontbrekend schema veroorzaakt een fout.
+
+Kies versies expliciet met de herhaalbare optie `--hydamo-version`:
 
 ```sh
-uv run --no-sync python scripts/overzicht_validatieregels.py --rules-json local/validation_rules/ValidationRules_1.5.json --hydamo-version 2.6 --schemas-path local/schemas --output-directory local/csv_experimental
+python scripts/overzicht_validatieregels.py --rules-json local/validation_rules --hydamo-version 2.4 --hydamo-version 2.5
 ```
 
-This example does not imply that HyDAMO 2.6 is supported. The supplied schema must
-be readable by the current `HyDAMO` class. All selected model schemas must exist in
-`--schemas-path`; there is no fallback to packaged model schemas. The option does
-not change the rules schemas used to determine support. A custom schema path alone
-does not select additional versions; use `--hydamo-version` for that.
+Dubbele versies worden eenmaal geanalyseerd. De selectie geldt voor elk regelbestand, ook wanneer het regelschema die combinatie niet ondersteunt.
 
-The reports distinguish **support according to the rules schema** from **dependency
-availability**. An unsupported combination can still have executable rules. You do
-not need to change the official version enumeration to investigate a new model.
+Voor een experimenteel model plaats je `HyDAMO_<versie>.json` in een aparte map. Bijvoorbeeld, met `HyDAMO_2.7.json` in `local/schemas`:
 
-## Read the detail reports
+```sh
+python scripts/overzicht_validatieregels.py --rules-json local/validation_rules/ValidationRules_1.5.json --hydamo-version 2.7 --schemas-path local/schemas --output-directory local/csv_experimental
+```
 
-`overzicht_regels_<version>.csv` contains one row per rule and analysed HyDAMO
-version. Both general rules and validation rules are included. Dots in the rule
-file version become underscores, for example `overzicht_regels_1_5.csv`.
+Dit voorbeeld vereist een zelf aangeleverd schema dat de huidige `HyDAMO`-klasse kan lezen. Alle geselecteerde modelschema's moeten in `--schemas-path` staan; er is geen terugval op de meegeleverde schema's. Deze optie wijzigt de regelschema's niet en selecteert op zichzelf geen extra versies. Gebruik daarvoor `--hydamo-version`.
 
-| CSV field | Meaning |
+De rapporten onderscheiden **ondersteuning volgens het regelschema** en **beschikbaarheid van afhankelijkheden**. Een niet-ondersteunde combinatie kan uitvoerbare regels bevatten. Je hoeft de officiële versielijst niet te wijzigen om een nieuw model te onderzoeken.
+
+## Detailrapporten lezen
+
+`overzicht_regels_<versie>.csv` bevat één rij per regel en geanalyseerde HyDAMO-versie. Algemene regels en validatieregels zijn opgenomen. Punten in de bestandsversie worden underscores, bijvoorbeeld `overzicht_regels_1_5.csv`.
+
+| CSV-veld | Betekenis |
 | --- | --- |
-| `hydamo_versie` | Datamodel version being analysed. |
-| `regels_versie` | Rule file version from `ValidationRules_<version>.json`; for other filenames, the JSON `schema` value is used. |
-| `hydamo_versie_regels_json` | HyDAMO version declared inside the rule file; this does not restrict the versions analysed. |
-| `regelschema_versie` | JSON schema version declared by the rule file's `schema` field. |
-| `combinatie_ondersteund_door_regelschema` | Whether the analysed model version is listed in that rules schema. |
-| `regelsoort` | `general_rule` or `validatieregel`. |
-| `laag` | Main object layer to which the rule applies. |
-| `regel_id` | Rule ID within its object layer and rule kind. Together with the version fields these identify the row. |
-| `regelnaam` | Rule name, or its result variable if no name is supplied. |
-| `actief` | Configured activation, defaulting to `True`. This is separate from dependency availability; inactive rules are also analysed. |
-| `validatietype` | Configured validation type, or `general` when absent. |
-| `functie` | Main function configured by the rule. Dependencies from its filter are also analysed. |
-| `benodigde_lagen` | All layers used by the rule, including missing layers. |
-| `ontbrekende_lagen` | Required layers unavailable through `HyDAMO`, with a reason: absent from the schema or ignored by the datamodel. |
-| `gebruikte_datamodelkolommen` | Column references used by the rule, including missing columns and columns of missing layers. References resolved to available general-rule results are listed separately. Includes implicit dependencies such as relationship keys; `geometry.z` is reported as `geometry`. |
-| `tussenresultaten_general_rules` | References resolved to results of earlier general rules whose dependencies are available. |
-| `ontbrekende_kolommen` | Required column references unavailable in an existing model layer and not resolved to an available general-rule result. If the entire layer is missing, it is reported under `ontbrekende_lagen` instead. |
-| `uitvoerbaar` | `True` when no required layers or columns are missing according to the dependency analysis. |
-| `conclusie` | Readable conclusion, including an indication when the rule is inactive. |
+| `hydamo_versie` | Geanalyseerde datamodelversie. |
+| `regels_versie` | Versie uit `ValidationRules_<versie>.json`; bij andere bestandsnamen wordt het JSON-veld `schema` gebruikt. |
+| `hydamo_versie_regels_json` | Datamodelversie in de regelset; deze beperkt de geanalyseerde versies niet. |
+| `regelschema_versie` | Versie uit het JSON-veld `schema`. |
+| `combinatie_ondersteund_door_regelschema` | Of het regelschema de geanalyseerde datamodelversie toestaat. |
+| `regelsoort` | `general_rule` of `validatieregel`. |
+| `laag` | Objectlaag waarop de regel wordt toegepast. |
+| `regel_id` | ID binnen de objectlaag en regelsoort. Samen met de versievelden identificeert dit de rij. |
+| `regelnaam` | Regelnaam, of de resultaatvariabele als een naam ontbreekt. |
+| `actief` | Ingestelde activering; standaard `True`. Ook inactieve regels worden geanalyseerd. |
+| `validatietype` | Ingesteld type, of `general` als dit ontbreekt. |
+| `functie` | Hoofdfunctie van de regel. Afhankelijkheden van het filter worden ook onderzocht. |
+| `benodigde_lagen` | Alle gebruikte lagen, inclusief ontbrekende lagen. |
+| `ontbrekende_lagen` | Niet-beschikbare lagen, met reden: afwezig in het schema of genegeerd door het datamodel. |
+| `gebruikte_datamodelkolommen` | Verwijzingen naar datamodelkolommen, inclusief ontbrekende kolommen en kolommen van ontbrekende lagen. Bevat ook impliciete relatiesleutels; `geometry.z` wordt `geometry`. Beschikbare algemene tussenresultaten staan apart. |
+| `tussenresultaten_general_rules` | Verwijzingen naar resultaten van eerdere algemene regels waarvan de afhankelijkheden beschikbaar zijn. |
+| `ontbrekende_kolommen` | Verwijzingen die in een bestaande laag ontbreken en niet als beschikbaar tussenresultaat zijn gevonden. Bij een ontbrekende laag staat die onder `ontbrekende_lagen`. |
+| `uitvoerbaar` | `True` wanneer de analyse geen ontbrekende lagen of kolommen vindt. |
+| `conclusie` | Leesbare conclusie, met vermelding als de regel inactief is. |
 
-“Used” means referenced by the rule, not successfully found or actually executed.
-For example, bridge general rule 1 from rule file 1.5 needs
-`brug.globalid`, `kunstwerkopening.laagstedoorstroomhoogte` and
-`kunstwerkopening.brugid`. For HyDAMO 2.4, all three appear under
-`gebruikte_datamodelkolommen`, while `kunstwerkopening.brugid` also appears under
-`ontbrekende_kolommen`. The rule is not executable.
+*Gebruikt* betekent dat de regel naar een kolom verwijst, ook als die ontbreekt. Algemene brugregel 1 uit regelbestand 1.5 gebruikt bijvoorbeeld `brug.globalid`, `kunstwerkopening.laagstedoorstroomhoogte` en `kunstwerkopening.brugid`. Bij HyDAMO 2.4 staan alle drie bij `gebruikte_datamodelkolommen`; `kunstwerkopening.brugid` staat ook bij `ontbrekende_kolommen`. De regel is dan niet uitvoerbaar.
 
-General rules are analysed in ID order before the validation rules of each object.
-Objects retain their order in the rule file. A general-rule result becomes
-available to subsequent rules only if its producing rule has the required
-dependencies. An unavailable intermediate result can therefore appear as a missing
-column for a later rule. No general-rule values are calculated.
+Algemene regels worden per object in ID-volgorde onderzocht, vóór de validatieregels. De objectvolgorde uit het regelbestand blijft behouden. Een algemeen tussenresultaat wordt pas beschikbaar voor volgende regels als de producerende regel alle afhankelijkheden heeft. Een niet-beschikbaar tussenresultaat kan daarom bij een latere regel als ontbrekende kolom verschijnen. Er worden geen waarden berekend.
 
-For `consistent_period`, the required columns follow the configured `groupers`,
-`priority`, `start_date` and `end_date`. If omitted, these default to
-`["pompid", "regelmiddelid"]`, `prioriteit`, `beginperiode` and `eindperiode`.
-Periods are checked separately for each referenced object and priority.
+Voor `consistent_period` volgen de afhankelijkheden uit `groupers`, `priority`, `start_date` en `end_date`. Standaard zijn dit `["pompid", "regelmiddelid"]`, `prioriteit`, `beginperiode` en `eindperiode`. De controle groepeert perioden per objectverwijzing en prioriteit.
 
-## Read the summary
+## Samenvatting lezen
 
-`samenvatting_regels.csv` contains one row per rule file version and analysed model
-version. It includes `regels_versie`, `hydamo_versie`, `regelschema_versie` and
-`combinatie_ondersteund_door_regelschema`, with the meanings described above.
+`samenvatting_regels.csv` bevat één rij per regelbestandversie en geanalyseerde datamodelversie. De velden `regels_versie`, `hydamo_versie`, `regelschema_versie` en `combinatie_ondersteund_door_regelschema` hebben dezelfde betekenis als hierboven.
 
-| Count | Meaning |
+| Telling | Betekenis |
 | --- | --- |
-| `totaal_regels` | All analysed general rules and validation rules. |
-| `uitvoerbare_regels` | Rules with all required dependencies available. |
-| `niet_uitvoerbare_regels` | Rules with missing dependencies. |
-| `totaal_general_rules` | Number of analysed general rules. |
-| `totaal_validatieregels` | Number of analysed validation rules. |
+| `totaal_regels` | Alle onderzochte algemene regels en validatieregels. |
+| `uitvoerbare_regels` | Regels waarvan alle afhankelijkheden beschikbaar zijn. |
+| `niet_uitvoerbare_regels` | Regels met ontbrekende afhankelijkheden. |
+| `totaal_general_rules` | Aantal algemene regels. |
+| `totaal_validatieregels` | Aantal validatieregels. |
 
-These counts include inactive rules. They do not count validated data objects or
-successful function executions.
+Deze tellingen omvatten inactieve regels. Het zijn geen aantallen gevalideerde objecten of geslaagde functie-uitvoeringen.
 
-All CSV files use semicolons and UTF-8 with a BOM for Excel. Within a cell, multiple
-values are separated by ` | ` and an empty list is shown as `-`.
+Alle CSV-bestanden gebruiken puntkomma's en UTF-8 met een BOM voor Excel. Meerdere waarden in een cel zijn gescheiden door ` | `; een lege lijst wordt `-`.
 
-## Shared analysis and future regression checks
+## Gedeelde analyse en regressiecontroles
 
-The script uses `hydamo_validation.rule_analysis` for dependencies, version
-selection and model comparison. Downloads and CSV output remain in the script.
-The [Python interface](../reference/rule_analysis.md) returns dependency lists and
-booleans directly, so callers do not need to parse CSV text.
+Het script gebruikt `hydamo_validation.rule_analysis` voor afhankelijkheden, versieselectie en modelvergelijking. Downloads en CSV-uitvoer blijven in het script. De [Python-interface](../reference/rule_analysis.md) retourneert lijsten en booleans direct, zodat aanroepers geen CSV-tekst hoeven te ontleden.
 
-Two uses share this analysis: a developer can investigate new models with the
-script, and future regression tests can check changes against fixed local rule
-files and all model versions. The latter would compare results with explicit
-expectations for supported combinations and known incompatibilities. Pytest
-integration and those expectations have not yet been implemented. Executing
-validation functions on data remains the responsibility of the existing function
-and integration tests.
+De bestaande tests in `tests/test_overzicht_validatieregels.py` controleren onder meer de analyse en rapportage. Een volledige regressiematrix van vaste regelbestanden tegen alle modelversies met expliciete verwachtingen is nog niet geïmplementeerd. De bestaande functie- en integratietests blijven nodig om de uitvoering op gegevens te controleren.

@@ -1,11 +1,19 @@
+# Changelog
+
+Deze pagina bevat de bestaande versiehistorie. Zie [GitHub Releases](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule/releases) voor latere releases en de bijbehorende release notes. De [releaseprocedure](guides/release.md) beschrijft de controles en publicatie.
+
 ## 1.1.1
-### Added  
-* changelog.md in documentation 
-* validation.log in data_dir
-* more extensive logging: info which logical-rule is executed
 
-### Changed
-* Specification of python and package versions in environment.yml's: HYV-167
+### Toegevoegd
 
-### Fixed
-* logical-validation: validation-ruleset is cleaned prior to iteration of rules; only rules will be executed on existing layers (avoiding crashes): HYV-187
+- `changelog.md` in de documentatie.
+- `validation.log` in `data_dir`.
+- Uitgebreidere logging: vermelding van de uitgevoerde logische regel.
+
+### Gewijzigd
+
+- Specificatie van Python- en packageversies in de `environment.yml`-bestanden: HYV-167.
+
+### Opgelost
+
+- De logische validatie filtert de regelset vóór uitvoering. Regels worden alleen uitgevoerd op aanwezige lagen, om crashes te voorkomen: HYV-187.
