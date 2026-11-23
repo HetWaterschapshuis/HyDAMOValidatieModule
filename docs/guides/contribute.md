@@ -90,11 +90,11 @@ De documentatie kun je lokaal (op Windows) hosten met:
 
 De module wordt beheerd door Het Waterschapshuis en is beschikbaar onder de [MIT-licentie](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule/blob/main/LICENSE). Voor nieuwe codebijdragen gelden de volgende voorwaarden:
 
-- Leveranciers dragen de auteursrechten op nieuw ontwikkelde code over aan Het Waterschapshuis, voor zover zij daartoe bevoegd zijn.
-- Het Waterschapshuis publiceert de bijdragen onder de MIT-licentie.
-- Voor het aanleveren, opnemen, gebruiken, wijzigen en verspreiden van bijdragen wordt geen vergoeding betaald.
-- Nieuwe externe dependencies worden alleen na expliciete beoordeling geaccepteerd.
-- Ontwikkelaars en leveranciers worden opgenomen in de credits.
+1. Codebijdragers dragen de auteursrechten op nieuw ontwikkelde code over aan Het Waterschapshuis, voor zover zij daartoe bevoegd zijn.
+2. Het Waterschapshuis publiceert de bijdragen onder de MIT-licentie.
+3. Voor het aanleveren, opnemen, gebruiken, wijzigen en verspreiden van bijdragen wordt geen vergoeding betaald.
+4. Nieuwe externe dependencies worden alleen na expliciete beoordeling geaccepteerd.
+5. Codebijdragers worden vermeld in de credits.
 
 ## Pull request indienen
 
