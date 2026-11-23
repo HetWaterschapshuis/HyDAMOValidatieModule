@@ -10,7 +10,7 @@ Kies een versienummer volgens semantic versioning:
 - **MINOR**: nieuwe functionaliteit die achterwaarts compatibel is.
 - **PATCH**: een bugfix of kleine compatibele wijziging.
 
-Werk `__version__` in `hydamo_validation/__init__.py` bij. De packageconfiguratie leest dit versienummer automatisch. Beschrijf de wijzigingen in de [changelog](../changelog.md) en controleer de installatie-instructies en API-reference.
+Werk `__version__` in `hydamo_validation/__init__.py` bij. De packageconfiguratie leest dit versienummer automatisch. Bereid de release notes voor en controleer de installatie-instructies en API-reference.
 
 Het gecommitteerde `requirements.lock` wordt bij publicatie niet opnieuw gegenereerd. Als dependencies moeten wijzigen, werk het lockbestand vooraf bij in de pull request en controleer de installatie op de ondersteunde platforms. Compileer runtime-lockbestanden met Python 3.12 en `--universal`:
 
@@ -38,7 +38,7 @@ Activeer de omgeving en voer de volledige suite uit:
 python -m pytest
 ```
 
-Controleer ook de documentatie met de [documentatieomgeving](contribute.md#documentatie) en `python -m mkdocs build --strict`. Publiceer pas nadat de controles slagen en de wijzigingen zijn beoordeeld.
+Controleer ook de documentatie met de [documentatieomgeving](contribute.md#documentatie-bijwerken) en `python -m mkdocs build --strict`. Publiceer pas nadat de controles slagen en de wijzigingen zijn beoordeeld.
 
 ## 3. GitHub Release publiceren
 
@@ -79,8 +79,8 @@ python -m twine upload dist/*
 
 Gebruik voor de upload de PyPI-inlogmethode van de beheerder. Zet tokens of wachtwoorden niet in de documentatie of repository.
 
-Controleer na publicatie of de versie beschikbaar is op [PyPI](https://pypi.org/project/hydamo-validation/). Test vervolgens de [versiespecifieke installatie](get_started.md#een-release-installeren) met het lockbestand uit dezelfde GitHub Release in een nieuwe omgeving.
+Controleer na publicatie of de versie beschikbaar is op [PyPI](https://pypi.org/project/hydamo-validation/). Test vervolgens de [versiespecifieke installatie](get_started.md#reproduceerbare-installatie) met het lockbestand uit dezelfde GitHub Release in een nieuwe omgeving.
 
 ## Documentatiepublicatie
 
-Documentatie wordt los van de package-release gepubliceerd. De workflow **Publish documentation** publiceert vanuit `main` na een gemergede pull request of een handmatige run op `main`. Een releasetag start deze workflow niet. Zie [documentatie publiceren](contribute.md#documentatie-publiceren) voor de inrichting en handmatige uitvoering.
+Documentatie wordt los van de package-release gepubliceerd. De workflow **Publish documentation** publiceert vanuit `main` na een gemergede pull request of een handmatige run op `main`. Een releasetag start deze workflow niet.

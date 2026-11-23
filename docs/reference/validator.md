@@ -1,6 +1,6 @@
 # Validator en resultaten
 
-De publieke ingang is `from hydamo_validation import validator`. Deze functie retourneert een vooraf geconfigureerde validatiefunctie. Zie [installatie en gebruik](../guides/get_started.md#python-interface) voor een volledig voorbeeld.
+De publieke ingang is `from hydamo_validation import validator`. Deze functie retourneert een vooraf geconfigureerde validatiefunctie. Zie [installatie en gebruik](../guides/get_started.md#commandline-en-python-interface) voor het gebruik vanuit Python.
 
 ## Validatie configureren
 
@@ -41,7 +41,7 @@ Een `LayersSummary` bewaart resultaatlagen als attributen, bijvoorbeeld `layer_s
 | `join_gdf(gdf, layer)` | Voegt regelresultaten op index samen met een bestaande resultaatlaag. |
 | `export(results_path, output_types)` | Schrijft niet-lege lagen en retourneert de namen van geëxporteerde lagen. |
 
-Zie [uitvoer en fouten](../guides/get_started.md#uitvoer-en-fouten) voor bestandsnamen, CSV zonder geometrie en GeoJSON in WGS84.
+Onder `results_path` verschijnen `results.gpkg`, `csv/<laag>.csv` en/of `geojson/<laag>.geojson`, afhankelijk van `output_types`. CSV bevat geen geometrie; GeoJSON wordt bij een bekend CRS omgezet naar WGS84 (`EPSG:4326`).
 
 ::: hydamo_validation.summaries.LayersSummary
     options:

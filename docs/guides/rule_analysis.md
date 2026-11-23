@@ -114,6 +114,6 @@ Alle CSV-bestanden gebruiken puntkomma's en UTF-8 met een BOM voor Excel. Meerde
 
 ## Gedeelde analyse en regressiecontroles
 
-Het script gebruikt `hydamo_validation.rule_analysis` voor afhankelijkheden, versieselectie en modelvergelijking. Downloads en CSV-uitvoer blijven in het script. De [Python-interface](../reference/rule_analysis.md) retourneert lijsten en booleans direct, zodat aanroepers geen CSV-tekst hoeven te ontleden.
+Het script gebruikt `hydamo_validation.rule_analysis` voor afhankelijkheden, versieselectie en modelvergelijking. Downloads en CSV-uitvoer blijven in het script. De Python-interface retourneert lijsten en booleans direct, zodat aanroepers geen CSV-tekst hoeven te ontleden.
 
 De bestaande tests in `tests/test_overzicht_validatieregels.py` controleren onder meer de analyse en rapportage. Een volledige regressiematrix van vaste regelbestanden tegen alle modelversies met expliciete verwachtingen is nog niet geïmplementeerd. De bestaande functie- en integratietests blijven nodig om de uitvoering op gegevens te controleren.

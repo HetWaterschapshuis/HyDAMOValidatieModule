@@ -58,9 +58,9 @@ extra:
 copyright: Copyright &copy; 2021-2026 Het Waterschapshuis
 nav:
   - Home: index.md
-  - Installatie en gebruik: guides/get_started.md
   - Ontwikkelen en bijdragen: guides/contribute.md
   - Technische documentatie:
+      - Installatie en gebruik: guides/get_started.md
       - Validator en resultaten: reference/validator.md
       - GeoPackages inlezen: reference/datasets.md
       - HyDAMO-datamodel: reference/hydamo.md
@@ -69,7 +69,3 @@ nav:
           - Logische functies: reference/logic_functions.md
           - Topologische functies: reference/topologic_functions.md
       - Regels vergelijken met datamodellen: guides/rule_analysis.md
-      - API voor regelanalyse: reference/rule_analysis.md
-  - Releases en changelog:
-      - Releaseprocedure: guides/release.md
-      - Changelog: changelog.md

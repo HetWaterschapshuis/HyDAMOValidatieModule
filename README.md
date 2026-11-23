@@ -15,7 +15,7 @@ uv pip install hydamo-validation
 uv pip check
 ```
 
-Voor een reproduceerbare installatie kies je de packageversie en `requirements.lock` uit dezelfde GitHub Release. Volg hiervoor de [installatiehandleiding](docs/guides/get_started.md#een-release-installeren).
+Voor een reproduceerbare installatie kies je de packageversie en `requirements.lock` uit dezelfde GitHub Release. Volg hiervoor de [installatiehandleiding](docs/guides/get_started.md#reproduceerbare-installatie).
 
 Activeer de omgeving met `.venv\Scripts\activate.bat` (cmd), `.\.venv\Scripts\Activate.ps1` (PowerShell) of `source .venv/bin/activate` (Linux/macOS). Een project heeft deze structuur:
 
@@ -33,7 +33,7 @@ python -m hydamo_validation "pad/naar/project" --coverages "AHN=pad/naar/ahn"
 hydamo-validate "pad/naar/project" --coverages "AHN=pad/naar/ahn"
 ```
 
-De module schrijft naar `results` in de projectmap en vervangt daarbij eerdere resultaten. Exitcode `0` betekent dat de validatie technisch is afgerond; gegevens kunnen wel zijn afgekeurd. Exitcode `1` meldt een technische fout en `2` ongeldige argumenten. Zie [installatie en gebruik](docs/guides/get_started.md) voor alle opties, de Python-interface en uitvoerbestanden.
+De module schrijft naar `results` in de projectmap en vervangt daarbij eerdere resultaten. Exitcode `0` betekent dat de validatie technisch is afgerond; gegevens kunnen wel zijn afgekeurd. Exitcode `1` meldt een technische fout en `2` ongeldige argumenten. Zie [installatie en gebruik](docs/guides/get_started.md) en de [API-reference](docs/reference/validator.md) voor technische details en foutafhandeling.
 
 ## Bijdragen en credits
 

@@ -6,8 +6,8 @@ De functies staan in `hydamo_validation.functions.logic` en zijn ook beschikbaar
 
 | Functie | Controle en parameters |
 | --- | --- |
-| `LE`, `LT` | Vergelijken `left` met `right`: kleiner dan of gelijk aan, respectievelijk kleiner dan. Een operand kan een kolomnaam of constante zijn. |
-| `GE`, `GT` | Vergelijken `left` met `right`: groter dan of gelijk aan, respectievelijk groter dan. |
+| `LE`, `LT` | Vergelijken `left` met `right`: kleiner dan of gelijk aan, respectievelijk kleiner dan. `left` is een kolomnaam; `right` is een kolomnaam of numerieke constante. |
+| `GE`, `GT` | Vergelijken `left` met `right`: groter dan of gelijk aan, respectievelijk groter dan. `left` is een kolomnaam; `right` is een kolomnaam of numerieke constante. |
 | `EQ` | Controleert of `left` en `right` gelijk zijn. |
 | `BE` | Controleert of de kolom `parameter` tussen `min` en `max` ligt. Grenswaarden tellen alleen mee bij `inclusive=True`. |
 | `ISIN`, `NOTIN` | Controleert of waarden uit `parameter` wel of niet in `array` voorkomen. |

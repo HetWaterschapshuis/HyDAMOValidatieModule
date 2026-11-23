@@ -1,18 +1,26 @@
+---
+hide:
+  - navigation
+  - toc
+---
+
 # HyDAMO-validatiemodule
 
-De HyDAMO-validatiemodule (`hydamo_validation`) valideert GeoPackages met HyDAMO-gegevens. De module controleert de syntax aan de hand van het HyDAMO-datamodel en voert configureerbare logische en topologische validatieregels uit. Je kunt de module zelfstandig gebruiken via de commandline of vanuit Python.
+De HyDAMO-validatiemodule is het rekenhart van de HyDAMO-validatietool. De Python-module valideert datasets in GeoPackage-formaat aan de hand van het HyDAMO-datamodel en de bijbehorende validatieregels.
 
-Deze documentatie is bedoeld voor ontwikkelaars en gevorderde gebruikers die de module willen gebruiken, uitbreiden of onderhouden.
+De module is open source beschikbaar:
 
-- [Installatie en gebruik](guides/get_started.md): een omgeving opzetten, invoer voorbereiden en een validatie uitvoeren.
-- [Ontwikkelen en bijdragen](guides/contribute.md): de ontwikkelomgeving, tests, documentatie en pull requests.
-- [Technische documentatie](reference/validator.md): de Python-interface, het datamodel en de validatiefuncties.
-- [Releases en changelog](guides/release.md): een release voorbereiden, controleren en publiceren.
+- **Broncode:** [GitHub](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule)
+- **Python-package:** [PyPI](https://pypi.org/project/hydamo-validation/)
 
-## HyDAMO Validatiehandboek
+Deze documentatie is bedoeld voor ontwikkelaars die willen [bijdragen aan de module](guides/contribute.md) of de [code-referentie](reference/hydamo.md) willen raadplegen.
 
-Het [HyDAMO Validatiehandboek](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/) beschrijft de validatietool, de webclient, de API en de inhoud van de validatieregels. Gebruik het handboek voor [het interpreteren van resultaten](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/HyDAMO%20Validatietool/Aan%20de%20slag/05%20Resultaten%20interpreteren/). Deze site beschrijft het actuele technische gedrag van de Python-module.
+## HyDAMO-validatiehandboek
+
+Het [HyDAMO-validatiehandboek](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/) beschrijft de werking van de validatietool, de webclient, de API en de inhoud van de validatieregels. Je vindt er ook uitleg over het [interpreteren van validatieresultaten](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/HyDAMO%20Validatietool/Aan%20de%20slag/05%20Resultaten%20interpreteren/).
 
 ## Beheer en credits
 
-De module is open source onder de [MIT-licentie](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule/blob/main/LICENSE). De geregistreerde bijdragers zijn Het Waterschapshuis, D2Hydro, HKV en HydroConsult. Philip Hansmann is de maintainer. Voor vragen over de module: [hydamo-validatietool@hetwaterschapshuis.nl](mailto:hydamo-validatietool@hetwaterschapshuis.nl).
+De HyDAMO-validatiemodule wordt beheerd door Het Waterschapshuis en is beschikbaar onder de [MIT-licentie](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule/blob/main/LICENSE). Aan de ontwikkeling hebben D2Hydro, HKV en HydroConsult bijgedragen.
+
+Voor vragen over de module kun je contact opnemen via [hydamo-validatietool@hetwaterschapshuis.nl](mailto:hydamo-validatietool@hetwaterschapshuis.nl).
