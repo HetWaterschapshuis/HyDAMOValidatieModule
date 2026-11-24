@@ -17,7 +17,7 @@ Deze documentatie is bedoeld voor ontwikkelaars die willen [bijdragen aan de mod
 
 ## HyDAMO-validatiehandboek
 
-Het [HyDAMO-validatiehandboek](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/) beschrijft de werking van de validatietool, de webclient, de API en de inhoud van de validatieregels. Je vindt er ook uitleg over het [interpreteren van validatieresultaten](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/HyDAMO%20Validatietool/Aan%20de%20slag/05%20Resultaten%20interpreteren/).
+Het [HyDAMO-validatiehandboek](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/){:target="_blank"} beschrijft de werking van de validatietool, de webclient, de API en de inhoud van de validatieregels. Je vindt er ook uitleg over het [interpreteren van validatieresultaten](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/HyDAMO%20Validatietool/Aan%20de%20slag/05%20Resultaten%20interpreteren/){:target="_blank"}.
 
 ## Beheer en credits
 

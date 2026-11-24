@@ -46,6 +46,7 @@ plugins:
             show_docstring_raises: false
             show_docstring_examples: false
 markdown_extensions:
+  - attr_list
   - tables
   - toc:
       permalink: true
