@@ -1,6 +1,6 @@
 # Installatie en gebruik
 
-Het [HyDAMO-validatiehandboek](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/HyDAMO%20Validatietool/Aan%20de%20slag/04%20De%20Validatiemodule/) beschrijft het installeren en uitvoeren van de validatiemodule, inclusief voorbeeldgegevens, commandline, Python-interface en validatieresultaten.
+Het [HyDAMO-validatiehandboek](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/HyDAMO%20Validatietool/Aan%20de%20slag/04%20De%20Validatiemodule/){:target="_blank"} beschrijft het installeren en uitvoeren van de validatiemodule, inclusief voorbeeldgegevens, commandline, Python-interface en validatieresultaten.
 
 Deze pagina bevat aanvullende technische informatie voor ontwikkelaars en geautomatiseerd gebruik.
 

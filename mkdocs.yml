@@ -23,7 +23,7 @@ theme:
     - toc.follow
   palette:
     - scheme: default
-      primary: blue
+      primary: #3487b6
       accent: orange
 plugins:
   - search
@@ -46,6 +46,7 @@ plugins:
             show_docstring_raises: false
             show_docstring_examples: false
 markdown_extensions:
+  - attr_list
   - tables
   - toc:
       permalink: true

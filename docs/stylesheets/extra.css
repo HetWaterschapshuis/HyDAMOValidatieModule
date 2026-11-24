@@ -1,7 +1,7 @@
 /* Gedeelde huisstijl uit het HyDAMO Validatiehandboek. */
 :root,
 [data-md-color-scheme="default"] {
-  --hwh-primary: #18407f;
+  --hwh-primary: #4051b5; /*was: #18407f*/
   --hwh-primary-dark: #12315f;
   --hwh-accent: #f18900;
   --hwh-surface: #f4f4f4;
