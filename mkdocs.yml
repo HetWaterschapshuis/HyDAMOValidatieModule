@@ -1,24 +1,71 @@
-site_name: HyDAMO Validation documentation
-site_url: https://HetWaterschapshuis.github.io/HyDAMOValidatieModule/
+site_name: HyDAMO Validatiemodule
+site_description: Technische documentatie voor het gebruiken, ontwikkelen en onderhouden van de HyDAMO-validatiemodule.
+site_url: https://hetwaterschapshuis.github.io/HyDAMOValidatieModule/
+repo_url: https://github.com/HetWaterschapshuis/HyDAMOValidatieModule
+repo_name: HetWaterschapshuis/HyDAMOValidatieModule
 theme:
-  name: "material"
-  language: en
+  name: material
+  language: nl
+  font:
+    text: Asap
+    code: Roboto Mono
+  favicon: assets/favicon-hwh-logo-01.png
+  logo: assets/favicon-hwh-logo-01.png
+  custom_dir: overrides
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - toc.follow
+  palette:
+    - scheme: default
+      primary: blue
+      accent: orange
 plugins:
   - search
-  - mkdocstrings
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+          options:
+            show_root_heading: true
+            show_signature_annotations: true
+            show_labels: false
+            show_source: false
+            # Nederlandstalige toelichting staat op de referentiepagina's.
+            # Signatures en standaardwaarden blijven uit de broncode komen.
+            show_docstring_description: false
+            show_docstring_parameters: false
+            show_docstring_other_parameters: false
+            show_docstring_attributes: false
+            show_docstring_returns: false
+            show_docstring_raises: false
+            show_docstring_examples: false
+markdown_extensions:
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Permanente verwijzing
+  - pymdownx.superfences
+extra_css:
+  - stylesheets/extra.css
+extra:
+  generator: false
+copyright: Copyright &copy; 2021-2026 Het Waterschapshuis
 nav:
-    - Home: index.md
-    - Guides:
-        - Get Started: guides/get_started.md
-        - Contribute: guides/contribute.md
-        - Rule comparison: guides/rule_analysis.md
-        - Release: guides/release.md
-    - Code Reference:
-        - DataSets: reference/datasets.md
-        - HyDAMO: reference/hydamo.md
-        - Rule analysis: reference/rule_analysis.md
-        - Functions:
-            - General Functions: reference/general_functions.md
-            - Logic Functions: reference/logic_functions.md
-            - Topologic Functions: reference/topologic_functions.md
-    - Changelog: changelog.md
+  - Home: index.md
+  - Ontwikkelen en bijdragen: guides/contribute.md
+  - Technische documentatie:
+      - Installatie en gebruik: guides/get_started.md
+      - Validator en resultaten: reference/validator.md
+      - GeoPackages inlezen: reference/datasets.md
+      - HyDAMO-datamodel: reference/hydamo.md
+      - Validatiefuncties:
+          - Algemene functies: reference/general_functions.md
+          - Logische functies: reference/logic_functions.md
+          - Topologische functies: reference/topologic_functions.md
+      - Regels vergelijken met datamodellen: guides/rule_analysis.md

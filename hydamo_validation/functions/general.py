@@ -245,7 +245,7 @@ def object_relation(
     gdf,
     related_gdf: gpd.GeoDataFrame,
     code_relation: str,
-    statistic: Literal["min", "max", "sum", "count"],
+    statistic: Literal["min", "max", "sum", "count", "majority"],
     related_parameter: str = None,
     fill_value=None,
 ):
@@ -260,7 +260,7 @@ def object_relation(
         GeoDataFrame with related attributes
     code_relation : str
         Column in related_gdf used to relate to gdf. Example 'stuwid'
-    statistic : str, options: 'min', 'max', 'sum', 'count'
+    statistic : str, options: 'min', 'max', 'sum', 'count', 'majority'
         Statistic to compute over related values
     related_parameter: str
         Column in related_gdf over which the statistic is to be computed

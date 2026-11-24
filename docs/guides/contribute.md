@@ -1,224 +1,103 @@
-# Contribute
+---
+hide:
+  - navigation
+---
 
-For doing contributions you:
+# Ontwikkelen en bijdragen
 
-* have your own [GitHub account](https://github.com/join)
-* work with [GitHub Desktop](https://desktop.github.com) or work-round with Git
-* can work with [GeoPandas](https://geopandas.org) and [Pytest](https://www.pytest.org/)
+Bijdragen aan de HyDAMO-validatiemodule zijn welkom. Je kunt fouten oplossen, validatiefuncties uitbreiden, tests toevoegen of documentatie verbeteren. Houd wijzigingen gericht en volg de bestaande codeconventies en lees eerst [voorwaarden voor codebijdragen](#voorwaarden-voor-codebijdragen).
 
-We are very happy with contributions that are:
+## Ontwikkelomgeving
 
-1. written similar to existing code (e.g. use of GeoPandas)
-2. provided with docstrings so it can be documented
-3. tested with Pytest
+Gebruik Python 3.12 en [uv](https://docs.astral.sh/uv/getting-started/installation/). Maak een fork van de [repository](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule), clone deze lokaal en werk op een eigen branch.
 
-You can make a contribution in the following steps:
-
-1. Development installation
-2. Fork and clone and install a copy
-3. Add and test new code
-4. Commit your copy and request a merge
-
-The remainder of this guide explains how to do it.
-
-## Dev installation
-
-### Fork repo
-Fork the respository to your own GitHub account:
-
-1. Click `fork` in the upper-right of the rository.
-2. Select your own github account
-
-The repository is now available on your own github account:
-
-![](images/fork.gif "Fork repository")
-
-### Clone repo
-Now clone your fork to your local drive. We do this with [GitHub Desktop](https://desktop.github.com). After [installation and authentication](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/overview/getting-started-with-github-desktop)
-you can get a local copy by:
-
-1. `Add` and `Clone repository...` in the top-left corner
-2. Find your fork and clone it to an empty directory on your local drive
-3. Press  clone`
-
-![](images/clone.gif "Clone repository")
-
-Verify if the repository is on your local drive. 
-
-### Setup environment
-
-#### Install UV
-For this part we assume you have UV installed. Check how-to install on https://docs.astral.sh/uv/getting-started/installation/.
-
-
-#### Build Virtual Environment
-After installation you add a virtual environment (`.venv`) in the root of your repository by from the command-line:
-
-```
-uv venv
-```
-
-A new folder `.venv` should be created in the repo-root:
-
-```
-HyDAMOValidatieModule
-├── .venv
-└── ....
-```
-
-Now you build the environment with development specs by running from the command-line:
-
-```
+```sh
+uv venv --python 3.12
 uv pip sync requirements-dev.lock
+uv pip install --no-deps --editable .
+uv pip check
 ```
 
-This ensures all developpers have the exact same environment (!)
+Activeer de omgeving met `.venv\Scripts\activate.bat` (cmd), `.\.venv\Scripts\Activate.ps1` (PowerShell) of `source .venv/bin/activate` (Linux/macOS).
 
-#### Install and test your module
+De belangrijkste configuratiebestanden:
 
-Activate your environment:
+| Bestand | Doel |
+| --- | --- |
+| `pyproject.toml` | Packageconfiguratie en dependencies |
+| `requirements.lock` | Runtime-dependencies voor releases |
+| `requirements-dev.lock` | Ontwikkelomgeving en tests |
+| `requirements-docs.lock` | MkDocs en documentatie |
+| `requirements_docker.lock` | Docker-helperapplicatie |
 
+De lockbestanden leggen dependencyversies vast. De module installeer je afzonderlijk. Na `uv pip sync` moet je de editable installatie opnieuw uitvoeren met `uv pip install --no-deps --editable .`.
+
+## Code aanpassen en testen
+
+De broncode staat in `hydamo_validation/`, tests in `tests/` en voorbeelden in `notebooks/`.
+
+De validatiefuncties zijn onderverdeeld in:
+
+- `functions/general.py`: algemene berekeningen en relaties.
+- `functions/logic.py`: logische controles.
+- `functions/topologic.py`: ruimtelijke controles.
+- `schemas/`: datamodellen en regelschema's.
+
+Gebruik bestaande helpers en GeoPandas waar mogelijk. Schrijf docstrings in NumPy-stijl. Controleer bij nieuwe functies ook de regelconfiguratie en JSON-schema's. Een functie kan pas vanuit een regelbestand worden aangeroepen wanneer het schema de configuratie ondersteunt.
+
+Voeg tests toe voor normaal gedrag en relevante fout- of grensgevallen. Een eenvoudig voorbeeld:
+
+```python
+import geopandas as gpd
+from hydamo_validation import general_functions
+
+def test_multiply():
+    gdf = gpd.GeoDataFrame({"left": [1, 2, 3], "right": [4, 5, 6]})
+    result = general_functions.multiply(gdf, left="left", right="right")
+    assert result.to_list() == [4, 10, 18]
 ```
-.venv\Scripts\activate
+
+Voer eerst de relevante tests uit en daarna de volledige suite met coverage:
+
+```sh
+python -m pytest tests/test_general_functions.py
+python -m pytest --cov=hydamo_validation --cov-report=term-missing tests/
 ```
 
-Install the module in develop-mode:
+Sommige tests gebruiken GeoPackages en AHN-gegevens uit `tests/data`. Wijzig geen referentiedata om tests te laten slagen.
 
-```
-uv pip install -e .
-```
+Gebruik bij ondersteuning van een nieuw datamodel eerst de [regelvergelijking](rule_analysis.md). Voor releases volg je de [releaseprocedure](release.md).
 
-Now you should be able to successfully run all tests by running:
+## Documentatie bijwerken
 
-```
-pytest --cov-report term-missing --cov=hydamo_validation tests/
-```
+De pagina's staan in `docs/`, de configuratie in `mkdocs.yml`. De documentatie gebruikt MkDocs Material en mkdocstrings. De huisstijl staat in `docs/stylesheets/`, `docs/assets/` en `overrides/`.
 
-This should yield a result similar to this
-![](images/test.png "Test")
-
-
-__Now you're good to go!__
-
-Before implementing support for a new datamodel, use the
-[rule comparison guide](rule_analysis.md) to check validation-rule dependencies
-and interpret the CSV reports.
-
-## Documentation
-
-The documentation is built with MkDocs. From the repository root, create an
-environment and install the locked documentation dependencies with UV:
+Voor het lokaal bouwen van documentatie maak je een afzonderlijke omgeving:
 
 ```sh
 uv venv .venv-docs --python 3.12
 uv pip sync --python .venv-docs requirements-docs.lock
 uv pip install --python .venv-docs --no-deps --editable .
-uv run --no-project --python .venv-docs mkdocs serve
 ```
 
-Use `mkdocs build --strict` instead of `mkdocs serve` to check the documentation
-before submitting a PR. To update the documentation dependencies, run:
+De documentatie kun je lokaal (op Windows) hosten met:
 
-```sh
-uv pip compile pyproject.toml --extra docs --python 3.12 --universal --output-file requirements-docs.lock
+```powershell
+.\mkdocs_serve.ps1
 ```
 
-The `Publish documentation` GitHub Actions workflow publishes the documentation
-from `main` to [GitHub Pages](https://HetWaterschapshuis.github.io/HyDAMOValidatieModule/)
-when a PR targeting `main` is merged. Closing a PR without merging does not publish
-anything.
+## Voorwaarden voor codebijdragen
 
-To publish documentation from a specific branch manually, go to **Actions >
-Publish documentation > Run workflow**, select the branch in the **Branch**
-dropdown, and click **Run workflow**. The workflow builds the selected branch's
-commit and publishes it to the same GitHub Pages site, replacing the currently
-published documentation. The workflow must exist on the default branch to enable
-manual runs, and the selected branch must contain this version of the workflow.
+De module wordt beheerd door Het Waterschapshuis en is beschikbaar onder de [MIT-licentie](https://github.com/HetWaterschapshuis/HyDAMOValidatieModule/blob/main/LICENSE). Voor nieuwe codebijdragen gelden de volgende voorwaarden:
 
-You can also start a manual run with the GitHub CLI:
+1. Codebijdragers dragen de auteursrechten op nieuw ontwikkelde code over aan Het Waterschapshuis, voor zover zij daartoe bevoegd zijn.
+2. Het Waterschapshuis publiceert de bijdragen onder de MIT-licentie.
+3. Voor het aanleveren, opnemen, gebruiken, wijzigen en verspreiden van bijdragen wordt geen vergoeding betaald.
+4. Nieuwe externe dependencies worden alleen na expliciete beoordeling geaccepteerd.
+5. Codebijdragers worden vermeld in de credits.
 
-```sh
-gh workflow run docs.yml --ref your-branch
-```
+## Pull request indienen
 
-For the initial setup, select **GitHub Actions** under **Settings > Pages > Build
-and deployment > Source** in the repository. The `github-pages` environment must
-allow deployments from `main` and any branches you want to publish manually.
+Commit je wijzigingen op een eigen branch en open een pull request naar `main`. Beschrijf de wijzigingen, uitgevoerde tests en eventuele gevolgen voor bestaande functionaliteit. Werk waar nodig de documentatie bij.
 
-## Improve code
-Imagine we want to be able to multiply an HyDAMO attribute by a constant value or a value in an other attribute.
-Therefore we will add a function `multiply` to the general functions
-
-### Add code
-In functions.general.py we add our new function:
-
-```python
-def multiply(gdf, left, right):
-    """
-    Multiply 'left' with 'right'
-
-    Parameters
-    ----------
-    gdf : GeoDataFrame
-        Input GeoDataFrame
-    left : str, numeric
-        Left column or value in expression
-    right : str, numeric
-        Right column or value in expression
-
-    Returns
-    -------
-    result : Series
-        Float series
-
-    """
-    expression = " * ".join(map(str, [left, right]))
-    return gdf.eval(expression)
-
-```
-
-Please note the use of [numpy docstrings](https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard).
-These are required as they are later translated to documentation.
-
-Also note we use [GeoPandas GeoDataFrames](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.html) specified by
-the input variable `gdf`. Please make your code fast and efficient by the use of in-build methods. Above we use `gdf.eval(expression)` by example.
-
-In complex cases you can use `gdf.apply(lambda x: _a_function_for_every_row(row, *args, **kwargs), axis=1)` to apply a function on every `row` in your
-GeoDataFrame. Here `*args` and `**kwargs` refer to extra input arguments. In `functions.topologic.py` and `functions.logic.py` you can find numerous examples.
-
-### Test code
-In the test-folder we add a test. In this case we can add it to `tests.general_functions_test.py`:
-
-```python
-def test_multiply():
-    _gdf = gpd.GeoDataFrame(data={"left": [1, 2, 3],
-                                  "right": [4, 5, 6],
-                                  "geometry": [None, None, None]})
-    expected_result = [4, 10, 18]
-    result = general_functions.multiply(_gdf, left="left", right="right").to_list()
-    assert result == expected_result
-```
-
-A test-function starts with `test_`. In within the test-function you confirm if your new functionity is correct with `assert = True`. In this case
-we check if the `result` of our function is the same as our `expected_result`
-
-Within your activated environment you can test your function with pytest:
-
-```
-pytest --cov-report term-missing --cov=hydamo_validation tests/
-```
-
-As your function is correct, the test should not fail. You can confirm all lines of your new code are tested:
-![](images/test.png "Test")
-
-## Contribute
-
-### Commit
-First commit your new function in your own repository:
-
-![](images/commit.gif "Commit")
-
-### Request a merge
-Now request a merge:
-
-![](images/merge.gif "Merge request")
+Een maintainer beoordeelt de bijdrage voordat deze wordt opgenomen.
