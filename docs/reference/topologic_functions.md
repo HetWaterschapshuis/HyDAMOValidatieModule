@@ -17,7 +17,7 @@ De functies staan in `hydamo_validation.functions.topologic` en zijn ook beschik
 | `structures_at_nodes` | Controleert of kunstwerken uit `structures` niet op het binnenste van een lijn liggen en zo nodig bij een knooppunt zijn gesplitst. Gebruikt `tolerance`. |
 | `compare_longitudinal` | Vergelijkt `parameter` met `compare_parameter` van het dichtstbijzijnde object uit `compare_object` op hetzelfde hydroobject. `direction` is `upstream` of `downstream`; `logical_operator` is `GT` of `LT`. |
 
-Bij functies met `structures` geef je een lijst met laagnamen mee, ook als die lijst één naam bevat. Functies die objecten aan hydroobjecten koppelen, kunnen `branch_id` en `branch_offset` toevoegen aan de gebruikte lagen. De inhoudelijke regels en drempelwaarden staan in het [HyDAMO Validatiehandboek](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/HyDAMO%20Validatietool/Introductie%20tool/02%20Validatieregels/).
+Bij functies met `structures` geef je een lijst met laagnamen mee, ook als die lijst één naam bevat. Functies die objecten aan hydroobjecten koppelen, kunnen `branch_id` en `branch_offset` toevoegen aan de gebruikte lagen. De inhoudelijke regels en drempelwaarden staan in het [HyDAMO Validatiehandboek](https://hetwaterschapshuis.github.io/HyDAMOValidatiehandboek/HyDAMO%20Validatietool/Introductie%20tool/02%20Validatieregels/){:target="_blank"}.
 
 ## API-reference
 
